@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>el pingüino — Tecnología sencilla para empresas</title>
+<meta name="description" content="Diseño web, tiendas online, informática, reparaciones, mantenimiento y soporte IT para tu negocio. Tu compañero tecnológico." />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐧</text></svg>" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<!-- Shared penguin illustration parts, reused via <use> in every pose below -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="penguin-body" viewBox="0 0 200 220">
+      <ellipse cx="100" cy="208" rx="52" ry="7" fill="#0f1730" opacity=".08"/>
+      <ellipse cx="78" cy="203" rx="15" ry="7" fill="#f5a623"/>
+      <ellipse cx="122" cy="203" rx="15" ry="7" fill="#f5a623"/>
+      <ellipse cx="100" cy="118" rx="68" ry="84" fill="#161b33"/>
+      <ellipse cx="100" cy="140" rx="42" ry="58" fill="#ffffff"/>
+      <path d="M40 128 Q100 108 160 128 L156 146 Q100 128 44 146 Z" fill="#2e6bf2"/>
+      <path d="M92 142 Q84 172 78 198 Q94 202 110 196 Q100 168 104 142 Z" fill="#2e6bf2"/>
+      <path d="M92 142 Q84 172 78 198 Q94 202 110 196 Q100 168 104 142 Z" fill="#000" opacity=".08"/>
+      <circle cx="78" cy="94" r="15" fill="#fff"/>
+      <circle cx="122" cy="94" r="15" fill="#fff"/>
+      <circle cx="82" cy="97" r="6.5" fill="#161b33"/>
+      <circle cx="126" cy="97" r="6.5" fill="#161b33"/>
+      <circle cx="84.5" cy="94.5" r="2" fill="#fff"/>
+      <circle cx="128.5" cy="94.5" r="2" fill="#fff"/>
+      <path d="M88 110 Q100 128 112 110 Q100 118 88 110 Z" fill="#f5a623"/>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- ===== HEADER ===== -->
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="#inicio" class="logo">
+      <span class="logo-emoji" aria-hidden="true">🐧</span>
+      <span class="logo-text">el<strong>pingüino</strong></span>
+    </a>
+
+    <nav class="main-nav" id="mainNav">
+      <a href="#inicio" class="active">Inicio</a>
+      <div class="nav-dropdown">
+        <button class="nav-dropdown-btn" id="servDropdownBtn" aria-haspopup="true" aria-expanded="false">
+          Servicios <svg width="10" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="nav-dropdown-menu">
+          <a href="#servicios">Diseño Web</a>
+          <a href="#servicios">Tiendas Online</a>
+          <a href="#servicios">Informática</a>
+          <a href="#servicios">Reparaciones</a>
+          <a href="#servicios">Mantenimiento</a>
+          <a href="#servicios">Redes y Soporte</a>
+        </div>
+      </div>
+      <a href="#proyectos">Proyectos</a>
+      <a href="#sobre-mi">Sobre mí</a>
+      <a href="#faq">FAQ</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+
+    <a class="btn btn-primary btn-whatsapp header-cta" href="https://wa.me/34645513694" target="_blank" rel="noopener">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.29-1.39a9.9 9.9 0 0 0 4.75 1.21h.01c5.46 0 9.9-4.45 9.9-9.91C21.96 6.45 17.5 2 12.04 2zm5.83 14.13c-.24.68-1.4 1.32-1.93 1.4-.49.08-1.11.12-1.79-.11-.41-.13-.94-.31-1.62-.6-2.85-1.23-4.71-4.12-4.85-4.31-.14-.19-1.16-1.54-1.16-2.94s.72-2.09.98-2.37c.25-.28.55-.35.73-.35l.53.01c.17.01.4-.06.62.48.24.58.81 2 .88 2.15.07.15.11.32.02.51-.09.19-.14.31-.27.48-.14.17-.29.37-.41.5-.14.15-.28.3-.12.59.16.29.71 1.18 1.52 1.91 1.05.95 1.93 1.24 2.22 1.38.29.14.46.12.63-.07.17-.19.71-.83.9-1.11.19-.29.38-.24.63-.15.26.1 1.66.79 1.94.93.28.14.46.21.53.33.07.12.07.68-.17 1.36z"/></svg>
+      Solicitar presupuesto
+    </a>
+
+    <button class="nav-toggle" id="navToggle" aria-label="Abrir menú" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main>
+
+<!-- ===== HERO ===== -->
+<section class="hero" id="inicio">
+  <div class="container hero-inner">
+    <div class="hero-copy">
+      <h1>Tecnología <span class="accent">sencilla</span> para empresas.</h1>
+      <p class="hero-sub">Creamos páginas web, instalamos equipos y solucionamos los problemas tecnológicos de tu negocio.</p>
+      <div class="hero-ctas">
+        <a class="btn btn-primary btn-whatsapp" href="https://wa.me/34645513694" target="_blank" rel="noopener">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.29-1.39a9.9 9.9 0 0 0 4.75 1.21h.01c5.46 0 9.9-4.45 9.9-9.91C21.96 6.45 17.5 2 12.04 2zm5.83 14.13c-.24.68-1.4 1.32-1.93 1.4-.49.08-1.11.12-1.79-.11-.41-.13-.94-.31-1.62-.6-2.85-1.23-4.71-4.12-4.85-4.31-.14-.19-1.16-1.54-1.16-2.94s.72-2.09.98-2.37c.25-.28.55-.35.73-.35l.53.01c.17.01.4-.06.62.48.24.58.81 2 .88 2.15.07.15.11.32.02.51-.09.19-.14.31-.27.48-.14.17-.29.37-.41.5-.14.15-.28.3-.12.59.16.29.71 1.18 1.52 1.91 1.05.95 1.93 1.24 2.22 1.38.29.14.46.12.63-.07.17-.19.71-.83.9-1.11.19-.29.38-.24.63-.15.26.1 1.66.79 1.94.93.28.14.46.21.53.33.07.12.07.68-.17 1.36z"/></svg>
+          Solicitar presupuesto
+        </a>
+        <a class="btn btn-secondary" href="#proyectos">
+          Ver trabajos
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+
+      <ul class="trust-badges">
+        <li>
+          <span class="trust-icon">⚡</span>
+          <div><strong>Rápido</strong><small>Respuestas en 24h</small></div>
+        </li>
+        <li>
+          <span class="trust-icon">🤝</span>
+          <div><strong>Cercano</strong><small>Trato directo y claro</small></div>
+        </li>
+        <li>
+          <span class="trust-icon">🛡️</span>
+          <div><strong>De confianza</strong><small>Tu tecnología, segura</small></div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="hero-art">
+      <div class="hero-bubble">Hola 👋<br><strong>Yo me encargo.</strong></div>
+      <div class="penguin-wrap penguin-wave">
+        <svg viewBox="0 0 200 220" class="penguin-svg penguin-svg--hero">
+          <use href="#penguin-body"/>
+          <ellipse cx="46" cy="140" rx="13" ry="32" fill="#161b33" transform="rotate(8 46 140)"/>
+          <ellipse cx="168" cy="72" rx="13" ry="36" fill="#161b33" transform="rotate(-35 168 72)"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== STATS BAR ===== -->
+<section class="stats-bar">
+  <div class="container stats-inner">
+    <div class="stat">
+      <span class="stat-icon">👥</span>
+      <div><strong>+50</strong><small>Proyectos completados</small></div>
+    </div>
+    <div class="stat">
+      <span class="stat-icon">⭐</span>
+      <div><strong>5.0</strong><small>Valoración de clientes</small></div>
+    </div>
+    <div class="stat">
+      <span class="stat-icon">💻</span>
+      <div><strong>+100</strong><small>Equipos optimizados</small></div>
+    </div>
+    <div class="stat">
+      <span class="stat-icon">🎧</span>
+      <div><strong>Soporte</strong><small>Remoto y presencial</small></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== POR QUE UN PINGUINO ===== -->
+<section class="why-section" id="sobre-mi">
+  <div class="container why-inner">
+    <div class="penguin-wrap penguin-shrug">
+      <svg viewBox="0 0 200 220" class="penguin-svg penguin-svg--medium">
+        <use href="#penguin-body"/>
+        <ellipse cx="30" cy="118" rx="13" ry="34" fill="#161b33" transform="rotate(70 30 118)"/>
+        <ellipse cx="170" cy="118" rx="13" ry="34" fill="#161b33" transform="rotate(-70 170 118)"/>
+      </svg>
+    </div>
+    <div class="why-copy">
+      <h2>¿Por qué un <span class="accent">pingüino</span>?</h2>
+      <p>Porque inspira cercanía, inteligencia y confianza. Los pingüinos trabajan en equipo, cuidan de los suyos y siempre encuentran la forma de salir adelante.</p>
+      <p>Así trabajamos nosotros.</p>
+      <p>No queremos ser un proveedor.<br>Queremos convertirnos en el <strong class="accent">compañero tecnológico</strong> de tu empresa.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SERVICIOS ===== -->
+<section class="services-section" id="servicios">
+  <div class="container">
+    <div class="section-heading">
+      <h2>Servicios principales</h2>
+      <p>Todo lo que tu negocio necesita en tecnología, en un solo lugar.</p>
+    </div>
+
+    <div class="services-grid">
+      <article class="service-card">
+        <div class="service-icon-wrap">
+          <svg viewBox="0 0 200 220" class="penguin-svg penguin-svg--icon"><use href="#penguin-body"/><ellipse cx="46" cy="140" rx="13" ry="32" fill="#161b33" transform="rotate(10 46 140)"/><ellipse cx="154" cy="140" rx="13" ry="32" fill="#161b33" transform="rotate(-10 154 140)"/></svg>
+          <span class="service-badge">💻</span>
+        </div>
+        <h3>Diseño Web</h3>
+        <p>Páginas web profesionales que hacen crecer tu negocio.</p>
+        <a href="#contacto" class="link-arrow">Saber más <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </article>
+      <article class="service-card">
+        <div class="service-icon-wrap">
+          <svg viewBox="0 0 200 220" class="penguin-svg penguin-svg--icon"><use href="#penguin-body"/><ellipse cx="46" cy="140" rx="13" ry="32" fill="#161b33" transform="rotate(10 46 140)"/><ellipse cx="154" cy="140" rx="13" ry="32" fill="#161b33" transform="rotate(-10 154 140)"/></svg>
+          <span class="service-badge">🛒</span>
+        </div>
+        <h3>Tiendas Online</h3>
+        <p>Vende tus productos 24/7 en internet.</p>
+        <a href="#contacto" class="link-arrow">Saber más <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </article>
+      <article class="service-card">
+        <div class="service-icon-wrap">
+          <svg viewBox="0 0 200 220" class="penguin-svg penguin-svg--icon"><use href="#penguin-body"/><ellipse cx="46" cy="140" rx="13" ry="32" fill="#161b33" transform="rotate(10 46 140)"/><ellipse cx="154" cy="140" rx="13" ry="32" fill="#161b33" transform="rotate(-10 154 140)"/></svg>
+          <span class="service-badge">🖥️</span>
+        </div>
+        <h3>Informática</h3>
+        <p>Montaje, instalación y configuración de equipos.</p>
+        <a href="#contacto" class="link-arrow">Saber más <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </article>
+      <article class="service-card">
+        <div class="service-icon-wrap">
+          <svg viewBox="0 0 200 220" class="penguin-svg penguin-svg--icon"><use href="#penguin-body"/><ellipse cx="46" cy="140" rx="13" ry="32" fill="#161b33" transform="rotate(10 46 140)"/><ellipse cx="154" cy="140" rx="13" ry="32" fill="#161b33" transform="rotate(-10 154 140)"/></svg>
+          <span class="service-badge">🔧</span>
+        </div>
+        <h3>Reparaciones</h3>
+        <p>Solucionamos problemas de hardware y software.</p>
+        <a href="#contacto" class="link-arrow">Saber más <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </article>
+      <article class="service-card">
+        <div class="service-icon-wrap">
+          <svg viewBox="0 0 200 220" class="penguin-svg penguin-svg--icon"><use href="#penguin-body"/><ellipse cx="46" cy="140" rx="13" ry="32" fill="#161b33" transform="rotate(10 46 140)"/><ellipse cx="154" cy="140" rx="13" ry="32" fill="#161b33" transform="rotate(-10 154 140)"/></svg>
+          <span class="service-badge">🛡️</span>
+        </div>
+        <h3>Mantenimiento</h3>
+        <p>Mantenemos tus equipos seguros y actualizados.</p>
+        <a href="#contacto" class="link-arrow">Saber más <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </article>
+      <article class="service-card">
+        <div class="service-icon-wrap">
+          <svg viewBox="0 0 200 220" class="penguin-svg penguin-svg--icon"><use href="#penguin-body"/><ellipse cx="46" cy="140" rx="13" ry="32" fill="#161b33" transform="rotate(10 46 140)"/><ellipse cx="154" cy="140" rx="13" ry="32" fill="#161b33" transform="rotate(-10 154 140)"/></svg>
+          <span class="service-badge">📶</span>
+        </div>
+        <h3>Redes y Soporte</h3>
+        <p>Redes, impresoras, WiFi y soporte IT.</p>
+        <a href="#contacto" class="link-arrow">Saber más <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ASI TRABAJAMOS ===== -->
+<section class="process-section">
+  <div class="container">
+    <div class="section-heading">
+      <h2>Así trabajamos</h2>
+      <p>Un proceso fácil, claro y sin complicaciones.</p>
+    </div>
+
+    <div class="process-track">
+      <div class="penguin-wrap penguin-walk">
+        <svg viewBox="0 0 200 220" class="penguin-svg penguin-svg--medium">
+          <use href="#penguin-body"/>
+          <ellipse cx="44" cy="132" rx="13" ry="32" fill="#161b33" transform="rotate(24 44 132)"/>
+          <ellipse cx="156" cy="132" rx="13" ry="32" fill="#161b33" transform="rotate(-24 156 132)"/>
+        </svg>
+      </div>
+      <ol class="process-steps">
+        <li>
+          <span class="process-dot">💬</span>
+          <strong>Nos conocemos</strong>
+          <small>Hablamos de lo que necesitas y te asesoramos.</small>
+        </li>
+        <li>
+          <span class="process-dot">✏️</span>
+          <strong>Diseñamos</strong>
+          <small>Preparamos la mejor solución para ti.</small>
+        </li>
+        <li>
+          <span class="process-dot">🛠️</span>
+          <strong>Creamos</strong>
+          <small>Desarrollamos o configuramos todo lo necesario.</small>
+        </li>
+        <li>
+          <span class="process-dot">🚀</span>
+          <strong>Publicamos</strong>
+          <small>Puesta en marcha y todo funcionando.</small>
+        </li>
+        <li>
+          <span class="process-dot">❤️</span>
+          <strong>Seguimos contigo</strong>
+          <small>Soporte y mantenimiento siempre que lo necesites.</small>
+        </li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PROYECTOS ===== -->
+<section class="projects-section" id="proyectos">
+  <div class="container">
+    <div class="projects-heading">
+      <div>
+        <h2>Proyectos recientes</h2>
+        <p>Algunos de los trabajos que hemos hecho para nuestros clientes.</p>
+      </div>
+      <a href="#contacto" class="link-arrow">Ver todos los proyectos <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    </div>
+
+    <div class="projects-grid">
+      <article class="project-card grad-1">
+        <div class="project-thumb"><span>🍢</span></div>
+        <div class="project-info">
+          <strong>Asador El Buen Sabor</strong>
+          <small>Página web</small>
+          <span class="tag">Restauración</span>
+        </div>
+      </article>
+      <article class="project-card grad-2">
+        <div class="project-thumb"><span>🐶</span></div>
+        <div class="project-info">
+          <strong>Peluquería Canina Enea</strong>
+          <small>Página web</small>
+          <span class="tag">Servicios</span>
+        </div>
+      </article>
+      <article class="project-card grad-3">
+        <div class="project-thumb"><span>🖋️</span></div>
+        <div class="project-info">
+          <strong>Tattoo Style Mollet</strong>
+          <small>Página web</small>
+          <span class="tag">Estudio · Creativo</span>
+        </div>
+      </article>
+      <article class="project-card grad-4">
+        <div class="project-thumb"><span>🍗</span></div>
+        <div class="project-info">
+          <strong>Pollos María</strong>
+          <small>Página web + Tienda Online</small>
+          <span class="tag">Restauración</span>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FAQ ===== -->
+<section class="faq-section" id="faq">
+  <div class="container">
+    <div class="section-heading">
+      <h2>Preguntas frecuentes</h2>
+    </div>
+    <div class="faq-list">
+      <details>
+        <summary>¿Cuánto tarda en estar lista mi web?<svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+        <p>Depende del proyecto, pero la mayoría de webs sencillas están listas entre 1 y 2 semanas desde que tenemos todo el contenido.</p>
+      </details>
+      <details>
+        <summary>¿Ofrecéis mantenimiento después de publicar la web?<svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+        <p>Sí, seguimos contigo después del lanzamiento: actualizaciones, cambios y soporte cuando lo necesites.</p>
+      </details>
+      <details>
+        <summary>¿Podéis venir presencialmente a reparar un equipo?<svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+        <p>Sí, ofrecemos soporte remoto y presencial según lo que necesite tu negocio.</p>
+      </details>
+      <details>
+        <summary>¿Trabajáis con negocios de cualquier sector?<svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+        <p>Sí, hemos trabajado con restaurantes, peluquerías, estudios de tatuaje y otros negocios locales.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA FINAL ===== -->
+<section class="cta-final" id="contacto">
+  <div class="container cta-inner">
+    <div class="penguin-wrap penguin-thumb">
+      <svg viewBox="0 0 200 220" class="penguin-svg penguin-svg--medium">
+        <use href="#penguin-body"/>
+        <ellipse cx="46" cy="140" rx="13" ry="32" fill="#161b33" transform="rotate(8 46 140)"/>
+        <ellipse cx="140" cy="128" rx="12" ry="26" fill="#161b33" transform="rotate(-55 140 128)"/>
+        <rect x="146" y="96" width="9" height="15" rx="4.5" fill="#161b33"/>
+        <circle cx="150.5" cy="104" r="7.5" fill="#161b33"/>
+      </svg>
+    </div>
+    <div class="cta-copy">
+      <h2>¿Empezamos?</h2>
+      <p>Mientras tú haces crecer tu negocio... yo me encargo de la tecnología.</p>
+    </div>
+    <a class="btn btn-primary btn-whatsapp" href="https://wa.me/34645513694" target="_blank" rel="noopener">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.29-1.39a9.9 9.9 0 0 0 4.75 1.21h.01c5.46 0 9.9-4.45 9.9-9.91C21.96 6.45 17.5 2 12.04 2zm5.83 14.13c-.24.68-1.4 1.32-1.93 1.4-.49.08-1.11.12-1.79-.11-.41-.13-.94-.31-1.62-.6-2.85-1.23-4.71-4.12-4.85-4.31-.14-.19-1.16-1.54-1.16-2.94s.72-2.09.98-2.37c.25-.28.55-.35.73-.35l.53.01c.17.01.4-.06.62.48.24.58.81 2 .88 2.15.07.15.11.32.02.51-.09.19-.14.31-.27.48-.14.17-.29.37-.41.5-.14.15-.28.3-.12.59.16.29.71 1.18 1.52 1.91 1.05.95 1.93 1.24 2.22 1.38.29.14.46.12.63-.07.17-.19.71-.83.9-1.11.19-.29.38-.24.63-.15.26.1 1.66.79 1.94.93.28.14.46.21.53.33.07.12.07.68-.17 1.36z"/></svg>
+      Hablar por WhatsApp
+    </a>
+  </div>
+</section>
+
+</main>
+
+<!-- ===== FOOTER ===== -->
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <a href="#inicio" class="logo">
+        <span class="logo-emoji" aria-hidden="true">🐧</span>
+        <span class="logo-text">el<strong>pingüino</strong></span>
+      </a>
+      <p>Tu compañero tecnológico.</p>
+    </div>
+
+    <div class="footer-col">
+      <h4>Servicios</h4>
+      <a href="#servicios">Diseño Web</a>
+      <a href="#servicios">Informática</a>
+      <a href="#servicios">Reparaciones</a>
+      <a href="#servicios">Mantenimiento</a>
+      <a href="#servicios">Redes y Soporte</a>
+    </div>
+
+    <div class="footer-col">
+      <h4>Enlaces</h4>
+      <a href="#proyectos">Proyectos</a>
+      <a href="#sobre-mi">Sobre mí</a>
+      <a href="#faq">FAQ</a>
+      <a href="#contacto">Contacto</a>
+      <a href="privacidad.html">Política de privacidad</a>
+    </div>
+
+    <div class="footer-col">
+      <h4>Contacto</h4>
+      <a href="mailto:nogueramorillas@gmail.com">nogueramorillas@gmail.com</a>
+      <a href="https://wa.me/34645513694">+34 645 513 694</a>
+      <span>Barcelona, España</span>
+    </div>
+  </div>
+
+  <div class="container footer-bottom">
+    <span>© <span id="year"></span> el pingüino — Todos los derechos reservados.</span>
+    <div class="footer-social">
+      <a href="#" aria-label="Instagram">📷</a>
+      <a href="https://wa.me/34645513694" aria-label="WhatsApp">💬</a>
+      <a href="#" aria-label="LinkedIn">in</a>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
