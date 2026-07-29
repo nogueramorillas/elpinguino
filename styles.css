@@ -383,7 +383,6 @@ ul, ol { list-style: none; }
   gap: 32px;
   flex-wrap: wrap;
 }
-.cta-inner .penguin-svg { filter: brightness(0) invert(1) opacity(0.06); position: absolute; }
 .cta-copy { flex: 1; min-width: 240px; }
 .cta-copy h2 { color: #fff; }
 .cta-copy p { color: rgba(255,255,255,0.75); margin-top: 8px; }
@@ -442,6 +441,9 @@ ul, ol { list-style: none; }
 }
 
 @media (max-width: 600px) {
+  .penguin-svg--hero { width: 210px; }
+  .penguin-svg--medium { width: 130px; }
+  .hero-bubble { font-size: 0.82rem; padding: 10px 13px; }
   .stats-inner { grid-template-columns: repeat(2, 1fr); }
   .services-grid { grid-template-columns: 1fr; }
   .projects-grid { grid-template-columns: 1fr; }
