@@ -139,7 +139,6 @@ ul, ol { list-style: none; }
   visibility: hidden;
   transition: opacity .15s ease, transform .15s ease;
 }
-.nav-dropdown:hover .nav-dropdown-menu,
 .nav-dropdown.open .nav-dropdown-menu {
   opacity: 1;
   visibility: visible;

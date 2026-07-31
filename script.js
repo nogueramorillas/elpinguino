@@ -19,8 +19,14 @@ const dropdownBtn = document.getElementById("servDropdownBtn");
 const dropdown = dropdownBtn.closest(".nav-dropdown");
 
 dropdownBtn.addEventListener("click", (event) => {
-  if (window.innerWidth > 980) return;
   event.preventDefault();
   const isOpen = dropdown.classList.toggle("open");
   dropdownBtn.setAttribute("aria-expanded", String(isOpen));
+});
+
+document.addEventListener("click", (event) => {
+  if (!dropdown.contains(event.target)) {
+    dropdown.classList.remove("open");
+    dropdownBtn.setAttribute("aria-expanded", "false");
+  }
 });
