@@ -16,34 +16,11 @@
 </head>
 <body>
 
-<!-- Shared penguin illustration parts, reused via <use> in every pose below -->
-<svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <defs>
-    <symbol id="penguin-body" viewBox="0 0 200 220">
-      <ellipse cx="100" cy="208" rx="52" ry="7" fill="#0f1730" opacity=".08"/>
-      <ellipse cx="78" cy="203" rx="15" ry="7" fill="#f5a623"/>
-      <ellipse cx="122" cy="203" rx="15" ry="7" fill="#f5a623"/>
-      <ellipse cx="100" cy="118" rx="68" ry="84" fill="#161b33"/>
-      <ellipse cx="100" cy="140" rx="42" ry="58" fill="#ffffff"/>
-      <path d="M40 128 Q100 108 160 128 L156 146 Q100 128 44 146 Z" fill="#2e6bf2"/>
-      <path d="M92 142 Q84 172 78 198 Q94 202 110 196 Q100 168 104 142 Z" fill="#2e6bf2"/>
-      <path d="M92 142 Q84 172 78 198 Q94 202 110 196 Q100 168 104 142 Z" fill="#000" opacity=".08"/>
-      <circle cx="78" cy="94" r="15" fill="#fff"/>
-      <circle cx="122" cy="94" r="15" fill="#fff"/>
-      <circle cx="82" cy="97" r="6.5" fill="#161b33"/>
-      <circle cx="126" cy="97" r="6.5" fill="#161b33"/>
-      <circle cx="84.5" cy="94.5" r="2" fill="#fff"/>
-      <circle cx="128.5" cy="94.5" r="2" fill="#fff"/>
-      <path d="M88 110 Q100 128 112 110 Q100 118 88 110 Z" fill="#f5a623"/>
-    </symbol>
-  </defs>
-</svg>
-
 <!-- ===== HEADER ===== -->
 <header class="site-header">
   <div class="container header-inner">
     <a href="#inicio" class="logo">
-      <span class="logo-emoji" aria-hidden="true">🐧</span>
+      <img src="images/pg-13-cabeza.png" alt="" class="logo-penguin" width="38" height="38">
       <span class="logo-text">el<strong>pingüino</strong></span>
     </a>
 
@@ -97,32 +74,26 @@
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
       </div>
-
       <ul class="trust-badges">
         <li>
-          <span class="trust-icon">⚡</span>
+          <svg class="trust-svg-icon" viewBox="0 0 24 24" fill="none"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke="#2e6bf2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           <div><strong>Rápido</strong><small>Respuestas en 24h</small></div>
         </li>
         <li>
-          <span class="trust-icon">🤝</span>
+          <svg class="trust-svg-icon" viewBox="0 0 24 24" fill="none"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" stroke="#2e6bf2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           <div><strong>Cercano</strong><small>Trato directo y claro</small></div>
         </li>
         <li>
-          <span class="trust-icon">🛡️</span>
+          <svg class="trust-svg-icon" viewBox="0 0 24 24" fill="none"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="#2e6bf2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           <div><strong>De confianza</strong><small>Tu tecnología, segura</small></div>
         </li>
       </ul>
     </div>
 
     <div class="hero-art">
+      <div class="hero-glow"></div>
       <div class="hero-bubble">Hola 👋<br><strong>Yo me encargo.</strong></div>
-      <div class="penguin-wrap penguin-wave">
-        <svg viewBox="0 0 200 220" class="penguin-svg penguin-svg--hero">
-          <use href="#penguin-body"/>
-          <ellipse cx="46" cy="140" rx="13" ry="32" fill="#161b33" transform="rotate(8 46 140)"/>
-          <ellipse cx="168" cy="72" rx="13" ry="36" fill="#161b33" transform="rotate(-35 168 72)"/>
-        </svg>
-      </div>
+      <img src="images/pg-01-saludando.png" alt="el pingüino saludando" class="hero-penguin-img">
     </div>
   </div>
 </section>
@@ -131,19 +102,19 @@
 <section class="stats-bar">
   <div class="container stats-inner">
     <div class="stat">
-      <span class="stat-icon">👥</span>
+      <svg class="stat-svg-icon" viewBox="0 0 24 24" fill="none"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" stroke="#fff" stroke-width="2" stroke-linecap="round"/><circle cx="9" cy="7" r="4" stroke="#fff" stroke-width="2"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
       <div><strong>+50</strong><small>Proyectos completados</small></div>
     </div>
     <div class="stat">
-      <span class="stat-icon">⭐</span>
+      <svg class="stat-svg-icon" viewBox="0 0 24 24" fill="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       <div><strong>5.0</strong><small>Valoración de clientes</small></div>
     </div>
     <div class="stat">
-      <span class="stat-icon">💻</span>
+      <svg class="stat-svg-icon" viewBox="0 0 24 24" fill="none"><rect x="2" y="3" width="20" height="14" rx="2" stroke="#fff" stroke-width="2"/><path d="M8 21h8M12 17v4" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
       <div><strong>+100</strong><small>Equipos optimizados</small></div>
     </div>
     <div class="stat">
-      <span class="stat-icon">🎧</span>
+      <svg class="stat-svg-icon" viewBox="0 0 24 24" fill="none"><path d="M3 18v-6a9 9 0 0 1 18 0v6" stroke="#fff" stroke-width="2" stroke-linecap="round"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3v5zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3v5z" stroke="#fff" stroke-width="2"/></svg>
       <div><strong>Soporte</strong><small>Remoto y presencial</small></div>
     </div>
   </div>
@@ -152,13 +123,7 @@
 <!-- ===== POR QUE UN PINGUINO ===== -->
 <section class="why-section" id="sobre-mi">
   <div class="container why-inner">
-    <div class="penguin-wrap penguin-shrug">
-      <svg viewBox="0 0 200 220" class="penguin-svg penguin-svg--medium">
-        <use href="#penguin-body"/>
-        <ellipse cx="30" cy="118" rx="13" ry="34" fill="#161b33" transform="rotate(70 30 118)"/>
-        <ellipse cx="170" cy="118" rx="13" ry="34" fill="#161b33" transform="rotate(-70 170 118)"/>
-      </svg>
-    </div>
+    <img src="images/pg-02-brazos.png" alt="el pingüino con brazos abiertos" class="why-penguin-img">
     <div class="why-copy">
       <h2>¿Por qué un <span class="accent">pingüino</span>?</h2>
       <p>Porque inspira cercanía, inteligencia y confianza. Los pingüinos trabajan en equipo, cuidan de los suyos y siempre encuentran la forma de salir adelante.</p>
@@ -175,62 +140,50 @@
       <h2>Servicios principales</h2>
       <p>Todo lo que tu negocio necesita en tecnología, en un solo lugar.</p>
     </div>
-
     <div class="services-grid">
+
       <article class="service-card">
-        <div class="service-icon-wrap">
-          <svg viewBox="0 0 200 220" class="penguin-svg penguin-svg--icon"><use href="#penguin-body"/><ellipse cx="46" cy="140" rx="13" ry="32" fill="#161b33" transform="rotate(10 46 140)"/><ellipse cx="154" cy="140" rx="13" ry="32" fill="#161b33" transform="rotate(-10 154 140)"/></svg>
-          <span class="service-badge">💻</span>
-        </div>
+        <img src="images/pg-03-portatil.png" alt="" class="service-img">
         <h3>Diseño Web</h3>
         <p>Páginas web profesionales que hacen crecer tu negocio.</p>
         <a href="#contacto" class="link-arrow">Saber más <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
       </article>
+
       <article class="service-card">
-        <div class="service-icon-wrap">
-          <svg viewBox="0 0 200 220" class="penguin-svg penguin-svg--icon"><use href="#penguin-body"/><ellipse cx="46" cy="140" rx="13" ry="32" fill="#161b33" transform="rotate(10 46 140)"/><ellipse cx="154" cy="140" rx="13" ry="32" fill="#161b33" transform="rotate(-10 154 140)"/></svg>
-          <span class="service-badge">🛒</span>
-        </div>
+        <img src="images/pg-04-carrito.png" alt="" class="service-img">
         <h3>Tiendas Online</h3>
         <p>Vende tus productos 24/7 en internet.</p>
         <a href="#contacto" class="link-arrow">Saber más <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
       </article>
+
       <article class="service-card">
-        <div class="service-icon-wrap">
-          <svg viewBox="0 0 200 220" class="penguin-svg penguin-svg--icon"><use href="#penguin-body"/><ellipse cx="46" cy="140" rx="13" ry="32" fill="#161b33" transform="rotate(10 46 140)"/><ellipse cx="154" cy="140" rx="13" ry="32" fill="#161b33" transform="rotate(-10 154 140)"/></svg>
-          <span class="service-badge">🖥️</span>
-        </div>
+        <img src="images/pg-05-pc.png" alt="" class="service-img">
         <h3>Informática</h3>
         <p>Montaje, instalación y configuración de equipos.</p>
         <a href="#contacto" class="link-arrow">Saber más <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
       </article>
+
       <article class="service-card">
-        <div class="service-icon-wrap">
-          <svg viewBox="0 0 200 220" class="penguin-svg penguin-svg--icon"><use href="#penguin-body"/><ellipse cx="46" cy="140" rx="13" ry="32" fill="#161b33" transform="rotate(10 46 140)"/><ellipse cx="154" cy="140" rx="13" ry="32" fill="#161b33" transform="rotate(-10 154 140)"/></svg>
-          <span class="service-badge">🔧</span>
-        </div>
+        <img src="images/pg-06-llave.png" alt="" class="service-img">
         <h3>Reparaciones</h3>
         <p>Solucionamos problemas de hardware y software.</p>
         <a href="#contacto" class="link-arrow">Saber más <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
       </article>
+
       <article class="service-card">
-        <div class="service-icon-wrap">
-          <svg viewBox="0 0 200 220" class="penguin-svg penguin-svg--icon"><use href="#penguin-body"/><ellipse cx="46" cy="140" rx="13" ry="32" fill="#161b33" transform="rotate(10 46 140)"/><ellipse cx="154" cy="140" rx="13" ry="32" fill="#161b33" transform="rotate(-10 154 140)"/></svg>
-          <span class="service-badge">🛡️</span>
-        </div>
+        <img src="images/pg-07-escudo.png" alt="" class="service-img">
         <h3>Mantenimiento</h3>
         <p>Mantenemos tus equipos seguros y actualizados.</p>
         <a href="#contacto" class="link-arrow">Saber más <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
       </article>
+
       <article class="service-card">
-        <div class="service-icon-wrap">
-          <svg viewBox="0 0 200 220" class="penguin-svg penguin-svg--icon"><use href="#penguin-body"/><ellipse cx="46" cy="140" rx="13" ry="32" fill="#161b33" transform="rotate(10 46 140)"/><ellipse cx="154" cy="140" rx="13" ry="32" fill="#161b33" transform="rotate(-10 154 140)"/></svg>
-          <span class="service-badge">📶</span>
-        </div>
+        <img src="images/pg-08-router.png" alt="" class="service-img">
         <h3>Redes y Soporte</h3>
         <p>Redes, impresoras, WiFi y soporte IT.</p>
         <a href="#contacto" class="link-arrow">Saber más <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
       </article>
+
     </div>
   </div>
 </section>
@@ -242,38 +195,41 @@
       <h2>Así trabajamos</h2>
       <p>Un proceso fácil, claro y sin complicaciones.</p>
     </div>
-
     <div class="process-track">
-      <div class="penguin-wrap penguin-walk">
-        <svg viewBox="0 0 200 220" class="penguin-svg penguin-svg--medium">
-          <use href="#penguin-body"/>
-          <ellipse cx="44" cy="132" rx="13" ry="32" fill="#161b33" transform="rotate(24 44 132)"/>
-          <ellipse cx="156" cy="132" rx="13" ry="32" fill="#161b33" transform="rotate(-24 156 132)"/>
-        </svg>
-      </div>
+      <img src="images/pg-09-caminando.png" alt="" class="process-penguin-img">
       <ol class="process-steps">
         <li>
-          <span class="process-dot">💬</span>
+          <span class="process-dot">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" stroke="#2e6bf2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
           <strong>Nos conocemos</strong>
           <small>Hablamos de lo que necesitas y te asesoramos.</small>
         </li>
         <li>
-          <span class="process-dot">✏️</span>
+          <span class="process-dot">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" stroke="#2e6bf2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
           <strong>Diseñamos</strong>
           <small>Preparamos la mejor solución para ti.</small>
         </li>
         <li>
-          <span class="process-dot">🛠️</span>
+          <span class="process-dot">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="2" y="3" width="20" height="14" rx="2" stroke="#2e6bf2" stroke-width="2"/><path d="M8 21h8M12 17v4" stroke="#2e6bf2" stroke-width="2" stroke-linecap="round"/></svg>
+          </span>
           <strong>Creamos</strong>
           <small>Desarrollamos o configuramos todo lo necesario.</small>
         </li>
         <li>
-          <span class="process-dot">🚀</span>
+          <span class="process-dot">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z" stroke="#2e6bf2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
           <strong>Publicamos</strong>
           <small>Puesta en marcha y todo funcionando.</small>
         </li>
         <li>
-          <span class="process-dot">❤️</span>
+          <span class="process-dot">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" stroke="#2e6bf2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
           <strong>Seguimos contigo</strong>
           <small>Soporte y mantenimiento siempre que lo necesites.</small>
         </li>
@@ -292,39 +248,22 @@
       </div>
       <a href="#contacto" class="link-arrow">Ver todos los proyectos <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
     </div>
-
     <div class="projects-grid">
       <article class="project-card grad-1">
-        <div class="project-thumb"><span>🍢</span></div>
-        <div class="project-info">
-          <strong>Asador El Buen Sabor</strong>
-          <small>Página web</small>
-          <span class="tag">Restauración</span>
-        </div>
+        <div class="project-thumb"><div class="project-thumb-content"><svg width="32" height="32" viewBox="0 0 24 24" fill="none"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" stroke="rgba(255,255,255,0.8)" stroke-width="1.5"/><polyline points="9 22 9 12 15 12 15 22" stroke="rgba(255,255,255,0.8)" stroke-width="1.5"/></svg></div></div>
+        <div class="project-info"><strong>Asador El Buen Sabor</strong><small>Página web</small><span class="tag">Restauración</span></div>
       </article>
       <article class="project-card grad-2">
-        <div class="project-thumb"><span>🐶</span></div>
-        <div class="project-info">
-          <strong>Peluquería Canina Enea</strong>
-          <small>Página web</small>
-          <span class="tag">Servicios</span>
-        </div>
+        <div class="project-thumb"><div class="project-thumb-content"><svg width="32" height="32" viewBox="0 0 24 24" fill="none"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" stroke="rgba(255,255,255,0.8)" stroke-width="1.5"/></svg></div></div>
+        <div class="project-info"><strong>Peluquería Canina Enea</strong><small>Página web</small><span class="tag">Servicios</span></div>
       </article>
       <article class="project-card grad-3">
-        <div class="project-thumb"><span>🖋️</span></div>
-        <div class="project-info">
-          <strong>Tattoo Style Mollet</strong>
-          <small>Página web</small>
-          <span class="tag">Estudio · Creativo</span>
-        </div>
+        <div class="project-thumb"><div class="project-thumb-content"><svg width="32" height="32" viewBox="0 0 24 24" fill="none"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" stroke="rgba(255,255,255,0.8)" stroke-width="1.5"/></svg></div></div>
+        <div class="project-info"><strong>Tattoo Style Mollet</strong><small>Página web</small><span class="tag">Estudio · Creativo</span></div>
       </article>
       <article class="project-card grad-4">
-        <div class="project-thumb"><span>🍗</span></div>
-        <div class="project-info">
-          <strong>Pollos María</strong>
-          <small>Página web + Tienda Online</small>
-          <span class="tag">Restauración</span>
-        </div>
+        <div class="project-thumb"><div class="project-thumb-content"><svg width="32" height="32" viewBox="0 0 24 24" fill="none"><circle cx="9" cy="21" r="1" fill="rgba(255,255,255,0.8)"/><circle cx="20" cy="21" r="1" fill="rgba(255,255,255,0.8)"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" stroke="rgba(255,255,255,0.8)" stroke-width="1.5"/></svg></div></div>
+        <div class="project-info"><strong>Pollos María</strong><small>Página web + Tienda Online</small><span class="tag">Restauración</span></div>
       </article>
     </div>
   </div>
@@ -332,27 +271,32 @@
 
 <!-- ===== FAQ ===== -->
 <section class="faq-section" id="faq">
-  <div class="container">
-    <div class="section-heading">
-      <h2>Preguntas frecuentes</h2>
+  <div class="container faq-inner">
+    <div class="faq-left">
+      <img src="images/pg-12-pensando.png" alt="" class="faq-penguin-img">
     </div>
-    <div class="faq-list">
-      <details>
-        <summary>¿Cuánto tarda en estar lista mi web?<svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
-        <p>Depende del proyecto, pero la mayoría de webs sencillas están listas entre 1 y 2 semanas desde que tenemos todo el contenido.</p>
-      </details>
-      <details>
-        <summary>¿Ofrecéis mantenimiento después de publicar la web?<svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
-        <p>Sí, seguimos contigo después del lanzamiento: actualizaciones, cambios y soporte cuando lo necesites.</p>
-      </details>
-      <details>
-        <summary>¿Podéis venir presencialmente a reparar un equipo?<svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
-        <p>Sí, ofrecemos soporte remoto y presencial según lo que necesite tu negocio.</p>
-      </details>
-      <details>
-        <summary>¿Trabajáis con negocios de cualquier sector?<svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
-        <p>Sí, hemos trabajado con restaurantes, peluquerías, estudios de tatuaje y otros negocios locales.</p>
-      </details>
+    <div class="faq-right">
+      <div class="section-heading" style="text-align:left;margin:0 0 28px;">
+        <h2>Preguntas frecuentes</h2>
+      </div>
+      <div class="faq-list">
+        <details>
+          <summary>¿Cuánto tarda en estar lista mi web?<svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+          <p>Depende del proyecto, pero la mayoría de webs sencillas están listas entre 1 y 2 semanas desde que tenemos todo el contenido.</p>
+        </details>
+        <details>
+          <summary>¿Ofrecéis mantenimiento después de publicar la web?<svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+          <p>Sí, seguimos contigo después del lanzamiento: actualizaciones, cambios y soporte cuando lo necesites.</p>
+        </details>
+        <details>
+          <summary>¿Podéis venir presencialmente a reparar un equipo?<svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+          <p>Sí, ofrecemos soporte remoto y presencial según lo que necesite tu negocio.</p>
+        </details>
+        <details>
+          <summary>¿Trabajáis con negocios de cualquier sector?<svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+          <p>Sí, hemos trabajado con restaurantes, peluquerías, estudios de tatuaje y otros negocios locales.</p>
+        </details>
+      </div>
     </div>
   </div>
 </section>
@@ -360,23 +304,21 @@
 <!-- ===== CTA FINAL ===== -->
 <section class="cta-final" id="contacto">
   <div class="container cta-inner">
-    <div class="penguin-wrap penguin-thumb">
-      <svg viewBox="0 0 200 220" class="penguin-svg penguin-svg--medium">
-        <use href="#penguin-body"/>
-        <ellipse cx="46" cy="140" rx="13" ry="32" fill="#161b33" transform="rotate(8 46 140)"/>
-        <ellipse cx="140" cy="128" rx="12" ry="26" fill="#161b33" transform="rotate(-55 140 128)"/>
-        <rect x="146" y="96" width="9" height="15" rx="4.5" fill="#161b33"/>
-        <circle cx="150.5" cy="104" r="7.5" fill="#161b33"/>
-      </svg>
-    </div>
+    <img src="images/pg-10-guino.png" alt="" class="cta-penguin-img">
     <div class="cta-copy">
       <h2>¿Empezamos?</h2>
       <p>Mientras tú haces crecer tu negocio... yo me encargo de la tecnología.</p>
     </div>
-    <a class="btn btn-primary btn-whatsapp" href="https://wa.me/34645513694" target="_blank" rel="noopener">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.29-1.39a9.9 9.9 0 0 0 4.75 1.21h.01c5.46 0 9.9-4.45 9.9-9.91C21.96 6.45 17.5 2 12.04 2zm5.83 14.13c-.24.68-1.4 1.32-1.93 1.4-.49.08-1.11.12-1.79-.11-.41-.13-.94-.31-1.62-.6-2.85-1.23-4.71-4.12-4.85-4.31-.14-.19-1.16-1.54-1.16-2.94s.72-2.09.98-2.37c.25-.28.55-.35.73-.35l.53.01c.17.01.4-.06.62.48.24.58.81 2 .88 2.15.07.15.11.32.02.51-.09.19-.14.31-.27.48-.14.17-.29.37-.41.5-.14.15-.28.3-.12.59.16.29.71 1.18 1.52 1.91 1.05.95 1.93 1.24 2.22 1.38.29.14.46.12.63-.07.17-.19.71-.83.9-1.11.19-.29.38-.24.63-.15.26.1 1.66.79 1.94.93.28.14.46.21.53.33.07.12.07.68-.17 1.36z"/></svg>
-      Hablar por WhatsApp
-    </a>
+    <div class="cta-right">
+      <a class="btn btn-primary btn-whatsapp" href="https://wa.me/34645513694" target="_blank" rel="noopener">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.29-1.39a9.9 9.9 0 0 0 4.75 1.21h.01c5.46 0 9.9-4.45 9.9-9.91C21.96 6.45 17.5 2 12.04 2zm5.83 14.13c-.24.68-1.4 1.32-1.93 1.4-.49.08-1.11.12-1.79-.11-.41-.13-.94-.31-1.62-.6-2.85-1.23-4.71-4.12-4.85-4.31-.14-.19-1.16-1.54-1.16-2.94s.72-2.09.98-2.37c.25-.28.55-.35.73-.35l.53.01c.17.01.4-.06.62.48.24.58.81 2 .88 2.15.07.15.11.32.02.51-.09.19-.14.31-.27.48-.14.17-.29.37-.41.5-.14.15-.28.3-.12.59.16.29.71 1.18 1.52 1.91 1.05.95 1.93 1.24 2.22 1.38.29.14.46.12.63-.07.17-.19.71-.83.9-1.11.19-.29.38-.24.63-.15.26.1 1.66.79 1.94.93.28.14.46.21.53.33.07.12.07.68-.17 1.36z"/></svg>
+        Hablar por WhatsApp
+      </a>
+      <div class="cta-chat-hint">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" stroke="rgba(255,255,255,0.6)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>Escríbeme y lo hablamos</span>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -387,12 +329,15 @@
   <div class="container footer-inner">
     <div class="footer-brand">
       <a href="#inicio" class="logo">
-        <span class="logo-emoji" aria-hidden="true">🐧</span>
+        <img src="images/pg-13-cabeza.png" alt="" class="logo-penguin" width="32" height="32">
         <span class="logo-text">el<strong>pingüino</strong></span>
       </a>
       <p>Tu compañero tecnológico.</p>
+      <div class="footer-thanks">
+        <img src="images/pg-11-gracias.png" alt="" class="footer-thanks-img">
+        <div class="footer-thanks-bubble">¡Gracias!<br><small>Aquí estoy para ayudarte.</small></div>
+      </div>
     </div>
-
     <div class="footer-col">
       <h4>Servicios</h4>
       <a href="#servicios">Diseño Web</a>
@@ -401,7 +346,6 @@
       <a href="#servicios">Mantenimiento</a>
       <a href="#servicios">Redes y Soporte</a>
     </div>
-
     <div class="footer-col">
       <h4>Enlaces</h4>
       <a href="#proyectos">Proyectos</a>
@@ -410,7 +354,6 @@
       <a href="#contacto">Contacto</a>
       <a href="privacidad.html">Política de privacidad</a>
     </div>
-
     <div class="footer-col">
       <h4>Contacto</h4>
       <a href="mailto:nogueramorillas@gmail.com">nogueramorillas@gmail.com</a>
@@ -418,13 +361,12 @@
       <span>Barcelona, España</span>
     </div>
   </div>
-
   <div class="container footer-bottom">
     <span>© <span id="year"></span> el pingüino — Todos los derechos reservados.</span>
     <div class="footer-social">
-      <a href="#" aria-label="Instagram">📷</a>
-      <a href="https://wa.me/34645513694" aria-label="WhatsApp">💬</a>
-      <a href="#" aria-label="LinkedIn">in</a>
+      <a href="#" aria-label="Instagram"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a>
+      <a href="https://wa.me/34645513694" aria-label="WhatsApp"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.29-1.39a9.9 9.9 0 0 0 4.75 1.21h.01c5.46 0 9.9-4.45 9.9-9.91C21.96 6.45 17.5 2 12.04 2zm5.83 14.13c-.24.68-1.4 1.32-1.93 1.4-.49.08-1.11.12-1.79-.11-.41-.13-.94-.31-1.62-.6-2.85-1.23-4.71-4.12-4.85-4.31-.14-.19-1.16-1.54-1.16-2.94s.72-2.09.98-2.37c.25-.28.55-.35.73-.35l.53.01c.17.01.4-.06.62.48.24.58.81 2 .88 2.15.07.15.11.32.02.51-.09.19-.14.31-.27.48-.14.17-.29.37-.41.5-.14.15-.28.3-.12.59.16.29.71 1.18 1.52 1.91 1.05.95 1.93 1.24 2.22 1.38.29.14.46.12.63-.07.17-.19.71-.83.9-1.11.19-.29.38-.24.63-.15.26.1 1.66.79 1.94.93.28.14.46.21.53.33.07.12.07.68-.17 1.36z"/></svg></a>
+      <a href="#" aria-label="LinkedIn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="4" cy="4" r="2" stroke="currentColor" stroke-width="2"/></svg></a>
     </div>
   </div>
 </footer>
