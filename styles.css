@@ -191,7 +191,7 @@ ul, ol { list-style: none; }
 }
 .hero-inner {
   display: grid;
-  grid-template-columns: 1fr 560px;
+  grid-template-columns: 1fr 640px;
   gap: 40px;
   align-items: center;
 }
@@ -215,7 +215,7 @@ ul, ol { list-style: none; }
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 440px;
+  min-height: 500px;
 }
 .hero-glow {
   position: absolute;
@@ -240,7 +240,7 @@ ul, ol { list-style: none; }
 }
 .hero-penguin-art {
   width: 100%;
-  max-width: 540px;
+  max-width: 620px;
   height: auto;
   position: relative;
   z-index: 1;
@@ -530,7 +530,7 @@ ul, ol { list-style: none; }
   .hero-ctas { justify-content: center; }
   .trust-badges { justify-content: center; }
   .hero-art { margin-top: 24px; min-height: auto; }
-  .hero-penguin-art { max-width: 380px; }
+  .hero-penguin-art { max-width: 440px; }
   .why-inner { grid-template-columns: 1fr; text-align: center; justify-items: center; }
   .why-penguin-art { max-width: 260px; }
   .why-copy { padding-left: 0; }
@@ -546,7 +546,7 @@ ul, ol { list-style: none; }
 }
 
 @media (max-width: 600px) {
-  .hero-penguin-art { max-width: 270px; }
+  .hero-penguin-art { max-width: 300px; }
   .why-penguin-art { max-width: 190px; }
   .hero-bubble { font-size: 0.82rem; padding: 10px 13px; }
   .services-grid { grid-template-columns: 1fr; }
