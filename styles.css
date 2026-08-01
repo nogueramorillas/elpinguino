@@ -161,16 +161,6 @@ ul, ol { list-style: none; }
 .nav-toggle span { width: 22px; height: 2px; background: var(--ink); border-radius: 2px; }
 
 /* ===== Penguin image sizes ===== */
-.hero-penguin-img {
-  width: 320px; max-width: 100%; height: auto;
-  position: relative; z-index: 1;
-  filter: drop-shadow(0 24px 36px rgba(22,27,51,.18));
-}
-.why-penguin-img {
-  width: 220px; max-width: 100%; height: auto;
-  flex-shrink: 0;
-  filter: drop-shadow(0 12px 24px rgba(22,27,51,.12));
-}
 .service-img {
   width: 100px; height: 100px;
   object-fit: contain;
@@ -269,8 +259,6 @@ ul, ol { list-style: none; }
 .why-section {
   padding: 78px 0;
   background: var(--bg-soft);
-  position: relative;
-  overflow: visible;
 }
 .why-inner {
   display: grid;
@@ -278,20 +266,15 @@ ul, ol { list-style: none; }
   gap: 40px;
   align-items: center;
 }
-.why-spacer {
-  position: relative;
-  min-height: 580px;
-  align-self: stretch;
-  overflow: visible;
+.why-art {
+  display: flex;
+  justify-content: center;
 }
 .why-penguin-art {
-  position: absolute;
-  bottom: 0;
-  left: -24px;
-  height: calc(100% + 78px + 70px);
-  width: auto;
-  pointer-events: none;
-  z-index: 10;
+  width: 100%;
+  max-width: 340px;
+  height: auto;
+  filter: drop-shadow(0 20px 30px rgba(22,27,51,.15));
 }
 .why-copy {
   padding-left: 32px;
@@ -547,9 +530,9 @@ ul, ol { list-style: none; }
   .hero-ctas { justify-content: center; }
   .trust-badges { justify-content: center; }
   .hero-art { display: none; }
-  .why-section { background-position: center top; background-size: 80% auto; }
   .why-inner { grid-template-columns: 1fr; text-align: center; justify-items: center; }
-  .why-spacer { min-height: 280px; }
+  .why-penguin-art { max-width: 260px; }
+  .why-copy { padding-left: 0; }
   .faq-inner { grid-template-columns: 1fr; }
   .faq-left { display: none; }
   .services-grid { grid-template-columns: repeat(2, 1fr); }
@@ -567,8 +550,7 @@ ul, ol { list-style: none; }
     background-size: 72% auto;
     padding-bottom: 220px;
   }
-  .hero-penguin-img { width: 230px; }
-  .why-penguin-img  { width: 160px; }
+  .why-penguin-art { max-width: 190px; }
   .hero-bubble { font-size: 0.82rem; padding: 10px 13px; }
   .services-grid { grid-template-columns: 1fr; }
   .projects-grid { grid-template-columns: 1fr; }
