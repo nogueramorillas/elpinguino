@@ -287,10 +287,8 @@ ul, ol { list-style: none; }
   position: absolute;
   bottom: 0;
   left: -24px;
-  width: 420px;
-  height: calc(100% + 78px + 100px);
-  object-fit: cover;
-  object-position: 0% center;
+  height: calc(100% + 78px + 55px);
+  width: auto;
   pointer-events: none;
   z-index: 10;
 }
