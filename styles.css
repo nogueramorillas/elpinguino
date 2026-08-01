@@ -280,7 +280,7 @@ ul, ol { list-style: none; }
 }
 .why-spacer {
   position: relative;
-  min-height: 460px;
+  min-height: 540px;
   align-self: stretch;
   overflow: visible;
 }
