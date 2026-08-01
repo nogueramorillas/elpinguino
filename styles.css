@@ -292,9 +292,6 @@ ul, ol { list-style: none; }
   width: auto;
   pointer-events: none;
   z-index: 10;
-  mix-blend-mode: multiply;
-  -webkit-mask-image: linear-gradient(to right, black 55%, transparent 88%);
-  mask-image: linear-gradient(to right, black 55%, transparent 88%);
 }
 .why-copy {
   padding-left: 32px;
