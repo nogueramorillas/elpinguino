@@ -269,15 +269,15 @@ ul, ol { list-style: none; }
 .why-section {
   padding: 78px 0;
   background: var(--bg-soft) url('images/why-penguin.png') no-repeat left center;
-  background-size: 50% auto;
+  background-size: 68% auto;
 }
 .why-inner {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 56px;
+  grid-template-columns: 0.75fr 1fr;
+  gap: 0;
   align-items: center;
 }
-.why-spacer { min-height: 340px; }
+.why-spacer { min-height: 360px; }
 .why-copy h2 { margin-bottom: 4px; }
 .why-copy p { margin-top: 14px; font-size: 1.02rem; }
 
