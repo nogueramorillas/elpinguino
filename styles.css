@@ -266,13 +266,18 @@ ul, ol { list-style: none; }
 .stat small { color: rgba(255,255,255,0.85); font-size: 0.82rem; }
 
 /* ===== Why section ===== */
-.why-section { padding: 78px 0; background: var(--bg-soft); }
+.why-section {
+  padding: 78px 0;
+  background: var(--bg-soft) url('images/why-penguin.png') no-repeat left center;
+  background-size: 50% auto;
+}
 .why-inner {
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: 1fr 1fr;
   gap: 56px;
   align-items: center;
 }
+.why-spacer { min-height: 340px; }
 .why-copy h2 { margin-bottom: 4px; }
 .why-copy p { margin-top: 14px; font-size: 1.02rem; }
 
@@ -520,7 +525,9 @@ ul, ol { list-style: none; }
   .hero-ctas { justify-content: center; }
   .trust-badges { justify-content: center; }
   .hero-art { margin-top: 20px; min-height: 280px; }
+  .why-section { background-position: center top; background-size: 80% auto; }
   .why-inner { grid-template-columns: 1fr; text-align: center; justify-items: center; }
+  .why-spacer { min-height: 280px; }
   .faq-inner { grid-template-columns: 1fr; }
   .faq-left { display: none; }
   .services-grid { grid-template-columns: repeat(2, 1fr); }
