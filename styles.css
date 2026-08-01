@@ -195,10 +195,17 @@ ul, ol { list-style: none; }
 }
 
 /* ===== Hero ===== */
-.hero { padding: 64px 0 56px; overflow: hidden; }
+.hero {
+  padding: 64px 0 56px;
+  overflow: hidden;
+  background-image: url('images/hero-penguin.png');
+  background-repeat: no-repeat;
+  background-position: right bottom;
+  background-size: auto 95%;
+}
 .hero-inner {
   display: grid;
-  grid-template-columns: 1.05fr 0.95fr;
+  grid-template-columns: 1fr 420px;
   gap: 40px;
   align-items: center;
 }
