@@ -268,8 +268,19 @@ ul, ol { list-style: none; }
 /* ===== Why section ===== */
 .why-section {
   padding: 78px 0;
-  background: var(--bg-soft) url('images/why-penguin.png') no-repeat left center;
-  background-size: 68% auto;
+  background: var(--bg-soft);
+  position: relative;
+  overflow: visible;
+}
+.why-penguin-art {
+  position: absolute;
+  left: max(0px, calc(50% - 590px));
+  top: -110px;
+  width: 46%;
+  max-width: 560px;
+  height: auto;
+  pointer-events: none;
+  z-index: 10;
 }
 .why-inner {
   display: grid;
