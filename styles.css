@@ -272,23 +272,28 @@ ul, ol { list-style: none; }
   position: relative;
   overflow: visible;
 }
-.why-penguin-art {
-  position: absolute;
-  left: max(0px, calc(50% - 590px));
-  top: -110px;
-  width: 46%;
-  max-width: 560px;
-  height: auto;
-  pointer-events: none;
-  z-index: 10;
-}
 .why-inner {
   display: grid;
   grid-template-columns: 0.75fr 1fr;
-  gap: 0;
-  align-items: center;
+  gap: 40px;
+  align-items: end;
 }
-.why-spacer { min-height: 360px; }
+.why-spacer {
+  position: relative;
+  min-height: 340px;
+  overflow: visible;
+}
+.why-penguin-art {
+  position: absolute;
+  bottom: 0;
+  left: -24px;
+  width: 420px;
+  height: calc(100% + 78px + 100px);
+  object-fit: cover;
+  object-position: 0% center;
+  pointer-events: none;
+  z-index: 10;
+}
 .why-copy h2 { margin-bottom: 4px; }
 .why-copy p { margin-top: 14px; font-size: 1.02rem; }
 
