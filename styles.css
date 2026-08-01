@@ -280,7 +280,7 @@ ul, ol { list-style: none; }
 }
 .why-spacer {
   position: relative;
-  min-height: 540px;
+  min-height: 580px;
   align-self: stretch;
   overflow: visible;
 }
@@ -288,10 +288,11 @@ ul, ol { list-style: none; }
   position: absolute;
   bottom: 0;
   left: -24px;
-  height: calc(100% + 78px + 60px);
+  height: calc(100% + 78px + 70px);
   width: auto;
   pointer-events: none;
   z-index: 10;
+  mix-blend-mode: multiply;
 }
 .why-copy h2 { margin-bottom: 4px; }
 .why-copy p { margin-top: 14px; font-size: 1.02rem; }
