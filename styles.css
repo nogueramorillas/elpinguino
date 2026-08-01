@@ -276,18 +276,19 @@ ul, ol { list-style: none; }
   display: grid;
   grid-template-columns: 0.75fr 1fr;
   gap: 40px;
-  align-items: end;
+  align-items: center;
 }
 .why-spacer {
   position: relative;
-  min-height: 340px;
+  min-height: 460px;
+  align-self: stretch;
   overflow: visible;
 }
 .why-penguin-art {
   position: absolute;
   bottom: 0;
   left: -24px;
-  height: calc(100% + 78px + 55px);
+  height: calc(100% + 78px + 60px);
   width: auto;
   pointer-events: none;
   z-index: 10;
