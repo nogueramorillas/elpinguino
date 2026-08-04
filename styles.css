@@ -201,14 +201,14 @@ ul, ol { list-style: none; }
 
 .trust-badges {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
   margin-top: 36px;
 }
-.trust-badges li { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.trust-badges li { display: flex; align-items: center; gap: 8px; min-width: 0; overflow: hidden; }
 .trust-svg-icon { width: 20px; height: 20px; flex-shrink: 0; }
-.trust-badges strong { display: block; font-size: 0.88rem; color: var(--ink); white-space: nowrap; }
-.trust-badges small { color: var(--muted); font-size: 0.75rem; white-space: nowrap; }
+.trust-badges strong { display: block; font-size: 0.88rem; color: var(--ink); }
+.trust-badges small { color: var(--muted); font-size: 0.75rem; }
 
 .hero-art {
   position: relative;
