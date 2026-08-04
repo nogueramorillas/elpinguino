@@ -205,10 +205,10 @@ ul, ol { list-style: none; }
   gap: 12px;
   margin-top: 36px;
 }
-.trust-badges li { display: flex; align-items: center; gap: 10px; }
-.trust-svg-icon { width: 22px; height: 22px; flex-shrink: 0; }
-.trust-badges strong { display: block; font-size: 0.92rem; color: var(--ink); }
-.trust-badges small { color: var(--muted); font-size: 0.8rem; }
+.trust-badges li { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.trust-svg-icon { width: 20px; height: 20px; flex-shrink: 0; }
+.trust-badges strong { display: block; font-size: 0.88rem; color: var(--ink); white-space: nowrap; }
+.trust-badges small { color: var(--muted); font-size: 0.75rem; white-space: nowrap; }
 
 .hero-art {
   position: relative;
