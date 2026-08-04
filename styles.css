@@ -200,10 +200,10 @@ ul, ol { list-style: none; }
 .hero-ctas { display: flex; gap: 14px; margin-top: 28px; flex-wrap: wrap; }
 
 .trust-badges {
-  display: flex;
-  gap: 16px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
   margin-top: 36px;
-  flex-wrap: nowrap;
 }
 .trust-badges li { display: flex; align-items: center; gap: 10px; }
 .trust-svg-icon { width: 22px; height: 22px; flex-shrink: 0; }
@@ -546,7 +546,7 @@ ul, ol { list-style: none; }
 }
 
 @media (max-width: 600px) {
-  .trust-badges { flex-wrap: wrap; gap: 20px; }
+  .trust-badges { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
   .hero-penguin-art { max-width: 300px; }
   .why-penguin-art { max-width: 190px; }
   .hero-bubble { font-size: 0.82rem; padding: 10px 13px; }
