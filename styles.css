@@ -323,6 +323,35 @@ ul, ol { list-style: none; }
 
 .service-card h3 { margin-bottom: 6px; }
 .service-card p { font-size: 0.92rem; margin-bottom: 14px; }
+
+.service-card--featured { padding: 0; overflow: hidden; }
+.service-featured-img-wrap {
+  position: relative;
+  width: 100%;
+  height: 220px;
+  overflow: hidden;
+}
+.service-featured-img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  transition: transform .3s ease;
+}
+.service-card--featured:hover .service-featured-img { transform: scale(1.04); }
+.service-featured-label {
+  position: absolute;
+  bottom: 12px; left: 16px;
+  background: rgba(255,255,255,0.92);
+  color: var(--ink);
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 5px 12px;
+  border-radius: 999px;
+  backdrop-filter: blur(4px);
+}
+.service-card--featured .link-arrow { display: inline-flex; margin: 16px 20px; }
+
 .link-arrow { display: inline-flex; align-items: center; gap: 6px; color: var(--blue); font-weight: 600; font-size: 0.92rem; }
 .link-arrow svg { transition: transform .15s ease; }
 .link-arrow:hover svg { transform: translateX(3px); }
