@@ -576,7 +576,20 @@ ul, ol { list-style: none; }
   .trust-badges { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
   .hero-art { justify-content: flex-end; padding-right: 12px; }
   .hero-penguin-art { max-width: 250px; }
-  .why-penguin-art { max-width: 190px; }
+  .why-section { background: var(--navy); padding: 52px 0; }
+  .why-inner {
+    grid-template-columns: 100px 1fr;
+    gap: 20px;
+    align-items: center;
+    text-align: left;
+    justify-items: start;
+  }
+  .why-art { align-items: flex-end; justify-content: flex-start; }
+  .why-penguin-art { max-width: 100px; }
+  .why-copy h2 { font-size: 1.3rem; color: #fff; }
+  .why-copy h2 .accent { color: #5b9dff; }
+  .why-copy p { color: rgba(255,255,255,0.72); font-size: 0.88rem; margin-top: 10px; }
+  .why-copy strong.accent { color: #fff; font-weight: 800; }
   .hero-bubble { font-size: 0.82rem; padding: 10px 13px; }
   .services-grid { grid-template-columns: 1fr; }
   .projects-grid { grid-template-columns: repeat(2, 1fr); }
