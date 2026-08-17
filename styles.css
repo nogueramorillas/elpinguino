@@ -604,26 +604,6 @@ ul, ol { list-style: none; }
   .cta-penguin-mobile { display: block; width: 180px; }
   .footer-bottom { flex-direction: column; text-align: center; }
 
-  /* ===== Scroll-reveal + footprint dots (mobile process) ===== */
-  .process-steps li {
-    transition: opacity 0.5s ease, transform 0.5s ease;
-  }
-  .step-hidden {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  .process-dot {
-    width: auto; height: auto;
-    background: none; border: none; box-shadow: none; border-radius: 0;
-    margin-bottom: 6px;
-  }
-  .fp ellipse {
-    fill: transparent;
-    stroke: var(--blue);
-    stroke-width: 2.5;
-    transition: fill 0.45s ease;
-  }
-  .process-dot.fp-lit .fp ellipse { fill: var(--blue); }
 }
 
 /* Mobile nav panel */
@@ -645,4 +625,28 @@ ul, ol { list-style: none; }
   .main-nav.open a, .main-nav.open .nav-dropdown-btn { padding: 12px 4px; width: 100%; text-align: left; }
   .main-nav.open .nav-dropdown-menu { position: static; transform: none; opacity: 1; visibility: visible; box-shadow: none; border: none; padding-left: 12px; display: none; }
   .main-nav.open .nav-dropdown.open .nav-dropdown-menu { display: flex; }
+}
+
+/* ===== Penguin footprints — process steps ===== */
+.fp { display: none; }
+.dot-icon { display: block; }
+
+@media (max-width: 600px) {
+  .fp { display: block; }
+  .dot-icon { display: none !important; }
+  .process-dot {
+    width: auto !important;
+    height: auto !important;
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+  }
+  .fp ellipse {
+    fill: transparent;
+    stroke: var(--blue);
+    stroke-width: 2.5;
+    transition: fill 0.45s ease;
+  }
+  .process-dot.fp-lit .fp ellipse { fill: var(--blue); }
 }
