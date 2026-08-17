@@ -578,7 +578,8 @@ ul, ol { list-style: none; }
   .why-penguin-art { max-width: 190px; }
   .hero-bubble { font-size: 0.82rem; padding: 10px 13px; }
   .services-grid { grid-template-columns: 1fr; }
-  .projects-grid { grid-template-columns: 1fr; }
+  .projects-grid { grid-template-columns: repeat(2, 1fr); }
+  .project-thumb { height: 160px; }
   .process-steps { grid-template-columns: 1fr; }
   .footer-inner { grid-template-columns: 1fr; }
   .cta-inner { text-align: center; justify-content: center; }
