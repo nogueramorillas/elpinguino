@@ -413,6 +413,7 @@ ul, ol { list-style: none; }
   transition: transform .18s ease, box-shadow .18s ease;
 }
 .project-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+.project-card--link { display: block; text-decoration: none; color: inherit; }
 .project-thumb {
   height: 140px;
   display: flex; align-items: center; justify-content: center;
