@@ -604,7 +604,14 @@ ul, ol { list-style: none; }
   .cta-penguin-mobile { display: block; width: 180px; }
   .footer-bottom { flex-direction: column; text-align: center; }
 
-  /* ===== Penguin footprint dots (mobile process) ===== */
+  /* ===== Scroll-reveal + footprint dots (mobile process) ===== */
+  .process-steps li {
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .step-hidden {
+    opacity: 0;
+    transform: translateY(30px);
+  }
   .process-dot {
     width: auto; height: auto;
     background: none; border: none; box-shadow: none; border-radius: 0;
