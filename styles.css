@@ -227,11 +227,11 @@ ul, ol { list-style: none; }
 }
 .hero-bubble {
   position: absolute;
-  top: 18%;
-  right: 10%;
+  top: 16%;
+  left: 4%;
   background: #fff;
   border: 1px solid var(--border);
-  border-radius: 16px 16px 4px 16px;
+  border-radius: 16px 16px 16px 4px;
   padding: 12px 16px;
   font-size: 0.9rem;
   box-shadow: var(--shadow-sm);
