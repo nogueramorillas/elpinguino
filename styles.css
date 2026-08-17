@@ -415,7 +415,7 @@ ul, ol { list-style: none; }
 .project-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
 .project-card--link { display: block; text-decoration: none; color: inherit; }
 .project-thumb {
-  height: 140px;
+  height: 200px;
   display: flex; align-items: center; justify-content: center;
 }
 .project-thumb-content {
