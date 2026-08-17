@@ -175,6 +175,7 @@ ul, ol { list-style: none; }
   width: 150px; height: auto; flex-shrink: 0;
   filter: drop-shadow(0 12px 24px rgba(0,0,0,.3));
 }
+.cta-penguin-mobile { display: none; }
 .faq-penguin-img {
   width: 200px; max-width: 100%; height: auto;
   filter: drop-shadow(0 12px 20px rgba(22,27,51,.12));
@@ -597,6 +598,8 @@ ul, ol { list-style: none; }
   .process-steps { grid-template-columns: 1fr; }
   .footer-inner { grid-template-columns: 1fr; }
   .cta-inner { text-align: center; justify-content: center; }
+  .cta-penguin-desktop { display: none; }
+  .cta-penguin-mobile { display: block; width: 180px; }
   .footer-bottom { flex-direction: column; text-align: center; }
 }
 
