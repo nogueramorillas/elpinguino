@@ -176,6 +176,7 @@ ul, ol { list-style: none; }
   filter: drop-shadow(0 12px 24px rgba(0,0,0,.3));
 }
 .cta-penguin-mobile { display: none; }
+.why-penguin-mobile { display: none; }
 .faq-penguin-img {
   width: 200px; max-width: 100%; height: auto;
   filter: drop-shadow(0 12px 20px rgba(22,27,51,.12));
@@ -579,14 +580,15 @@ ul, ol { list-style: none; }
   .hero-penguin-art { max-width: 250px; }
   .why-section { background: var(--navy); padding: 52px 0; }
   .why-inner {
-    grid-template-columns: 100px 1fr;
+    grid-template-columns: 150px 1fr;
     gap: 20px;
     align-items: center;
     text-align: left;
     justify-items: start;
   }
   .why-art { align-items: flex-end; justify-content: flex-start; }
-  .why-penguin-art { max-width: 100px; }
+  .why-penguin-desktop { display: none; }
+  .why-penguin-mobile { display: block; max-width: 140px; }
   .why-copy h2 { font-size: 1.3rem; color: #fff; }
   .why-copy h2 .accent { color: #5b9dff; }
   .why-copy p { color: rgba(255,255,255,0.72); font-size: 0.88rem; margin-top: 10px; }
