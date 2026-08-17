@@ -574,7 +574,8 @@ ul, ol { list-style: none; }
 
 @media (max-width: 600px) {
   .trust-badges { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
-  .hero-penguin-art { max-width: 300px; }
+  .hero-art { justify-content: flex-end; padding-right: 12px; }
+  .hero-penguin-art { max-width: 250px; }
   .why-penguin-art { max-width: 190px; }
   .hero-bubble { font-size: 0.82rem; padding: 10px 13px; }
   .services-grid { grid-template-columns: 1fr; }
