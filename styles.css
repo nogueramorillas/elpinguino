@@ -262,7 +262,7 @@ ul, ol { list-style: none; }
 
 /* ===== Why section ===== */
 .why-section {
-  padding: 78px 0;
+  padding: 78px 0 0;
   background: var(--bg-soft);
 }
 .why-inner {
@@ -284,6 +284,7 @@ ul, ol { list-style: none; }
 }
 .why-copy {
   padding-left: 32px;
+  padding-bottom: 78px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -583,18 +584,19 @@ ul, ol { list-style: none; }
   .hero-penguin-art { max-width: 250px; }
   .why-section { background: var(--bg-soft); padding: 40px 0; }
   .why-inner {
-    grid-template-columns: 130px 1fr;
+    grid-template-columns: 1fr;
     gap: 16px;
     align-items: center;
-    text-align: left;
-    justify-items: start;
+    text-align: center;
+    justify-items: center;
   }
-  .why-art { align-items: center; justify-content: flex-start; }
-  .why-penguin-art { max-width: 120px; }
+  .why-art { display: none !important; }
+  .why-copy { padding-bottom: 0; }
   .why-copy h2 { font-size: 1.2rem; }
   .why-copy p { font-size: 0.85rem; margin-top: 8px; }
   .hero-bubble { font-size: 0.82rem; padding: 10px 13px; }
   .services-grid { grid-template-columns: 1fr; }
+  .process-section { display: none; }
   .projects-grid { grid-template-columns: repeat(2, 1fr); }
   .project-thumb { height: 160px; }
   .process-steps { grid-template-columns: 1fr; }
