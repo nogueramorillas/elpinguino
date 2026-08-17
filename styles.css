@@ -269,20 +269,24 @@ ul, ol { list-style: none; }
   display: grid;
   grid-template-columns: 0.75fr 1fr;
   gap: 40px;
-  align-items: center;
+  align-items: stretch;
 }
 .why-art {
   display: flex;
   justify-content: center;
+  align-items: flex-end;
 }
 .why-penguin-art {
   width: 100%;
-  max-width: 340px;
+  max-width: 420px;
   height: auto;
   filter: drop-shadow(0 20px 30px rgba(22,27,51,.15));
 }
 .why-copy {
   padding-left: 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 .why-copy h2 { margin-bottom: 4px; }
 .why-copy p { margin-top: 14px; font-size: 1.02rem; }
@@ -599,6 +603,20 @@ ul, ol { list-style: none; }
   .cta-penguin-desktop { display: none; }
   .cta-penguin-mobile { display: block; width: 180px; }
   .footer-bottom { flex-direction: column; text-align: center; }
+
+  /* ===== Penguin footprint dots (mobile process) ===== */
+  .process-dot {
+    width: auto; height: auto;
+    background: none; border: none; box-shadow: none; border-radius: 0;
+    margin-bottom: 6px;
+  }
+  .fp ellipse {
+    fill: transparent;
+    stroke: var(--blue);
+    stroke-width: 2.5;
+    transition: fill 0.45s ease;
+  }
+  .process-dot.fp-lit .fp ellipse { fill: var(--blue); }
 }
 
 /* Mobile nav panel */
