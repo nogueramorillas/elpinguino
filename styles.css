@@ -361,7 +361,7 @@ ul, ol { list-style: none; }
 }
 
 .service-card h3 { position: relative; z-index: 1; margin-bottom: 8px; }
-.service-card p { position: relative; z-index: 1; font-size: 0.92rem; margin-bottom: 16px; max-width: 88%; }
+.service-card p { position: relative; z-index: 1; font-size: 0.92rem; margin-bottom: 16px; max-width: 56%; }
 
 .service-illustration {
   position: absolute;
@@ -645,7 +645,7 @@ ul, ol { list-style: none; }
   .hero-bubble { font-size: 0.82rem; padding: 10px 13px; }
   .services-grid { grid-template-columns: 1fr; }
   .service-card { padding: 26px 22px; }
-  .service-card p { max-width: 100%; }
+  .service-card p { max-width: 58%; }
   .service-illustration { width: 120px; height: 120px; }
   .service-card:hover .service-illustration { transform: scale(1.05); }
   .services-perks { padding: 20px 6px; }
