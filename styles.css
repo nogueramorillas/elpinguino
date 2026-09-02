@@ -365,9 +365,12 @@ ul, ol { list-style: none; }
 
 .service-illustration {
   position: absolute;
-  right: -6px;
-  bottom: -4px;
-  opacity: 0.9;
+  right: -8px;
+  bottom: -8px;
+  width: 128px;
+  height: 128px;
+  object-fit: contain;
+  object-position: bottom right;
   transition: transform .35s ease;
   pointer-events: none;
 }
