@@ -52,6 +52,11 @@
     margin-bottom: 16px;
   }
   .feature-card h3 { margin-bottom: 10px; }
+  .autonomy-section { padding: 70px 0; }
+  .autonomy-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 40px; }
+  .autonomy-card { background: var(--bg-soft); border-radius: var(--radius); padding: 32px 28px; }
+  .autonomy-card .feature-icon { margin-bottom: 18px; }
+  .autonomy-card h3 { margin-bottom: 10px; }
   .process-section-inner { padding: 80px 0; background: var(--bg-soft); }
   .steps-list {
     display: flex;
@@ -126,6 +131,7 @@
   @media (max-width: 980px) {
     .page-hero-inner { grid-template-columns: 1fr; }
     .features-grid { grid-template-columns: 1fr 1fr; }
+    .autonomy-grid { grid-template-columns: 1fr; }
     .pricing-cards { grid-template-columns: 1fr; max-width: 420px; margin-left: auto; margin-right: auto; }
   }
   @media (max-width: 600px) {
@@ -229,6 +235,32 @@
         </div>
         <h3>Soporte incluido</h3>
         <p>Después de publicar, seguimos contigo. Sin costes ocultos.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AUTONOMIA -->
+<section class="autonomy-section">
+  <div class="container">
+    <div class="section-heading">
+      <h2>La web es tuya, no dependes de mí para todo</h2>
+      <p>Te dejamos las herramientas para que puedas moverte sin tocar código.</p>
+    </div>
+    <div class="autonomy-grid">
+      <div class="autonomy-card">
+        <div class="feature-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3>Cambios pequeños, sin depender de nadie</h3>
+        <p>Textos, fotos, precios o servicios: sin saber programar podrás actualizar tú mismo lo básico de tu web cuando quieras, sin esperar a que te conteste ni pagar por cada retoque.</p>
+      </div>
+      <div class="autonomy-card">
+        <div class="feature-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="18" rx="2" stroke="#fff" stroke-width="2"/><path d="M3 10h18M8 2v4M16 2v4" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+        </div>
+        <h3>Gestiona tu negocio desde la web</h3>
+        <p>Si tu negocio necesita citas, reservas o pedidos, podemos añadir tu propio panel para que gestiones agenda, servicios y clientes sin llamarme cada vez.</p>
       </div>
     </div>
   </div>
