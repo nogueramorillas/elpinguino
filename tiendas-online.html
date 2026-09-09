@@ -137,10 +137,16 @@
   .cta-banner { padding: 64px 0; background: var(--navy); text-align: center; }
   .cta-banner h2 { color: #fff; margin-bottom: 12px; }
   .cta-banner p { color: rgba(255,255,255,0.7); font-size: 1.05rem; margin-bottom: 28px; }
+  .autonomy-section { padding: 70px 0; }
+  .autonomy-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 40px; }
+  .autonomy-card { background: var(--bg-soft); border-radius: var(--radius); padding: 32px 28px; }
+  .autonomy-card .feature-icon { margin-bottom: 18px; }
+  .autonomy-card h3 { margin-bottom: 10px; }
   @media (max-width: 980px) {
     .page-hero-inner { grid-template-columns: 1fr; }
     .features-grid { grid-template-columns: 1fr 1fr; }
     .platforms-grid { grid-template-columns: 1fr 1fr; }
+    .autonomy-grid { grid-template-columns: 1fr; }
     .pricing-cards { grid-template-columns: 1fr; max-width: 420px; margin-left: auto; margin-right: auto; }
   }
   @media (max-width: 600px) {
@@ -281,6 +287,32 @@
         <h3>Stripe</h3>
         <p>Pasarela de pago profesional. Acepta tarjetas de todo el mundo con total seguridad y sin comisiones ocultas.</p>
         <span class="platform-tag">Pagos seguros</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AUTONOMIA -->
+<section class="autonomy-section">
+  <div class="container">
+    <div class="section-heading">
+      <h2>Tu tienda, no dependes de mí para todo</h2>
+      <p>Te dejamos las herramientas para que puedas moverte sin tocar código.</p>
+    </div>
+    <div class="autonomy-grid">
+      <div class="autonomy-card">
+        <div class="feature-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3>Actualiza precios y productos tú mismo</h3>
+        <p>Sin saber programar podrás añadir productos, cambiar precios, fotos o stock cuando quieras, sin esperar a que te conteste ni pagar por cada retoque.</p>
+      </div>
+      <div class="autonomy-card">
+        <div class="feature-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M9 21H5a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v3M13 21h5M17 17v8M13 21l4-4 4 4" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3>Gestiona pedidos y clientes desde tu panel</h3>
+        <p>Cada pedido, stock y cliente lo llevas tú desde tu propio panel de gestión, sin llamarme cada vez que entra una venta.</p>
       </div>
     </div>
   </div>
