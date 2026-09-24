@@ -17,6 +17,7 @@ window.addEventListener("scroll", updateHeader, { passive: true });
     [".why-copy", 0],
     [".stats-bar .stat", 90],
     [".service-card", 80],
+    [".social-banner", 0],
     [".services-perks", 0],
     [".services-cta", 0],
     [".process-steps li", 90],
