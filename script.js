@@ -6,11 +6,13 @@ const updateHeader = () => siteHeader.classList.toggle("is-scrolled", window.scr
 updateHeader();
 window.addEventListener("scroll", updateHeader, { passive: true });
 
+const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
 // Fade-up sections and cards as they enter the viewport. The hidden state only
 // applies under .js-reveal, so without JS (or IntersectionObserver) nothing is hidden.
+// With reduced motion the CSS keeps the fade but drops the slide.
 (function () {
   if (!("IntersectionObserver" in window)) return;
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
   const groups = [
     [".section-heading", 0],
@@ -121,4 +123,125 @@ if (dropdownBtn) {
   }, { threshold: 0.3 });
 
   document.querySelectorAll('.process-steps li').forEach(function (li) { obs.observe(li); });
+}());
+
+// ===== Rotating word in the hero headline =====
+(function () {
+  const el = document.querySelector(".rotator");
+  if (!el) return;
+  const words = el.dataset.words.split("|");
+  let i = 0;
+  setInterval(() => {
+    el.classList.add("is-out");
+    setTimeout(() => {
+      i = (i + 1) % words.length;
+      el.textContent = words[i];
+      el.classList.remove("is-out");
+      el.classList.add("is-in");
+      void el.offsetWidth; // restart the transition from the "in" position
+      el.classList.remove("is-in");
+    }, 280);
+  }, 2400);
+}());
+
+// ===== Penguins: click/tap to make them jump; the hero one talks =====
+(function () {
+  const bubble = document.getElementById("heroBubble");
+  const messages = [
+    'Hola 👋<br><strong>Yo me encargo.</strong>',
+    '¿Tu web es de 2010? 😅<br><strong>La ponemos al día.</strong>',
+    '¿El ordenador va a pedales?<br><strong>Lo dejamos volando.</strong>',
+    '¿El WiFi no llega?<br><strong>Eso tiene solución.</strong>',
+    '¿Quieres vender online?<br><strong>Montamos tu tienda.</strong>',
+    '¡Pínchame! 🐧<br><strong>No muerdo.</strong>',
+  ];
+  let msg = 0;
+
+  const say = (html) => {
+    if (!bubble) return;
+    bubble.classList.add("is-swapping");
+    setTimeout(() => {
+      bubble.innerHTML = html;
+      bubble.classList.remove("is-swapping");
+    }, 220);
+  };
+  const nextMessage = () => { msg = (msg + 1) % messages.length; say(messages[msg]); };
+
+  let autoTalk = setInterval(nextMessage, 4500);
+
+  const jump = (img) => {
+    img.classList.remove("is-jumping");
+    void img.offsetWidth;
+    img.classList.add("is-jumping");
+    // Fallback in case animationend never fires (throttled/background tabs)
+    clearTimeout(img._jumpTimer);
+    img._jumpTimer = setTimeout(() => img.classList.remove("is-jumping"), 800);
+  };
+
+  document.querySelectorAll(".hero-penguin-art, .why-penguin-art, .process-penguin-img, .faq-penguin-img, .cta-penguin-img")
+    .forEach((img) => {
+      img.classList.add("penguin-alive");
+      img.addEventListener("animationend", (e) => {
+        if (e.animationName === "penguinJump") img.classList.remove("is-jumping");
+      });
+      img.addEventListener("click", () => {
+        jump(img);
+        if (img.classList.contains("hero-penguin-art")) {
+          nextMessage();
+          clearInterval(autoTalk);            // user is playing: give them time to read
+          autoTalk = setInterval(nextMessage, 6000);
+        }
+      });
+    });
+}());
+
+// ===== Stats count up when they scroll into view =====
+(function () {
+  const nums = document.querySelectorAll("[data-count]");
+  if (!nums.length || !("IntersectionObserver" in window)) return;
+  const run = (el) => {
+    const target = parseFloat(el.dataset.count);
+    const decimals = parseInt(el.dataset.decimals || "0", 10);
+    const prefix = el.dataset.prefix || "";
+    const start = performance.now();
+    const dur = 1400;
+    const tick = (now) => {
+      const t = Math.min(1, (now - start) / dur);
+      const eased = 1 - Math.pow(1 - t, 3);
+      el.textContent = prefix + (target * eased).toFixed(decimals);
+      if (t < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  };
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => { if (e.isIntersecting) { run(e.target); io.unobserve(e.target); } });
+  }, { threshold: 0.6 });
+  nums.forEach((n) => io.observe(n));
+}());
+
+// ===== Cursor spotlight on service cards =====
+document.querySelectorAll(".service-card").forEach((card) => {
+  card.addEventListener("pointermove", (e) => {
+    const r = card.getBoundingClientRect();
+    card.style.setProperty("--mx", `${e.clientX - r.left}px`);
+    card.style.setProperty("--my", `${e.clientY - r.top}px`);
+  });
+});
+
+// ===== Hero penguin leans toward the cursor (desktop, full motion only) =====
+(function () {
+  const hero = document.querySelector(".hero");
+  const img = document.querySelector(".hero-penguin-art");
+  if (!hero || !img || prefersReducedMotion || !window.matchMedia("(hover: hover)").matches) return;
+  hero.addEventListener("pointermove", (e) => {
+    const r = hero.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width - 0.5;
+    const y = (e.clientY - r.top) / r.height - 0.5;
+    img.style.setProperty("--px", `${(x * 22).toFixed(1)}px`);
+    img.style.setProperty("--py", `${(y * 14).toFixed(1)}px`);
+  });
+  hero.addEventListener("pointerleave", () => {
+    img.style.setProperty("--px", "0px");
+    img.style.setProperty("--py", "0px");
+  });
 }());

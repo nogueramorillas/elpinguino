@@ -20,7 +20,7 @@
 <meta name="twitter:image" content="https://elpinguino.pro/images/og-image.png" />
 <link rel="icon" href="favicon.png?v=2" type="image/png" sizes="192x192" />
 <link rel="apple-touch-icon" href="apple-touch-icon.png?v=2" />
-<link rel="stylesheet" href="styles.css?v=15" />
+<link rel="stylesheet" href="styles.css?v=16" />
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -119,8 +119,8 @@
 <section class="hero" id="inicio">
   <div class="container hero-inner">
     <div class="hero-copy">
-      <h1>Tecnología <span class="accent">sencilla</span> para empresas.</h1>
-      <p class="hero-sub">Creamos páginas web, instalamos equipos y solucionamos los problemas tecnológicos de tu negocio.</p>
+      <h1>Tecnología <span class="accent">sencilla</span> para <span class="rotator-line"><span class="rotator" data-words="empresas|restaurantes|peluquerías|tiendas|autónomos|talleres">empresas</span>.</span></h1>
+      <p class="hero-sub">Webs que atraen clientes, ordenadores que no dan guerra y alguien de confianza al otro lado del WhatsApp. Tú céntrate en tu negocio; la tecnología, déjanosla a nosotros.</p>
       <div class="hero-ctas">
         <a class="btn btn-primary" href="#servicios">
           Servicios principales
@@ -148,7 +148,7 @@
     </div>
 
     <div class="hero-art">
-      <div class="hero-bubble">Hola 👋<br><strong>Yo me encargo.</strong></div>
+      <div class="hero-bubble" id="heroBubble" aria-live="polite">Hola 👋<br><strong>Yo me encargo.</strong></div>
       <img src="images/hero-penguin.webp" class="hero-penguin-art" alt="Pingüino mascota de el pingüino saludando" width="1240" height="827" fetchpriority="high">
     </div>
   </div>
@@ -159,15 +159,15 @@
   <div class="container stats-inner">
     <div class="stat">
       <svg class="stat-svg-icon" viewBox="0 0 24 24" fill="none"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" stroke="#fff" stroke-width="2" stroke-linecap="round"/><circle cx="9" cy="7" r="4" stroke="#fff" stroke-width="2"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
-      <div><strong>+50</strong><small>Proyectos completados</small></div>
+      <div><strong data-count="50" data-prefix="+">+50</strong><small>Proyectos completados</small></div>
     </div>
     <div class="stat">
       <svg class="stat-svg-icon" viewBox="0 0 24 24" fill="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <div><strong>5.0</strong><small>Valoración de clientes</small></div>
+      <div><strong data-count="5" data-decimals="1">5.0</strong><small>Valoración de clientes</small></div>
     </div>
     <div class="stat">
       <svg class="stat-svg-icon" viewBox="0 0 24 24" fill="none"><rect x="2" y="3" width="20" height="14" rx="2" stroke="#fff" stroke-width="2"/><path d="M8 21h8M12 17v4" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
-      <div><strong>+100</strong><small>Equipos optimizados</small></div>
+      <div><strong data-count="100" data-prefix="+">+100</strong><small>Equipos optimizados</small></div>
     </div>
     <div class="stat">
       <svg class="stat-svg-icon" viewBox="0 0 24 24" fill="none"><path d="M3 18v-6a9 9 0 0 1 18 0v6" stroke="#fff" stroke-width="2" stroke-linecap="round"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3v5zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3v5z" stroke="#fff" stroke-width="2"/></svg>
@@ -184,9 +184,9 @@
     </div>
     <div class="why-copy">
       <h2>¿Por qué un <span class="accent">pingüino</span>?</h2>
-      <p>Porque inspira cercanía, inteligencia y confianza. Los pingüinos trabajan en equipo, cuidan de los suyos y siempre encuentran la forma de salir adelante.</p>
-      <p>Así trabajamos nosotros.</p>
-      <p>No queremos ser un proveedor.<br>Queremos convertirnos en el <strong class="accent">compañero tecnológico</strong> de tu empresa.</p>
+      <p>Porque los pingüinos no dejan a nadie atrás: trabajan en equipo, aguantan cualquier temporal y siempre encuentran la forma de salir adelante.</p>
+      <p>Nosotros, igual. Sin tecnicismos, sin letra pequeña y sin desaparecer después de cobrar.</p>
+      <p>No queremos ser tu proveedor.<br>Queremos ser el <strong class="accent">compañero tecnológico</strong> de tu negocio.</p>
     </div>
   </div>
 </section>
@@ -302,7 +302,7 @@
     <div class="section-heading">
       <span class="eyebrow">PROCESO</span>
       <h2>Así trabajamos</h2>
-      <p>Un proceso fácil, claro y sin complicaciones.</p>
+      <p>Cinco pasos, cero dolores de cabeza.</p>
     </div>
     <div class="process-track">
       <img src="images/pg-09-caminando.webp" alt="" class="process-penguin-img" width="320" height="320" loading="lazy">
@@ -354,7 +354,7 @@
       <div>
         <span class="eyebrow">PORTFOLIO</span>
         <h2>Proyectos recientes</h2>
-        <p>Algunos de los trabajos que hemos hecho para nuestros clientes. Haz clic para verlos en directo.</p>
+        <p>Negocios reales que ya confían en nosotros. Pincha en cualquiera y míralo en directo.</p>
       </div>
     </div>
     <div class="projects-grid">
@@ -430,7 +430,7 @@
     <img src="images/pg-cohete.webp" alt="" class="cta-penguin-img cta-penguin-mobile" width="360" height="304" loading="lazy">
     <div class="cta-copy">
       <h2>¿Empezamos?</h2>
-      <p>Mientras tú haces crecer tu negocio... yo me encargo de la tecnología.</p>
+      <p>Cuéntanos qué necesitas por WhatsApp. Respondemos rápido, sin compromiso y en cristiano: nada de tecnicismos.</p>
     </div>
     <div class="cta-right">
       <a class="btn btn-primary btn-whatsapp" href="https://wa.me/34624403792" target="_blank" rel="noopener">
@@ -494,6 +494,6 @@
   <span class="wa-float-label">¿Hablamos?</span>
 </a>
 
-<script src="script.js?v=7"></script>
+<script src="script.js?v=8"></script>
 </body>
 </html>
