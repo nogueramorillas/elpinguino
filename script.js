@@ -16,8 +16,9 @@ const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)
 
   const groups = [
     [".section-heading", 0],
-    [".why-copy", 0],
-    [".stats-bar .stat", 90],
+    [".statement-text", 0],
+    [".statement-stats > div", 90],
+    
     [".service-card", 80],
     [".social-banner", 0],
     [".services-perks", 0],
@@ -25,7 +26,7 @@ const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)
     [".process-steps li", 90],
     [".project-card", 90],
     [".faq-list details", 60],
-    [".cta-inner", 0],
+    [".cta-x-box", 0],
   ];
 
   const targets = [];
@@ -169,7 +170,7 @@ if (dropdownBtn) {
 
   let autoTalk = setInterval(nextMessage, 4500);
 
-  const heroPenguin = document.querySelector(".hero-penguin-art");
+  const heroPenguin = document.getElementById("heroPenguin");
   if (heroPenguin) {
     heroPenguin.style.cursor = "pointer";
     heroPenguin.addEventListener("click", () => {
