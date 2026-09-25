@@ -1562,3 +1562,6 @@ h1, h2, h3 { font-family: var(--font-sans); }
 .asesor-copy .eyebrow::after { display: none; }
 @media (max-width: 980px) { .asesor-inner { grid-template-columns: 1fr; gap: 36px; } .asesor { padding-top: 70px; } }
 @media (prefers-reduced-motion: reduce) { .idea-box { animation: none; } }
+
+.stack-card img.wide-penguin { width: 300px; }
+@media (max-width: 600px) { .stack-card img.wide-penguin { width: 230px; } }
