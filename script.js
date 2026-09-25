@@ -144,7 +144,7 @@ if (dropdownBtn) {
   }, 2400);
 }());
 
-// ===== Penguins: click/tap to make them jump; the hero one talks =====
+// ===== Hero penguin talks: rotating speech bubble, click for the next line =====
 (function () {
   const bubble = document.getElementById("heroBubble");
   const messages = [
@@ -169,30 +169,15 @@ if (dropdownBtn) {
 
   let autoTalk = setInterval(nextMessage, 4500);
 
-  const jump = (img) => {
-    img.classList.remove("is-jumping");
-    void img.offsetWidth;
-    img.classList.add("is-jumping");
-    // Fallback in case animationend never fires (throttled/background tabs)
-    clearTimeout(img._jumpTimer);
-    img._jumpTimer = setTimeout(() => img.classList.remove("is-jumping"), 800);
-  };
-
-  document.querySelectorAll(".hero-penguin-art, .why-penguin-art, .process-penguin-img, .faq-penguin-img, .cta-penguin-img")
-    .forEach((img) => {
-      img.classList.add("penguin-alive");
-      img.addEventListener("animationend", (e) => {
-        if (e.animationName === "penguinJump") img.classList.remove("is-jumping");
-      });
-      img.addEventListener("click", () => {
-        jump(img);
-        if (img.classList.contains("hero-penguin-art")) {
-          nextMessage();
-          clearInterval(autoTalk);            // user is playing: give them time to read
-          autoTalk = setInterval(nextMessage, 6000);
-        }
-      });
+  const heroPenguin = document.querySelector(".hero-penguin-art");
+  if (heroPenguin) {
+    heroPenguin.style.cursor = "pointer";
+    heroPenguin.addEventListener("click", () => {
+      nextMessage();
+      clearInterval(autoTalk); // user is reading: give them more time
+      autoTalk = setInterval(nextMessage, 6000);
     });
+  }
 }());
 
 // ===== Stats count up when they scroll into view =====
@@ -227,21 +212,3 @@ document.querySelectorAll(".service-card").forEach((card) => {
     card.style.setProperty("--my", `${e.clientY - r.top}px`);
   });
 });
-
-// ===== Hero penguin leans toward the cursor (desktop, full motion only) =====
-(function () {
-  const hero = document.querySelector(".hero");
-  const img = document.querySelector(".hero-penguin-art");
-  if (!hero || !img || prefersReducedMotion || !window.matchMedia("(hover: hover)").matches) return;
-  hero.addEventListener("pointermove", (e) => {
-    const r = hero.getBoundingClientRect();
-    const x = (e.clientX - r.left) / r.width - 0.5;
-    const y = (e.clientY - r.top) / r.height - 0.5;
-    img.style.setProperty("--px", `${(x * 22).toFixed(1)}px`);
-    img.style.setProperty("--py", `${(y * 14).toFixed(1)}px`);
-  });
-  hero.addEventListener("pointerleave", () => {
-    img.style.setProperty("--px", "0px");
-    img.style.setProperty("--py", "0px");
-  });
-}());
