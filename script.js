@@ -213,3 +213,49 @@ document.querySelectorAll(".service-card").forEach((card) => {
     card.style.setProperty("--my", `${e.clientY - r.top}px`);
   });
 });
+
+
+// ===== Hero idea box: type what you need, send it straight to WhatsApp =====
+(function () {
+  const form = document.getElementById("ideaBox");
+  if (!form) return;
+  const input = document.getElementById("ideaInput");
+
+  const examples = [
+    "Quiero una web para mi restaurante con reservas…",
+    "Necesito una tienda online para vender ropa…",
+    "El ordenador de la oficina va lentísimo…",
+    "El WiFi no llega a la sala del fondo…",
+    "Quiero que me llevéis Instagram y TikTok…",
+  ];
+  let i = 0;
+  setInterval(() => {
+    if (document.activeElement === input || input.value) return;
+    i = (i + 1) % examples.length;
+    input.placeholder = examples[i];
+  }, 3200);
+
+  form.querySelectorAll("[data-idea]").forEach((chip) => {
+    chip.addEventListener("click", () => {
+      input.value = chip.dataset.idea + ": ";
+      input.focus();
+      input.setSelectionRange(input.value.length, input.value.length);
+    });
+  });
+
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); form.requestSubmit(); }
+  });
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const text = input.value.trim();
+    if (!text) {
+      form.classList.remove("shake"); void form.offsetWidth; form.classList.add("shake");
+      input.focus();
+      return;
+    }
+    const msg = "Hola, vengo de vuestra web 🐧\n\n" + text;
+    window.open("https://wa.me/34624403792?text=" + encodeURIComponent(msg), "_blank", "noopener");
+  });
+}());

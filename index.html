@@ -23,7 +23,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Serif:ital,wght@1,400;1,600&display=swap" />
-<link rel="stylesheet" href="styles.css?v=18" />
+<link rel="stylesheet" href="styles.css?v=20" />
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -105,7 +105,7 @@
       <a href="#contacto">Contacto</a>
     </nav>
 
-    <a class="btn-pill header-cta" href="https://wa.me/34624403792" target="_blank" rel="noopener">→ Pedir presupuesto</a>
+    <a class="btn-pill header-cta" href="https://wa.me/34624403792" target="_blank" rel="noopener">Pedir presupuesto</a>
 
     <button class="nav-toggle" id="navToggle" aria-label="Abrir menú" aria-expanded="false">
       <span></span><span></span><span></span>
@@ -116,17 +116,39 @@
 <main>
 
 <!-- ===== HERO ===== -->
-<section class="hero-x" id="inicio">
-  <div class="container hero-x-inner">
-    <p class="hero-x-tag">Tu negocio merece una web que <em class="mark">enamore</em><br>y una tecnología que <strong>no dé guerra</strong></p>
-    <h1 class="hero-x-word" aria-label="el pingüino — webs y tecnología sencilla para empresas">pingüino</h1>
-    <img src="images/why-penguin-transparent.webp" class="hero-x-penguin" id="heroPenguin" alt="Pingüino, la mascota de el pingüino, saludando con los brazos abiertos" width="840" height="560" fetchpriority="high">
-    <div class="hero-bubble" id="heroBubble" aria-live="polite">Hola 👋<br><strong>Yo me encargo.</strong></div>
+<section class="hero-p" id="inicio">
+  <div class="container hero-p-inner">
+    <div class="hero-p-copy">
+      <span class="hero-p-kicker"><span class="dot"></span> Webs · Tiendas online · Informática · Soporte IT</span>
+      <h1>Tu tecnología,<br>en buenas <em class="serif">aletas.</em></h1>
+      <p class="hero-p-sub">Webs que atraen clientes, ordenadores que no dan guerra y alguien de confianza al otro lado del WhatsApp. Tú céntrate en tu negocio; lo técnico, déjanoslo a nosotros.</p>
+      <form class="idea-box" id="ideaBox" autocomplete="off">
+        <label for="ideaInput" class="sr-only">Cuéntanos qué necesitas</label>
+        <textarea id="ideaInput" rows="2" placeholder="Quiero una web para mi restaurante con reservas…"></textarea>
+        <div class="idea-box-bar">
+          <div class="idea-chips">
+            <button type="button" data-idea="Quiero una web para mi negocio">🌐 Web</button>
+            <button type="button" data-idea="Quiero montar una tienda online">🛒 Tienda</button>
+            <button type="button" data-idea="Tengo un ordenador que va fatal">💻 Ordenador</button>
+            <button type="button" data-idea="Quiero que me llevéis las redes sociales">📱 Redes</button>
+          </div>
+          <button type="submit" class="idea-send" aria-label="Enviar por WhatsApp"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        </div>
+      </form>
+      <p class="idea-hint">Escríbelo como te salga: te respondemos por WhatsApp con un presupuesto sin compromiso. · <a href="#proyectos">Ver trabajos</a></p>
+    </div>
+    <div class="hero-p-art">
+      <div class="ice-blob" aria-hidden="true"></div>
+      <img src="images/why-penguin-transparent.webp" class="hero-p-penguin" id="heroPenguin" alt="Pingüino, la mascota de el pingüino, con los brazos abiertos" width="840" height="560" fetchpriority="high">
+      <div class="hero-bubble" id="heroBubble" aria-live="polite">Hola 👋<br><strong>Yo me encargo.</strong></div>
+      <div class="float-chip chip-1">⚡ Respuesta en 24h</div>
+      <div class="float-chip chip-2">🛠️ Remoto y presencial</div>
+    </div>
   </div>
   <div class="marquee" aria-hidden="true">
     <div class="marquee-track">
-      <span>Webs que <b>venden</b> 🐧</span><span>Tiendas online <b>24/7</b> 🐧</span><span>Ordenadores que <b>vuelan</b> 🐧</span><span>WiFi que <b>llega</b> 🐧</span><span>Redes sociales que <b>enganchan</b> 🐧</span><span>Soporte <b>de verdad</b> 🐧</span>
-      <span>Webs que <b>venden</b> 🐧</span><span>Tiendas online <b>24/7</b> 🐧</span><span>Ordenadores que <b>vuelan</b> 🐧</span><span>WiFi que <b>llega</b> 🐧</span><span>Redes sociales que <b>enganchan</b> 🐧</span><span>Soporte <b>de verdad</b> 🐧</span>
+      <span>Webs que <b>venden</b> ❄</span><span>Tiendas online <b>24/7</b> ❄</span><span>Ordenadores que <b>vuelan</b> ❄</span><span>WiFi que <b>llega</b> ❄</span><span>Redes sociales que <b>enganchan</b> ❄</span><span>Soporte <b>de verdad</b> ❄</span>
+      <span>Webs que <b>venden</b> ❄</span><span>Tiendas online <b>24/7</b> ❄</span><span>Ordenadores que <b>vuelan</b> ❄</span><span>WiFi que <b>llega</b> ❄</span><span>Redes sociales que <b>enganchan</b> ❄</span><span>Soporte <b>de verdad</b> ❄</span>
     </div>
   </div>
 </section>
@@ -154,12 +176,9 @@
   <div class="container why-x-inner">
     <div class="why-x-left">
       <div class="why-x-sticky">
-        <div class="spin-badge" aria-hidden="true">
-          <svg viewBox="0 0 120 120"><defs><path id="circ" d="M60,60 m-46,0 a46,46 0 1,1 92,0 a46,46 0 1,1 -92,0"/></defs><text textLength="288" lengthAdjust="spacing"><textPath href="#circ" textLength="288" lengthAdjust="spacing">POR QUÉ EL PINGÜINO · POR QUÉ EL PINGÜINO · </textPath></text></svg>
-          <span>?</span>
-        </div>
-        <h2>Enamora a tus <em class="serif accent-lav">clientes</em> desde el primer clic</h2>
-        <p class="why-x-sub">Los pingüinos no dejan a nadie atrás. Nosotros, igual: sin tecnicismos, sin letra pequeña y sin desaparecer después de cobrar.</p>
+        <span class="why-x-tag"><img src="images/logo-head.webp" alt="" width="28" height="28"> ¿Por qué el pingüino?</span>
+        <h2>Porque no dejamos a <em class="serif accent-lav">nadie</em> atrás</h2>
+        <p class="why-x-sub">Los pingüinos trabajan en equipo y aguantan cualquier temporal. Nosotros, igual: sin tecnicismos, sin letra pequeña y sin desaparecer después de cobrar.</p>
         <a href="#contacto" class="why-x-link"><svg width="54" height="20" viewBox="0 0 54 20" fill="none"><path d="M0 10h50M42 2l9 8-9 8" stroke="currentColor" stroke-width="1.5"/></svg> Hablemos de tu proyecto</a>
       </div>
     </div>
@@ -180,6 +199,27 @@
         <div><h3>Siempre a tu lado</h3><p>Después de publicar seguimos contigo: cambios, dudas, mantenimiento y soporte técnico cuando lo necesites.</p></div>
         <img src="images/pg-12-pensando.webp" alt="" loading="lazy" width="400" height="338">
       </article>
+    </div>
+  </div>
+</section>
+
+
+<!-- ===== ASESOR ===== -->
+<section class="asesor">
+  <div class="container asesor-inner">
+    <div class="asesor-art">
+      <img src="images/logo-head.webp" alt="" class="asesor-face" width="96" height="96">
+      <div class="asesor-bubble">¡Hola! Soy tu contacto en el pingüino. Te respondo yo, siempre la misma persona. 🐧</div>
+      <div class="asesor-channels">
+        <a href="https://wa.me/34624403792" target="_blank" rel="noopener">💬 WhatsApp</a>
+        <a href="tel:+34624403792">📞 Teléfono</a>
+        <a href="mailto:hola@elpinguino.pro">✉️ Email</a>
+      </div>
+    </div>
+    <div class="asesor-copy">
+      <span class="eyebrow">TU ASESOR PERSONAL</span>
+      <h2>Nada de centralitas ni tickets. <em class="serif accent-lav">Una persona.</em></h2>
+      <p>Desde el primer mensaje hasta años después de publicar tu web, hablas siempre con alguien que conoce tu negocio. Te explicamos las cosas claras y te respondemos rápido.</p>
     </div>
   </div>
 </section>
@@ -423,7 +463,7 @@
       <img src="images/pg-cohete.webp" alt="" class="cta-x-penguin" loading="lazy" width="360" height="304">
       <h2>¿Te gusta lo que ves?<br><em class="serif accent-lav">empecemos a trabajar</em></h2>
       <p>Cuéntanos qué necesitas por WhatsApp. Respondemos rápido, sin compromiso y sin tecnicismos.</p>
-      <a class="btn-pill" href="https://wa.me/34624403792?text=Hola%2C%20quiero%20pedir%20presupuesto" target="_blank" rel="noopener">→ Pedir presupuesto</a>
+      <a class="btn-pill" href="https://wa.me/34624403792?text=Hola%2C%20quiero%20pedir%20presupuesto" target="_blank" rel="noopener">Pedir presupuesto →</a>
     </div>
   </div>
 </section>
@@ -477,6 +517,6 @@
   <span class="wa-float-label">¿Hablamos?</span>
 </a>
 
-<script src="script.js?v=10"></script>
+<script src="script.js?v=11"></script>
 </body>
 </html>
