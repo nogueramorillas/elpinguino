@@ -1565,3 +1565,315 @@ h1, h2, h3 { font-family: var(--font-sans); }
 
 .stack-card img.wide-penguin { width: 300px; }
 @media (max-width: 600px) { .stack-card img.wide-penguin { width: 230px; } }
+
+/* =========================================================
+   Pasada de diseño: todos los apartados al nivel del hero
+   ========================================================= */
+
+/* ---------- Home · Servicios ---------- */
+body .services-section {
+  position: relative;
+  background:
+    radial-gradient(ellipse 60% 40% at 50% 0%, #e8f0ff 0%, transparent 70%),
+    #fff;
+}
+body .services-section .section-heading h2 { font-size: clamp(2.2rem, 4.6vw, 3.6rem); }
+body .services-grid { counter-reset: svc; }
+body .service-card {
+  counter-increment: svc;
+  border: 1px solid #e3e9f6;
+  border-radius: 24px;
+  box-shadow: 0 1px 0 rgba(15,31,92,.04), 0 12px 32px -18px rgba(15,31,92,.25);
+}
+body .service-card::before {
+  content: counter(svc, decimal-leading-zero);
+  position: absolute;
+  top: 26px; right: 26px;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.05rem;
+  color: #b6c3e0;
+  z-index: 1;
+}
+body .service-card:hover {
+  border-color: transparent;
+  box-shadow: 0 0 0 2px var(--blue), 0 26px 50px -20px rgba(46,107,242,.45);
+}
+body .service-card:hover .service-icon { background: var(--blue); }
+body .service-card:hover .service-icon svg * { stroke: #fff; }
+body .service-card:hover .service-icon svg circle[fill] { fill: #fff; }
+body .service-icon { transition: background .25s ease; }
+body .service-icon svg * { transition: stroke .25s ease; }
+body .service-card h3 { font-size: 1.3rem; }
+
+/* Perks bar → 4 tiles */
+body .services-perks {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  gap: 14px;
+}
+body .perk {
+  background: #f5f8ff;
+  border: 1px solid #e3e9f6;
+  border-radius: 18px;
+  padding: 20px 20px;
+}
+
+/* ---------- Home · Así trabajamos ---------- */
+body .process-section {
+  background: var(--ink-dark);
+  color: #fff;
+  padding: 100px 0;
+}
+body .process-section .section-heading h2 { color: #fff; font-size: clamp(2.2rem, 4.6vw, 3.4rem); }
+body .process-section .section-heading p { color: rgba(255,255,255,.6); }
+body .process-section .eyebrow { color: #6fb6ff; }
+body .process-section .eyebrow::before,
+body .process-section .eyebrow::after { background: #6fb6ff; }
+body .process-track { gap: 40px; }
+body .process-steps { counter-reset: step; gap: 16px; }
+body .process-steps::before { display: none; }
+body .process-steps li {
+  counter-increment: step;
+  position: relative;
+  background: #16214a;
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 20px;
+  padding: 26px 20px 24px;
+  text-align: left;
+  transition: transform .25s ease, border-color .25s ease, background .25s ease;
+}
+body .process-steps li:hover { transform: translateY(-6px); border-color: #6fb6ff; background: #1b2858; }
+body .process-steps li::after {
+  content: counter(step, decimal-leading-zero);
+  position: absolute;
+  top: 20px; right: 20px;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.6rem;
+  color: rgba(111,182,255,.35);
+}
+body .process-steps strong { color: #fff; font-size: 1.05rem; display: block; margin-top: 16px; }
+body .process-steps small { color: rgba(255,255,255,.6); font-size: .88rem; }
+body .process-dot {
+  margin: 0 !important;
+  background: rgba(111,182,255,.12) !important;
+  border-color: rgba(111,182,255,.35) !important;
+}
+body .process-dot svg path, body .process-dot svg rect { stroke: #6fb6ff; }
+
+/* ---------- Home · Proyectos ---------- */
+body .projects-heading h2 { font-size: clamp(2.2rem, 4.6vw, 3.4rem); }
+body .project-card { border-radius: 22px; }
+body .project-info strong { font-size: 1.05rem; }
+
+/* ---------- Home · FAQ ---------- */
+body .faq-section { background: linear-gradient(180deg, #f5f8ff, #fff); }
+body .faq-right h2 { font-size: clamp(2.2rem, 4.6vw, 3.4rem); }
+body .faq-list { counter-reset: faq; }
+body .faq-list details { counter-increment: faq; border-radius: 18px; padding: 4px 24px; }
+body .faq-list summary { font-size: 1.04rem; gap: 16px; justify-content: flex-start; }
+body .faq-list summary::before {
+  content: counter(faq, decimal-leading-zero);
+  font-family: var(--font-serif);
+  font-style: italic;
+  color: var(--blue);
+  min-width: 26px;
+}
+body .faq-list summary svg {
+  margin-left: auto;
+  width: 30px; height: 30px;
+  padding: 8px;
+  border-radius: 50%;
+  background: #eef3ff;
+  color: var(--blue);
+}
+body .faq-list details[open] summary svg { background: var(--blue); color: #fff; }
+body .faq-list p { padding-left: 42px; }
+
+/* ---------- Footer (todas las páginas) ---------- */
+body .site-footer {
+  position: relative;
+  background: var(--ink-dark);
+  overflow: hidden;
+  padding-bottom: 0;
+}
+body .site-footer::after {
+  content: "pingüino";
+  display: block;
+  font-family: var(--font-sans);
+  font-weight: 800;
+  font-size: clamp(5rem, 19vw, 18rem);
+  line-height: .78;
+  letter-spacing: -0.06em;
+  text-align: center;
+  color: transparent;
+  background: linear-gradient(180deg, rgba(111,182,255,.22), rgba(111,182,255,0) 85%);
+  -webkit-background-clip: text;
+          background-clip: text;
+  margin-top: 40px;
+  user-select: none;
+  pointer-events: none;
+}
+body .footer-col a { transition: color .2s ease, padding-left .2s ease; }
+body .footer-col a:hover { color: #fff; padding-left: 4px; }
+body .footer-col h4 { color: #6fb6ff; font-size: .78rem; letter-spacing: .14em; text-transform: uppercase; }
+
+/* =========================================================
+   Páginas de servicio
+   ========================================================= */
+body .page-hero {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--ink-dark);
+  padding: 110px 0 100px;
+  color: #fff;
+}
+body .page-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(ellipse 50% 70% at 15% 0%, rgba(46,107,242,.5), transparent 70%),
+    radial-gradient(ellipse 40% 60% at 95% 100%, rgba(111,182,255,.28), transparent 70%);
+}
+body .page-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image: radial-gradient(rgba(255,255,255,.08) 1px, transparent 1px);
+  background-size: 24px 24px;
+  -webkit-mask-image: radial-gradient(ellipse 60% 80% at 50% 40%, #000, transparent 75%);
+          mask-image: radial-gradient(ellipse 60% 80% at 50% 40%, #000, transparent 75%);
+}
+body .page-hero-inner { max-width: 860px; }
+body .page-hero h1 {
+  color: #fff;
+  font-size: clamp(2.6rem, 6vw, 4.6rem);
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 1.02;
+}
+body .page-hero h1 .accent {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  color: transparent;
+  background: linear-gradient(90deg, #6fb6ff, #a5c8ff);
+  -webkit-background-clip: text;
+          background-clip: text;
+}
+body .page-hero p { color: rgba(255,255,255,.72); font-size: 1.12rem; }
+body .page-hero p:first-child {
+  display: inline-block;
+  color: #cfe0ff !important;
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.16);
+  border-radius: 999px;
+  padding: 6px 16px;
+  font-size: .8rem !important;
+  letter-spacing: .14em;
+}
+body .page-hero .btn-secondary { background: transparent; color: #fff; border-color: rgba(255,255,255,.3); }
+body .page-hero .btn-secondary:hover { border-color: #fff; color: #fff; }
+
+body .features-section .section-heading h2,
+body .steps-section .section-heading h2,
+body .process-section-inner .section-heading h2,
+body .pricing-section .section-heading h2,
+body .platforms-section .section-heading h2,
+body .autonomy-section .section-heading h2,
+body .services-detail .section-heading h2 { font-size: clamp(2rem, 4vw, 3rem); }
+
+body .feature-card,
+body .autonomy-card {
+  background: #fff;
+  border: 1px solid #e3e9f6;
+  border-radius: 22px;
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+body .feature-card:hover,
+body .autonomy-card:hover {
+  transform: translateY(-6px);
+  border-color: transparent;
+  box-shadow: 0 0 0 2px var(--blue), 0 24px 44px -20px rgba(46,107,242,.45);
+}
+body .feature-icon {
+  border-radius: 14px;
+  background: linear-gradient(135deg, #3b7bff, #1d4fc4);
+  box-shadow: 0 10px 22px -8px rgba(46,107,242,.6);
+}
+
+body .steps-list { counter-reset: st; position: relative; }
+body .step-item {
+  background: #fff;
+  border: 1px solid #e3e9f6;
+  border-radius: 18px;
+  transition: transform .2s ease, border-color .2s ease;
+}
+body .step-item:hover { transform: translateX(6px); border-color: var(--blue); }
+body .step-num { background: linear-gradient(135deg, #3b7bff, #1d4fc4); box-shadow: 0 6px 16px -6px rgba(46,107,242,.7); }
+
+body .pricing-card { border-radius: 24px; background: #fff; transition: transform .25s ease, box-shadow .25s ease; }
+body .pricing-card:hover { transform: translateY(-6px); box-shadow: 0 24px 44px -20px rgba(15,31,92,.3); }
+body .pricing-card.popular {
+  background: var(--ink-dark);
+  border-color: var(--ink-dark);
+  box-shadow: 0 30px 60px -24px rgba(15,31,92,.6);
+}
+body .pricing-card.popular h3,
+body .pricing-card.popular .pricing-price { color: #fff; }
+body .pricing-card.popular p,
+body .pricing-card.popular .pricing-price span,
+body .pricing-card.popular .pricing-features li { color: rgba(255,255,255,.7); }
+body .pricing-card.popular .pricing-features li::before { color: #6fb6ff; }
+body .popular-badge { background: linear-gradient(90deg, #3b7bff, #6fb6ff); }
+
+body .cta-banner {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  margin: 0 24px 80px;
+  border-radius: 32px;
+  padding: 90px 24px;
+}
+body .cta-banner::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(ellipse 50% 70% at 50% 0%, rgba(46,107,242,.45), transparent 70%),
+    radial-gradient(ellipse 35% 60% at 90% 100%, rgba(111,182,255,.25), transparent 70%);
+}
+body .cta-banner h2 { font-size: clamp(2rem, 4.4vw, 3.2rem); letter-spacing: -0.035em; }
+@media (min-width: 1240px) { body .cta-banner { max-width: 1180px; margin-left: auto; margin-right: auto; } }
+
+@media (max-width: 980px) {
+  body .process-steps li { text-align: left; }
+}
+@media (max-width: 600px) {
+  body .process-section { display: block; padding: 70px 0; }
+  body .page-hero { padding: 80px 0 70px; }
+  body .cta-banner { margin: 0 12px 50px; padding: 60px 20px; border-radius: 24px; }
+  body .faq-list p { padding-left: 0; }
+}
+
+/* pg-09 has a face hole that shows on dark backgrounds */
+body .process-section .process-penguin-img { display: none; }
+
+/* Hero penguin is cropped flat at the belly: sit it (and the blob) on the
+   marquee band so the cut reads as "peeking up from behind the band". */
+.hero-p-inner { padding-bottom: 0; align-items: end; }
+.hero-p-copy { padding-bottom: 56px; }
+.hero-p-art { overflow: hidden; align-self: end; padding-top: 40px; }
+.hero-p-penguin { display: block; margin-bottom: -2px; }
+.ice-blob { bottom: -38%; }
+@media (max-width: 980px) {
+  .hero-p-copy { padding-bottom: 10px; }
+  .hero-p-art { padding-top: 70px; }
+}
