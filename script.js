@@ -259,3 +259,102 @@ document.querySelectorAll(".service-card").forEach((card) => {
     window.open("https://wa.me/34624403792?text=" + encodeURIComponent(msg), "_blank", "noopener");
   });
 }());
+
+// ===== Professional micro-interactions =====
+(function () {
+  const reduce = prefersReducedMotion;
+  const fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
+  // 1) Scroll progress bar
+  const bar = document.createElement("div");
+  bar.className = "scroll-progress";
+  document.body.appendChild(bar);
+  const setBar = () => {
+    const max = document.documentElement.scrollHeight - innerHeight;
+    bar.style.transform = `scaleX(${max > 0 ? Math.min(1, scrollY / max) : 0})`;
+  };
+  setBar();
+  addEventListener("scroll", setBar, { passive: true });
+  addEventListener("resize", setBar);
+
+  // Split an element's text nodes into word spans (keeps inner tags like <em>)
+  const splitWords = (root) => {
+    const words = [];
+    const walk = (node) => {
+      [...node.childNodes].forEach((child) => {
+        if (child.nodeType === 3) {
+          const frag = document.createDocumentFragment();
+          child.textContent.split(/(\s+)/).forEach((part) => {
+            if (!part) return;
+            if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(part)); return; }
+            const s = document.createElement("span");
+            s.className = "w";
+            s.textContent = part;
+            frag.appendChild(s);
+            words.push(s);
+          });
+          child.replaceWith(frag);
+        } else if (child.nodeType === 1 && !child.matches("img, svg, .pill-img")) {
+          walk(child);
+        }
+      });
+    };
+    walk(root);
+    return words;
+  };
+
+  // 2) Statement lights up word by word while scrolling through it
+  const statement = document.querySelector(".statement-text");
+  if (statement) {
+    statement.classList.remove("reveal");
+    const words = splitWords(statement);
+    statement.classList.add("scrub");
+    const update = () => {
+      const r = statement.getBoundingClientRect();
+      const start = innerHeight * 0.85, end = innerHeight * 0.35;
+      const p = Math.min(1, Math.max(0, (start - r.top) / (start - end + r.height * 0.6)));
+      const lit = Math.round(p * words.length);
+      words.forEach((w, i) => w.classList.toggle("on", i < lit));
+    };
+    update();
+    addEventListener("scroll", update, { passive: true });
+  }
+
+  // 3) Section titles rise in word by word. Checked on scroll/load (not only
+  // IntersectionObserver) so a title can never stay hidden.
+  {
+    const titles = [...document.querySelectorAll(".section-heading h2, .projects-heading h2, .faq-right h2, .why-x h2, .asesor-copy h2, .cta-x h2, .page-hero h1")];
+    titles.forEach((t) => {
+      splitWords(t).forEach((w, i) => w.style.setProperty("--d", `${i * 55}ms`));
+      t.classList.add("words");
+    });
+    const check = () => {
+      titles.forEach((t) => {
+        if (t.classList.contains("words-in")) return;
+        if (t.getBoundingClientRect().top < innerHeight * 0.9) t.classList.add("words-in");
+      });
+    };
+    check();
+    addEventListener("scroll", check, { passive: true });
+    addEventListener("load", check);
+    setTimeout(() => titles.forEach((t) => { if (t.getBoundingClientRect().top < innerHeight) t.classList.add("words-in"); }), 1500);
+  }
+
+  // 4) Subtle 3D tilt on cards (desktop only)
+  if (fine) {
+    document.querySelectorAll(".project-card, .service-card, .stack-card").forEach((card) => {
+      card.classList.add("tilt");
+      card.addEventListener("pointermove", (e) => {
+        const r = card.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width - 0.5;
+        const y = (e.clientY - r.top) / r.height - 0.5;
+        card.style.setProperty("--rx", `${(-y * 5).toFixed(2)}deg`);
+        card.style.setProperty("--ry", `${(x * 6).toFixed(2)}deg`);
+      });
+      card.addEventListener("pointerleave", () => {
+        card.style.setProperty("--rx", "0deg");
+        card.style.setProperty("--ry", "0deg");
+      });
+    });
+  }
+}());

@@ -1877,3 +1877,49 @@ body .process-section .process-penguin-img { display: none; }
   .hero-p-copy { padding-bottom: 10px; }
   .hero-p-art { padding-top: 70px; }
 }
+
+/* ===== Professional micro-interactions ===== */
+.scroll-progress {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  z-index: 200;
+  transform-origin: 0 50%;
+  transform: scaleX(0);
+  background: linear-gradient(90deg, #2e6bf2, #6fb6ff);
+  pointer-events: none;
+}
+
+/* Statement scrub: words start faint and light up */
+.statement-text.scrub .w { color: #c9d2e6; transition: color .35s ease; }
+.statement-text.scrub .w.on { color: inherit; }
+.statement-text.scrub em .w.on, .statement-text.scrub .accent-lav .w.on { color: inherit; }
+.statement-text.scrub .accent-lav .w { -webkit-text-fill-color: #c9d2e6; }
+.statement-text.scrub .accent-lav .w.on { -webkit-text-fill-color: transparent; }
+
+/* Titles: words rise in */
+.words .w {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(0.45em);
+  transition: opacity .6s ease, transform .6s cubic-bezier(.2,.7,.2,1);
+  transition-delay: var(--d, 0ms);
+}
+.words.words-in .w { opacity: 1; transform: none; }
+/* gradient-text words need their own clip */
+.accent-lav .w, .page-hero h1 .accent .w, .hero-p h1 .serif .w {
+  background: inherit;
+  -webkit-background-clip: text;
+          background-clip: text;
+}
+
+/* Tilt */
+.tilt {
+  transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(var(--ty, 0));
+  transition: transform .25s ease, box-shadow .3s ease, border-color .3s ease;
+}
+.tilt:hover { --ty: -6px; }
+.stack-card.tilt:hover { --ty: 0px; }
+@media (prefers-reduced-motion: reduce) {
+  .words .w { transform: none; }
+}
