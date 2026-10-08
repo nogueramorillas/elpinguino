@@ -1,25 +1,110 @@
 [
-  { "slug": "tapas-kebab", "name": "Tapas Kebab", "tag": "Restauración", "url": "https://tapaskebab.com/" },
-  { "slug": "santa-snack", "name": "La Santa Snack", "tag": "Restauración", "url": "https://santasnack.com/" },
-  { "slug": "lluna-de-nit", "name": "Lluna de Nit", "tag": "Restauración", "url": "https://llunadenit.com/" },
-  { "slug": "vive-la-ola", "name": "Vive la Ola", "tag": "Surf · Viajes", "url": "https://vivelaola.com/" },
-  { "slug": "su-sofa", "name": "Su Sofá Badalona", "tag": "Mobiliario", "url": "https://su-sofa-production.up.railway.app/" },
-  { "slug": "biervall", "name": "Biervall Express", "tag": "Transporte", "url": "https://biervallexpress-production.up.railway.app/" },
-  { "slug": "dma", "name": "DMA Automoción", "tag": "Motor", "url": "https://dma-web-production.up.railway.app/" },
-  { "slug": "carshooting", "name": "Car Shooting111", "tag": "Audiovisual", "url": "https://carshooting111-production.up.railway.app/" },
-  { "slug": "alciras", "name": "Alcira's Beauty", "tag": "Estética", "url": "https://alciras-beauty-production.up.railway.app/" },
-  { "slug": "showroom-vr", "name": "Showroom VR", "tag": "Realidad virtual", "url": "https://showroom-vr-demo-production.up.railway.app/" },
-  { "slug": "padel", "name": "Catalunya Pàdel Club", "tag": "Deporte", "url": "https://web-production-71eb9.up.railway.app/" },
-  { "slug": "maresme-waves", "name": "Maresme Waves", "tag": "Surf", "url": "https://maresme-waves-production.up.railway.app/" },
-  { "slug": "central-bebidas", "name": "Central de Bebidas 98", "tag": "Distribución", "url": "https://web-production-3382f.up.railway.app/" },
-  { "slug": "maria-nails", "name": "María Nail Studio", "tag": "Estética", "url": "https://marianails.up.railway.app/" },
-  { "slug": "duetto", "name": "Duetto Perruquers", "tag": "Peluquería", "url": "https://duetto-perruquers-production.up.railway.app/" },
-  { "slug": "noctix", "name": "Noctix", "tag": "Ocio nocturno", "url": "https://noctix-production-458a.up.railway.app/" },
-  { "slug": "stk", "name": "STK Shot To Kill", "tag": "Moda · Pádel", "url": "https://stk-production-aeb3.up.railway.app/" },
-  { "slug": "carniceria", "name": "Carnicería Halal", "tag": "Alimentación", "url": "https://carniceriasta-production.up.railway.app/" },
-  { "slug": "lago-park", "name": "Lago Park", "tag": "Restauración", "url": "https://web-production-540ac.up.railway.app/" },
-  { "slug": "mc-performance", "name": "MC Performance", "tag": "Taller", "url": "https://mcperformance-production.up.railway.app/" },
-  { "slug": "4puntos", "name": "Los 4 Puntos Studio", "tag": "Barbería", "url": "https://4puntos-production.up.railway.app/" },
-  { "slug": "mae-west", "name": "Mae West Club", "tag": "Ocio", "url": "https://maewest-production.up.railway.app/" },
-  { "slug": "tattoo", "name": "Tattoo Style Mollet", "tag": "Estudio creativo", "url": "https://www.tattoostylemollet.com/" }
+  {
+    "slug": "tapas-kebab",
+    "name": "Tapas Kebab",
+    "tag": "Restauración",
+    "url": "https://tapaskebab.com/"
+  },
+  {
+    "slug": "santa-snack",
+    "name": "La Santa Snack",
+    "tag": "Restauración",
+    "url": "https://santasnack.com/"
+  },
+  {
+    "slug": "lluna-de-nit",
+    "name": "Lluna de Nit",
+    "tag": "Restauración",
+    "url": "https://llunadenit.com/"
+  },
+  {
+    "slug": "vive-la-ola",
+    "name": "Vive la Ola",
+    "tag": "Surf · Viajes",
+    "url": "https://vivelaola.com/"
+  },
+  {
+    "slug": "su-sofa",
+    "name": "Su Sofá Badalona",
+    "tag": "Mobiliario",
+    "url": "https://su-sofa-production.up.railway.app/"
+  },
+  {
+    "slug": "biervall",
+    "name": "Biervall Express",
+    "tag": "Transporte",
+    "url": "https://biervallexpress-production.up.railway.app/"
+  },
+  {
+    "slug": "dma",
+    "name": "DMA Automoción",
+    "tag": "Motor",
+    "url": "https://dma-web-production.up.railway.app/"
+  },
+  {
+    "slug": "carshooting",
+    "name": "Car Shooting111",
+    "tag": "Audiovisual",
+    "url": "https://carshooting111-production.up.railway.app/"
+  },
+  {
+    "slug": "alciras",
+    "name": "Alcira's Beauty",
+    "tag": "Estética",
+    "url": "https://alciras-beauty-production.up.railway.app/"
+  },
+  {
+    "slug": "padel",
+    "name": "Catalunya Pàdel Club",
+    "tag": "Deporte",
+    "url": "https://web-production-71eb9.up.railway.app/"
+  },
+  {
+    "slug": "maresme-waves",
+    "name": "Maresme Waves",
+    "tag": "Surf",
+    "url": "https://maresme-waves-production.up.railway.app/"
+  },
+  {
+    "slug": "central-bebidas",
+    "name": "Central de Bebidas 98",
+    "tag": "Distribución",
+    "url": "https://web-production-3382f.up.railway.app/"
+  },
+  {
+    "slug": "maria-nails",
+    "name": "María Nail Studio",
+    "tag": "Estética",
+    "url": "https://marianails.up.railway.app/"
+  },
+  {
+    "slug": "stk",
+    "name": "STK Shot To Kill",
+    "tag": "Moda · Pádel",
+    "url": "https://stk-production-aeb3.up.railway.app/"
+  },
+  {
+    "slug": "lago-park",
+    "name": "Lago Park",
+    "tag": "Restauración",
+    "url": "https://web-production-540ac.up.railway.app/"
+  },
+  {
+    "slug": "4puntos",
+    "name": "Los 4 Puntos Studio",
+    "tag": "Barbería",
+    "url": "https://4puntos-production.up.railway.app/"
+  },
+  {
+    "slug": "mae-west",
+    "name": "Mae West Club",
+    "tag": "Ocio",
+    "url": "https://maewest-production.up.railway.app/"
+  },
+  {
+    "slug": "tattoo",
+    "name": "Tattoo Style Mollet",
+    "tag": "Estudio creativo",
+    "url": "https://www.tattoostylemollet.com/"
+  }
 ]
