@@ -30,7 +30,7 @@ if (mobile) await send("Emulation.setTouchEmulationEnabled", { enabled: true });
 await send("Page.navigate", { url });
 await sleep(4000);
 const total = await evalJs("document.documentElement.scrollHeight");
-let y = 0, n = 0;
+let y = Number(process.env.START || 0), n = 0;
 while (n < +max) {
   await evalJs(`window.scrollTo(0, ${y})`);
   await sleep(1200);

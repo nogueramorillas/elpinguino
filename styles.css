@@ -1923,3 +1923,82 @@ body .process-section .process-penguin-img { display: none; }
 @media (prefers-reduced-motion: reduce) {
   .words .w { transform: none; }
 }
+
+/* ===== Reel de proyectos (3 rodillos en bucle) ===== */
+.reel { padding: 100px 0 90px; background: var(--ink-dark); color: #fff; overflow: hidden; }
+.reel-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 40px; margin-bottom: 44px; flex-wrap: wrap; }
+.reel-head .eyebrow { color: #6fb6ff; }
+.reel-head .eyebrow::before, .reel-head .eyebrow::after { background: #6fb6ff; }
+.reel-head .eyebrow::after { display: none; }
+.reel-head h2 { color: #fff; font-size: clamp(2.2rem, 4.6vw, 3.6rem); font-weight: 700; letter-spacing: -0.035em; line-height: 1.05; margin-top: 8px; }
+.reel-head h2 .serif { font-weight: 400; }
+.reel-head p { color: rgba(255,255,255,.62); max-width: 40ch; font-size: 1rem; }
+
+.reel-window {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+  height: 720px;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 12%, #000 88%, transparent 100%);
+          mask-image: linear-gradient(180deg, transparent 0, #000 12%, #000 88%, transparent 100%);
+}
+.reel-col { overflow: hidden; }
+.reel-track {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  animation: reelUp 60s linear infinite;
+  will-change: transform;
+}
+/* Track holds the list twice, so moving by exactly half (+ half a gap) loops seamlessly */
+.reel-col-2 .reel-track { animation-name: reelDown; animation-duration: 70s; }
+.reel-col-3 .reel-track { animation-duration: 54s; }
+@keyframes reelUp   { from { transform: translateY(0); } to { transform: translateY(calc(-50% - 11px)); } }
+@keyframes reelDown { from { transform: translateY(calc(-50% - 11px)); } to { transform: translateY(0); } }
+.reel-window:hover .reel-track { animation-play-state: paused; }
+
+.reel-card {
+  position: relative;
+  display: block;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #16214a;
+  border: 1px solid rgba(255,255,255,.08);
+  box-shadow: 0 20px 40px -20px rgba(0,0,0,.6);
+  aspect-ratio: 560 / 376;
+  transition: transform .35s ease, border-color .35s ease;
+}
+.reel-card img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; transition: transform .6s ease; }
+.reel-label {
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: 40px 16px 14px;
+  background: linear-gradient(180deg, transparent, rgba(8,12,30,.92));
+  display: flex; flex-direction: column;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity .3s ease, transform .3s ease;
+}
+.reel-label strong { color: #fff; font-size: 1rem; }
+.reel-label small { color: #9fc4ff; font-size: .8rem; }
+.reel-card:hover { border-color: #6fb6ff; transform: scale(1.02); }
+.reel-card:hover img { transform: scale(1.05); }
+.reel-card:hover .reel-label,
+.reel-card:focus-visible .reel-label { opacity: 1; transform: none; }
+@media (hover: none) { .reel-label { opacity: 1; transform: none; } }
+
+@media (max-width: 980px) {
+  .reel-window { height: 620px; }
+}
+@media (max-width: 600px) {
+  .reel { padding: 70px 0 60px; }
+  .reel-window { grid-template-columns: repeat(2, 1fr); gap: 12px; height: 520px; }
+  .reel-col-3 { display: none; }
+  .reel-track { gap: 12px; }
+  @keyframes reelUp   { from { transform: translateY(0); } to { transform: translateY(calc(-50% - 6px)); } }
+  @keyframes reelDown { from { transform: translateY(calc(-50% - 6px)); } to { transform: translateY(0); } }
+  .reel-label { padding: 24px 10px 8px; }
+  .reel-label strong { font-size: .82rem; }
+  .reel-label small { font-size: .7rem; }
+}
