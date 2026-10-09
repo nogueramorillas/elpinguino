@@ -12,6 +12,12 @@
     "url": "https://santasnack.com/"
   },
   {
+    "slug": "eds-vinyls",
+    "name": "Ed's Vinyls",
+    "tag": "Rotulación · Wrapping",
+    "url": "https://eds-web-production.up.railway.app/"
+  },
+  {
     "slug": "lluna-de-nit",
     "name": "Lluna de Nit",
     "tag": "Restauración",
@@ -94,6 +100,12 @@
     "name": "Los 4 Puntos Studio",
     "tag": "Barbería",
     "url": "https://4puntos-production.up.railway.app/"
+  },
+  {
+    "slug": "dma-servicios",
+    "name": "DMA Automoción · Servicios",
+    "tag": "Motor",
+    "url": "https://dma-web-production.up.railway.app/servicios"
   },
   {
     "slug": "mae-west",
