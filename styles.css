@@ -2002,3 +2002,7 @@ body .process-section .process-penguin-img { display: none; }
   .reel-label strong { font-size: .82rem; }
   .reel-label small { font-size: .7rem; }
 }
+
+/* Proyectos recientes: 6 cards -> 3 columns */
+body .projects-grid { grid-template-columns: repeat(3, 1fr); }
+@media (max-width: 980px) { body .projects-grid { grid-template-columns: repeat(2, 1fr); } }
