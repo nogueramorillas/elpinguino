@@ -370,7 +370,7 @@ document.querySelectorAll(".service-card").forEach((card) => {
   if (!section || !sea || !dive || typeof dive.showModal !== "function") return;
 
   const reduce = prefersReducedMotion;
-  const DATA_URL = "data/proyectos.json?v=17p";
+  const DATA_URL = "data/proyectos.json?v=18";
   const root = document.documentElement;
   const $ = (id) => document.getElementById(id);
   const track = $("diveTrack");
@@ -447,7 +447,7 @@ document.querySelectorAll(".service-card").forEach((card) => {
     queue();
   }
 
-  // ---- 3. Gallery of a sector ----
+  // ---- 3. Gallery of a sector: a museum hall, one room per sector ----
   let current = null; // { slug, shots: [] }
   let opener = null;
   let pushed = false;   // history entry of the open gallery
@@ -457,11 +457,23 @@ document.querySelectorAll(".service-card").forEach((card) => {
   let shotEls = [];
   const blurb = $("diveBlurb");
   const infoBtn = $("diveInfo");
+  const edgeHint = $("diveEdge");
+  const live = $("diveLive");
 
+  // Picks the real width of the capture on screen, so the browser takes the
+  // full image whenever the thumbnail would look soft (big frames, retina).
+  const sizeImg = (img) => {
+    const screen = img.parentElement;
+    if (!screen || !screen.clientWidth) return false;
+    const ar = (+img.getAttribute("width") || 16) / (+img.getAttribute("height") || 10);
+    const w = Math.max(screen.clientWidth, screen.clientHeight * ar);
+    img.sizes = `${Math.ceil(w)}px`;
+    return true;
+  };
   const loadImg = (img) => {
     if (!img.dataset.src) return;
     if (img.dataset.srcset) {
-      img.sizes = img.dataset.sizes || "";
+      if (!sizeImg(img)) img.sizes = img.dataset.sizes || "";
       img.srcset = img.dataset.srcset;
       img.removeAttribute("data-srcset");
       img.removeAttribute("data-sizes");
@@ -472,25 +484,31 @@ document.querySelectorAll(".service-card").forEach((card) => {
   const lazy = "IntersectionObserver" in window
     ? new IntersectionObserver((entries) => {
         entries.forEach((e) => { if (e.isIntersecting) { loadImg(e.target); lazy.unobserve(e.target); } });
-      }, { root: track, rootMargin: "0px 1200px" })
+      }, { root: track, rootMargin: "0px 1400px" })
     : null;
   const markLoaded = (e) => { if (e.target.tagName === "IMG") e.target.classList.add("is-loaded"); };
   track.addEventListener("load", markLoaded, true);
   track.addEventListener("error", markLoaded, true);
 
   const sectorOf = (slug) => data.sectors.find((s) => s.slug === slug);
+  const neighbour = (slug, dir) => {
+    const list = data.sectors;
+    const i = list.findIndex((s) => s.slug === slug);
+    return list[(i + dir + list.length) % list.length];
+  };
   const altFor = (type, sector) => `Captura de ${(data.types[type] || "pantalla").toLowerCase()} de ${sector.noun}`;
   const splitBuilt = (built) => built.split(/\s\+\s/).map((t) => t.trim()).filter(Boolean)
     .map((t) => t.charAt(0).toUpperCase() + t.slice(1));
   const shorten = (t, max) => (t.length <= max ? t : `${t.slice(0, t.lastIndexOf(" ", max)).replace(/[,;:]$/, "")}…`);
-  // Thumbnails first; on retina screens (or the taller phone frame) the browser picks the full capture.
-  const SIZES_DESKTOP = "(max-width: 600px) 172vw, 560px";
-  const SIZES_MOBILE = "(max-width: 600px) 60vw, 240px";
+  // fallback only: script.js sets the exact width once the hall is laid out
+  const SIZES_DESKTOP = "(max-width: 600px) 190vw, 70vw";
+  const SIZES_MOBILE = "(max-width: 600px) 60vw, 300px";
   const ICON_LOCK = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10" rx="2.5" stroke="currentColor" stroke-width="2"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="15.5" r="1.4" fill="currentColor"/></svg>';
+  const ICON_NEXT = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
   const renderChips = () => {
-    chips.innerHTML = data.sectors.map((s) =>
-      `<button type="button" data-sector="${esc(s.slug)}" aria-label="${esc(s.name)}: ${s.count} proyectos">${esc(s.short)} <b aria-hidden="true">${s.count}</b></button>`
+    chips.innerHTML = data.sectors.map((s, i) =>
+      `<button type="button" data-sector="${esc(s.slug)}" aria-label="Sala ${i + 1}: ${esc(s.name)}, ${s.count} proyectos"><i aria-hidden="true">${pad(i + 1)}</i>${esc(s.short)}</button>`
     ).join("");
   };
 
@@ -499,7 +517,7 @@ document.querySelectorAll(".service-card").forEach((card) => {
     blurb.classList.toggle("is-open", show);
   };
 
-  const render = (slug) => {
+  const render = (slug, opts = {}) => {
     const sector = sectorOf(slug);
     if (!sector) return false;
     const all = data.projects.filter((p) => p.sector === slug);
@@ -510,13 +528,12 @@ document.querySelectorAll(".service-card").forEach((card) => {
     const nextK = () => Math.min(k++, 8);
 
     let html = open.map((p, i) => {
-      const parts = splitBuilt(p.built);
+      const parts = splitBuilt(p.built).slice(0, 3);
       const card = `<div class="dive-card" style="--k:${nextK()}">
           <span class="dive-idx">${pad(i + 1)} / ${pad(all.length)}</span>
           <h3 id="dive-${esc(p.id)}">${esc(p.label)}</h3>
           <ul class="dive-built">${parts.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>
-          ${parts.length > 2 || p.built.length > 140 ? `<button type="button" class="dive-built-more" aria-expanded="false">Ver todo lo que incluye</button>` : ""}
-          <p class="dive-more">${p.shots.length} ${p.shots.length === 1 ? "captura" : "capturas"}</p>
+          <p class="dive-more">${p.shots.length} ${p.shots.length === 1 ? "obra expuesta" : "obras expuestas"}</p>
         </div>`;
       const figures = p.shots.map((s) => {
         const n = shots.push({ ...s, label: p.label }) - 1;
@@ -524,12 +541,18 @@ document.querySelectorAll(".service-card").forEach((card) => {
         const tw = mobile ? 360 : 640;
         const thumb = thumbOf(s.file);
         const typeName = data.types[s.type] || "Captura";
-        return `<figure class="dive-shot" style="--k:${nextK()}">
-          <button type="button" class="frame frame--${mobile ? "mobile" : "desktop"}" style="--ar:${(s.w / s.h).toFixed(4)}" data-shot="${n}" aria-label="Ampliar captura: ${esc(s.caption)}">
-            ${mobile ? "" : "<span class=\"frame-bar\" aria-hidden=\"true\"><i></i><i></i><i></i><b></b></span>"}
-            <span class="frame-screen"><img data-src="${esc(thumb)}" data-srcset="${esc(thumb)} ${tw}w, ${esc(s.file)} ${s.w}w" data-sizes="${mobile ? SIZES_MOBILE : SIZES_DESKTOP}" alt="${esc(altFor(s.type, sector))}" width="${tw}" height="${Math.round((tw * s.h) / s.w)}" decoding="async"></span>
-          </button>
-          <figcaption><span class="shot-type shot-type--${esc(s.type)}">${esc(typeName)}</span>${esc(s.caption)}</figcaption>
+        return `<figure class="dive-shot dive-shot--${mobile ? "mobile" : "desktop"}" style="--k:${nextK()}">
+          <div class="dive-art">
+            <i class="dive-lamp" aria-hidden="true"></i>
+            <div class="dive-hang">
+              <button type="button" class="frame frame--${mobile ? "mobile" : "desktop"}" style="--ar:${(s.w / s.h).toFixed(4)}" data-shot="${n}" aria-label="Ampliar captura (${esc(typeName)}): ${esc(s.caption)}">
+                ${mobile ? "" : "<span class=\"frame-bar\" aria-hidden=\"true\"><i></i><i></i><i></i><b></b></span>"}
+                <span class="frame-screen"><img data-src="${esc(thumb)}" data-srcset="${esc(thumb)} ${tw}w, ${esc(s.file)} ${s.w}w" data-sizes="${mobile ? SIZES_MOBILE : SIZES_DESKTOP}" alt="${esc(altFor(s.type, sector))}" width="${s.w}" height="${s.h}" decoding="async"></span>
+              </button>
+              <p class="dive-plaque" aria-hidden="true"><span class="dive-plaque-no">Nº ${pad(n + 1)}</span><span class="shot-type shot-type--${esc(s.type)}">${esc(typeName)}</span><span class="dive-plaque-text">${esc(s.caption)}</span></p>
+            </div>
+            <i class="dive-pool" aria-hidden="true"></i>
+          </div>
         </figure>`;
       }).join("");
       return `<article class="dive-project" aria-labelledby="dive-${esc(p.id)}">${card}${figures}</article>`;
@@ -545,13 +568,24 @@ document.querySelectorAll(".service-card").forEach((card) => {
           <span class="dive-idx">${idx} / ${pad(all.length)}</span>
           <h3 id="dive-private">${hidden.length} ${hidden.length === 1 ? "herramienta interna" : "herramientas internas"}</h3>
           <p class="dive-private-note">Productos privados o de uso interno: los contamos, pero no publicamos capturas.</p>
-          <ul class="dive-private-list">${hidden.map((p) => `<li><strong>${esc(p.label)}</strong><span>${esc(shorten(splitBuilt(p.built)[0] || "", 96))}</span></li>`).join("")}</ul>
+          <ul class="dive-private-list">${hidden.map((p) => `<li><strong>${esc(p.label)}</strong><span>${esc(shorten(splitBuilt(p.built)[0] || "", 80))}</span></li>`).join("")}</ul>
         </div>
       </article>`;
     }
 
+    // the way out of the room: a lit doorway to the next sector
+    const next = neighbour(slug, 1);
+    html += `<div class="dive-exit" style="--k:${nextK()}">
+        <button type="button" class="dive-door" data-door="1" aria-label="Siguiente sala: ${esc(next.name)}">
+          <span class="dive-door-arch" aria-hidden="true"><i></i></span>
+          <span class="dive-door-text"><small>Siguiente sala</small><strong>${esc(next.short)} <span class="dive-door-go" aria-hidden="true">${ICON_NEXT}</span></strong></span>
+        </button>
+      </div>`;
+
+    const room = data.sectors.indexOf(sector) + 1;
     current = { slug, shots };
     $("diveTitle").textContent = sector.name;
+    $("diveRoom").textContent = `Sala ${pad(room)}`;
     $("diveCount").textContent = all.length;
     $("diveShots").textContent = shots.length;
     blurb.textContent = sector.blurb;
@@ -560,44 +594,43 @@ document.querySelectorAll(".service-card").forEach((card) => {
 
     dive.classList.remove("is-filled");
     if (lazy) lazy.disconnect();
+    stopGlide();
     track.innerHTML = html;
     track.scrollLeft = 0;
+    target = 0;
     void track.offsetWidth;
-    dive.classList.add("is-filled");
+    if (opts.stagger !== false) dive.classList.add("is-filled");
     shotEls = [...track.querySelectorAll(".dive-shot")];
-    track.querySelectorAll("img[data-src]").forEach((img, i) => {
-      if (!lazy || i < 3) loadImg(img); else lazy.observe(img);
-    });
     fitFrames();
+    const imgs = [...track.querySelectorAll("img[data-src]")];
+    if (lazy) imgs.forEach((img) => lazy.observe(img));
+    else imgs.forEach(loadImg);
     updateTrack();
     return true;
   };
 
-  // The CSS sizes the frames from the free height; long captions or very short
-  // windows can still overflow, so trim --fh until every capture fits whole.
+  // --fh = height of the frames: everything the hall has between ceiling and
+  // floor. Long labels (phones) or very short windows trim it until every
+  // artwork fits whole.
   function fitFrames() {
     if (!dive.open || !shotEls.length) return;
-    dive.style.removeProperty("--fh");
-    for (let pass = 0; pass < 3; pass++) {
-      const cs = getComputedStyle(track);
-      const avail = track.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
+    const cs = getComputedStyle(track);
+    const avail = track.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
+    let fh = Math.max(150, Math.floor(avail - 24));
+    dive.style.setProperty("--fh", `${fh}px`);
+    for (let pass = 0; pass < 4; pass++) {
       let need = 0;
-      shotEls.forEach((el) => {
-        const lift = Math.abs(parseFloat(getComputedStyle(el).getPropertyValue("--lift")) || 0);
-        need = Math.max(need, el.offsetHeight + 2 * lift);
-      });
-      const over = Math.ceil(need - avail);
+      shotEls.forEach((el) => { need = Math.max(need, el.querySelector(".dive-hang").offsetHeight); });
+      const over = Math.ceil(need + 22 - avail);
       if (over <= 0) break;
-      const probe = document.createElement("i");
-      probe.style.cssText = "position:absolute;visibility:hidden;height:var(--fh)";
-      dive.appendChild(probe);
-      const fh = probe.offsetHeight;
-      probe.remove();
-      dive.style.setProperty("--fh", `${Math.max(140, fh - over)}px`);
+      fh = Math.max(150, fh - over);
+      dive.style.setProperty("--fh", `${fh}px`);
     }
+    // images already loaded follow the new size (the browser upgrades to the full capture if needed)
+    track.querySelectorAll(".frame-screen img[srcset]").forEach(sizeImg);
   }
 
-  // keep the active sector chip in view inside its scrollable row
+  // keep the active room in view inside the map
   const centerChip = () => {
     const b = chips.querySelector("[aria-current=\"true\"]");
     if (!b) return;
@@ -608,6 +641,7 @@ document.querySelectorAll(".service-card").forEach((card) => {
   const renderError = () => {
     current = { slug: "", shots: [] };
     $("diveTitle").textContent = "No hemos podido cargar las capturas";
+    $("diveRoom").textContent = "Sala";
     $("diveCount").textContent = "0";
     $("diveShots").textContent = "0";
     blurb.textContent = "Revisa tu conexión y vuelve a pulsar el témpano.";
@@ -615,53 +649,265 @@ document.querySelectorAll(".service-card").forEach((card) => {
     shotEls = [];
   };
 
-  // progress bar, arrows and the depth effect while the gallery scrolls
+  // ---- 3b. Walking through the hall: one smooth engine for wheel, trackpad,
+  // keys, arrows and vertical swipes. Native touch panning stays native. ----
+  let target = 0;
+  let glideRaf = 0;
+  const maxX = () => Math.max(0, track.scrollWidth - track.clientWidth);
+  const clampX = (x) => Math.max(0, Math.min(maxX(), x));
+  function stopGlide() {
+    if (glideRaf) cancelAnimationFrame(glideRaf);
+    glideRaf = 0;
+    track.classList.remove("is-gliding");
+  }
+  function glide() {
+    const x = track.scrollLeft;
+    const d = target - x;
+    if (Math.abs(d) < 1) {
+      track.scrollLeft = target;
+      stopGlide();
+      return;
+    }
+    const step = d * 0.14;
+    track.scrollLeft = x + (Math.abs(step) < 1 ? Math.sign(d) : step);
+    glideRaf = requestAnimationFrame(glide);
+  }
+  const glideTo = (x, instant) => {
+    target = clampX(x);
+    if (reduce || instant) { stopGlide(); track.scrollLeft = target; return; }
+    track.classList.add("is-gliding");
+    if (!glideRaf) glideRaf = requestAnimationFrame(glide);
+  };
+  const atEnd = () => track.scrollLeft >= maxX() - 2 && target >= maxX() - 2;
+  const atStart = () => track.scrollLeft <= 2 && target <= 2;
+
+  // one piece of the hall per step: wall text, artwork or the doorway
+  const pieces = () => [...track.querySelectorAll(".dive-card, .dive-shot, .dive-exit")];
+  const stepPiece = (dir) => {
+    const view = track.clientWidth;
+    const from = target + view / 2;
+    const centres = pieces().map((el) => el.offsetLeft + el.offsetWidth / 2);
+    const list = dir > 0 ? centres.filter((c) => c > from + 8) : centres.filter((c) => c < from - 8).reverse();
+    if (!list.length) { glideTo(dir > 0 ? maxX() : 0); return; }
+    glideTo(list[0] - view / 2);
+  };
+
+  // progress bar, arrows, lights of the artworks near the centre
   let trackRaf = 0;
   function updateTrack() {
     trackRaf = 0;
-    const max = track.scrollWidth - track.clientWidth;
+    const max = maxX();
     const x = track.scrollLeft;
     progress.style.setProperty("--p", max > 0 ? (x / max).toFixed(4) : "1");
-    stepBtns[0].disabled = x <= 2;
-    stepBtns[1].disabled = x >= max - 2;
-    if (reduce || !dive.open) return;
+    if (data && current && current.slug) {
+      const prev = neighbour(current.slug, -1);
+      const next = neighbour(current.slug, 1);
+      const first = x <= 2;
+      const last = x >= max - 2;
+      stepBtns[0].classList.toggle("is-door", first);
+      stepBtns[1].classList.toggle("is-door", last);
+      stepBtns[0].setAttribute("aria-label", first ? `Sala anterior: ${prev.name}` : "Ver anteriores");
+      stepBtns[1].setAttribute("aria-label", last ? `Siguiente sala: ${next.name}` : "Ver siguientes");
+    }
+    if (!dive.open) return;
     const tr = track.getBoundingClientRect();
     const cx = tr.left + tr.width / 2;
     shotEls.forEach((el) => {
       const r = el.getBoundingClientRect();
-      if (r.right < tr.left - 300 || r.left > tr.right + 300) return;
+      if (r.right < tr.left - 400 || r.left > tr.right + 400) return;
       const d = Math.max(-1, Math.min(1, (r.left + r.width / 2 - cx) / tr.width));
       el.style.setProperty("--d", d.toFixed(3));
       el.style.setProperty("--ad", Math.abs(d).toFixed(3));
     });
   }
-  track.addEventListener("scroll", () => { if (!trackRaf) trackRaf = requestAnimationFrame(updateTrack); }, { passive: true });
-  addEventListener("resize", () => { if (dive.open) { fitFrames(); updateTrack(); } });
+  track.addEventListener("scroll", () => {
+    if (!glideRaf) target = track.scrollLeft; // native panning (touch, scrollbar, focus)
+    if (!trackRaf) trackRaf = requestAnimationFrame(updateTrack);
+  }, { passive: true });
+  addEventListener("resize", () => { if (dive.open) { fitFrames(); target = clampX(track.scrollLeft); updateTrack(); } });
 
-  const scrollStep = (dir, amount) => track.scrollBy({ left: dir * amount, behavior: smooth });
-  stepBtns.forEach((b) => b.addEventListener("click", () => scrollStep(+b.dataset.diveStep, track.clientWidth * 0.75)));
-  // vertical mouse wheel moves the gallery sideways, except over a card that
-  // still has text to scroll (its own scroll goes first)
-  track.addEventListener("wheel", (e) => {
-    if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
+  // ---- 3c. Changing room: keep scrolling past the end (or before the start) ----
+  const PULL_WHEEL = 300; // px of wheel past the edge
+  const PULL_TOUCH = 110; // px of finger past the edge
+  let switching = false;
+  let quietUntil = 0;   // after a change, swallow the rest of that gesture (trackpad inertia)
+  let lastWheel = 0;
+  let edgeDir = 0;
+  let edgeSum = 0;
+  let edgeAt = 0;       // when this wheel gesture reached the edge
+  let edgeLast = 0;
+  let edgeFade = 0;
+  let lastAbs = 0;
+  let arrivedAt = 0;   // when the last wheel flick ran into the end of the room
+
+  const setPull = (dir, amount) => {
+    const p = Math.max(0, Math.min(1, amount));
+    dive.style.setProperty("--pull", p.toFixed(3));
+    dive.classList.toggle("is-pulling", p > 0.02);
+    dive.dataset.pull = dir > 0 ? "next" : "prev";
+    if (p > 0.02 && data && current && current.slug) {
+      const to = neighbour(current.slug, dir);
+      $("diveEdgeText").textContent = `${dir > 0 ? "Siguiente sala" : "Sala anterior"}: ${to.short}`;
+    }
+  };
+  const resetEdge = () => { edgeSum = 0; edgeDir = 0; edgeAt = 0; setPull(1, 0); };
+
+  const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+  async function goSector(dir, slug) {
+    if (switching || !data || !current || !current.slug) return;
+    const to = slug ? sectorOf(slug) : neighbour(current.slug, dir);
+    if (!to || to.slug === current.slug) return;
+    switching = true;
+    resetEdge();
+    stopGlide();
+    const focusWasInTrack = track.contains(document.activeElement);
+    if (!reduce) {
+      dive.dataset.walk = dir > 0 ? "next" : "prev";
+      dive.classList.add("is-walking-out");
+      await wait(360);
+    }
+    render(to.slug, { stagger: false });
+    centerChip();
+    if (dir < 0 && !slug) { track.scrollLeft = maxX(); target = track.scrollLeft; updateTrack(); }
+    if (!reduce) {
+      dive.classList.remove("is-walking-out");
+      dive.classList.add("is-walking-in");
+      await wait(560);
+      dive.classList.remove("is-walking-in");
+    }
+    live.textContent = `Sala ${data.sectors.indexOf(to) + 1}: ${to.name}`;
+    if (focusWasInTrack || !dive.contains(document.activeElement) || document.activeElement === document.body) track.focus({ preventScroll: true });
+    try { if (pushed) history.replaceState({ dive: to.slug, ...(lbPushed ? { lb: 1 } : {}) }, ""); } catch (err) { /* ignore */ }
+    quietUntil = performance.now() + 450;
+    switching = false;
+  }
+
+  // wheel / trackpad: vertical or horizontal, anywhere in the hall
+  dive.addEventListener("wheel", (e) => {
+    if (!lb.hidden || e.ctrlKey) return; // the enlarged capture or a pinch zoom
+    if (e.target.closest(".dive-blurb.is-open")) return;
+    if (chips.contains(e.target) && chips.scrollWidth > chips.clientWidth + 2 && Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
     const card = e.target.closest(".dive-card");
-    if (card && card.scrollHeight > card.clientHeight + 1) {
+    if (card && card.scrollHeight > card.clientHeight + 1 && Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
       const canUp = card.scrollTop > 0;
       const canDown = card.scrollTop + card.clientHeight < card.scrollHeight - 1;
       if ((e.deltaY < 0 && canUp) || (e.deltaY > 0 && canDown)) return;
     }
     e.preventDefault();
-    track.scrollLeft += e.deltaY * (e.deltaMode === 1 ? 32 : 1);
+    const now = performance.now();
+    const gap = now - lastWheel;
+    lastWheel = now;
+    let d = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+    if (e.deltaMode === 1) d *= 32;
+    else if (e.deltaMode === 2) d *= track.clientWidth;
+    const prevAbs = lastAbs;
+    lastAbs = Math.abs(d);
+    if (!d) return;
+    // a mouse notch walks a good stretch of wall; trackpads already send a lot of small steps
+    const gain = Math.abs(d) >= 80 ? 2.4 : 1.2;
+    if (switching) return;
+    // the gesture that changed the room keeps sending events (inertia): wait for a pause
+    if (quietUntil) {
+      if (now < quietUntil || gap < 140) { quietUntil = Math.max(quietUntil, now); return; }
+      quietUntil = 0;
+    }
+    const dir = Math.sign(d);
+    const onEdge = dir > 0 ? atEnd() : atStart();
+    if (!onEdge) {
+      if (edgeSum) resetEdge();
+      glideTo(target + d * gain);
+      if (target <= 0 || target >= maxX()) arrivedAt = now; // this flick reached the end of the room
+      return;
+    }
+    // at the edge: the same flick that brought us here doesn't count until it pauses
+    // (or keeps pushing hard for a while, as with a mouse wheel spun on purpose)
+    if (dir !== edgeDir) { edgeDir = dir; edgeSum = 0; edgeAt = now; edgeLast = now; }
+    // (a trackpad keeps sending ever smaller steps after the fingers leave: that inertia never counts)
+    const coasting = Math.abs(d) < 80 && Math.abs(d) <= prevAbs + 1;
+    if (!edgeSum && gap < 140 && (now - arrivedAt < 650 || coasting)) { edgeLast = now; return; }
+    if (now - edgeLast > 400) edgeSum = Math.max(0, edgeSum - (now - edgeLast - 400) * 0.6);
+    edgeLast = now;
+    edgeSum += Math.min(Math.abs(d), 100);
+    setPull(dir, edgeSum / PULL_WHEEL);
+    clearTimeout(edgeFade);
+    if (edgeSum >= PULL_WHEEL) { goSector(dir); return; }
+    edgeFade = setTimeout(() => { if (!switching) resetEdge(); }, 1300);
   }, { passive: false });
-  // arrows move the gallery from anywhere in the dialog (except the sector chips)
+
+  // touch: horizontal swipes are the browser's own panning; vertical swipes
+  // walk the hall too; pulling past either end changes room
+  let touch = null;
+  track.addEventListener("touchstart", (e) => {
+    if (e.touches.length !== 1 || switching) { touch = null; return; }
+    const t = e.touches[0];
+    stopGlide();
+    target = track.scrollLeft;
+    touch = { x: t.clientX, y: t.clientY, x0: track.scrollLeft, mode: null, armX: null, armY: null, dir: 0, pull: 0, v: 0, lastY: t.clientY, lastT: performance.now() };
+    if (atEnd()) { touch.armX = t.clientX; touch.armY = t.clientY; }
+    if (atStart()) { touch.armXs = t.clientX; touch.armYs = t.clientY; }
+  }, { passive: true });
+  track.addEventListener("touchmove", (e) => {
+    if (!touch || e.touches.length !== 1) return;
+    const t = e.touches[0];
+    const dx = t.clientX - touch.x;
+    const dy = t.clientY - touch.y;
+    if (!touch.mode && Math.abs(dx) + Math.abs(dy) > 8) touch.mode = Math.abs(dy) > Math.abs(dx) * 1.2 ? "v" : "h";
+    if (!touch.mode) return;
+    const now = performance.now();
+    let pull = 0;
+    let dir = 0;
+    if (touch.mode === "v") {
+      const want = touch.x0 - dy * 1.3;
+      track.scrollLeft = clampX(want);
+      target = track.scrollLeft;
+      touch.v = (touch.lastY - t.clientY) / Math.max(1, now - touch.lastT);
+      touch.lastY = t.clientY;
+      touch.lastT = now;
+      if (want > maxX()) { dir = 1; pull = want - maxX(); } else if (want < 0) { dir = -1; pull = -want; }
+    } else {
+      // arm once the hall can't scroll any further in that direction
+      if (touch.armX === null && atEnd()) touch.armX = t.clientX;
+      if (touch.armXs === undefined && atStart()) touch.armXs = t.clientX;
+      if (touch.armX !== null && t.clientX < touch.armX) { dir = 1; pull = touch.armX - t.clientX; }
+      else if (touch.armXs !== undefined && t.clientX > touch.armXs) { dir = -1; pull = t.clientX - touch.armXs; }
+    }
+    touch.dir = dir;
+    touch.pull = pull;
+    setPull(dir || 1, pull / PULL_TOUCH);
+    // nothing native left to do for this finger: keep the browser from turning it into a back gesture
+    if (e.cancelable && (touch.mode === "v" || dir)) e.preventDefault();
+  }, { passive: false });
+  const endTouch = () => {
+    if (!touch) return;
+    const tc = touch;
+    touch = null;
+    if (tc.pull >= PULL_TOUCH && tc.dir) { goSector(tc.dir); return; }
+    resetEdge();
+    if (tc.mode === "v" && Math.abs(tc.v) > 0.2) glideTo(track.scrollLeft + tc.v * 260);
+  };
+  track.addEventListener("touchend", endTouch, { passive: true });
+  track.addEventListener("touchcancel", endTouch, { passive: true });
+
+  // arrows of the bar: one piece at a time; at the ends they open the next / previous room
+  stepBtns.forEach((b) => b.addEventListener("click", () => {
+    const dir = +b.dataset.diveStep;
+    if (dir > 0 ? atEnd() : atStart()) goSector(dir);
+    else stepPiece(dir);
+  }));
+  // keys move the hall from anywhere in the dialog (except the room map)
   dive.addEventListener("keydown", (e) => {
     if (!lb.hidden || e.altKey || e.ctrlKey || e.metaKey || chips.contains(e.target)) return;
-    if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
+    const fwd = e.key === "ArrowRight" || e.key === "PageDown" || (e.key === "ArrowDown" && !e.target.closest(".dive-card"));
+    const back = e.key === "ArrowLeft" || e.key === "PageUp" || (e.key === "ArrowUp" && !e.target.closest(".dive-card"));
+    if (fwd || back) {
       e.preventDefault();
-      scrollStep(e.key === "ArrowRight" ? 1 : -1, Math.min(460, track.clientWidth * 0.6));
+      if (e.repeat && switching) return;
+      const dir = fwd ? 1 : -1;
+      if (dir > 0 ? atEnd() : atStart()) { if (!e.repeat) goSector(dir); }
+      else stepPiece(dir);
     } else if (e.key === "Home" || e.key === "End") {
       e.preventDefault();
-      track.scrollTo({ left: e.key === "Home" ? 0 : track.scrollWidth, behavior: smooth });
+      glideTo(e.key === "Home" ? 0 : maxX());
     }
   });
 
@@ -673,7 +919,7 @@ document.querySelectorAll(".service-card").forEach((card) => {
     dive.style.setProperty("--oy", `${Math.round(r.top + r.height * 0.25)}px`);
   };
 
-  // centre one capture in the track (coming from a block of the reel)
+  // centre one capture in the hall (coming from a block of the reel)
   const goToShot = (file) => {
     const n = current ? current.shots.findIndex((s) => s.file === file) : -1;
     const btn = n >= 0 && track.querySelector(`[data-shot="${n}"]`);
@@ -681,7 +927,7 @@ document.querySelectorAll(".service-card").forEach((card) => {
     const fig = btn.closest(".dive-shot");
     const img = fig.querySelector("img[data-src]");
     if (img) loadImg(img);
-    track.scrollLeft = Math.max(0, fig.offsetLeft - (track.clientWidth - fig.offsetWidth) / 2);
+    glideTo(fig.offsetLeft - (track.clientWidth - fig.offsetWidth) / 2, true);
     fig.classList.add("is-target");
     setTimeout(() => fig.classList.remove("is-target"), 2600);
   };
@@ -730,7 +976,10 @@ document.querySelectorAll(".service-card").forEach((card) => {
 
   dive.addEventListener("close", () => {
     closing = false;
-    dive.classList.remove("is-closing", "is-filled");
+    switching = false;
+    stopGlide();
+    resetEdge();
+    dive.classList.remove("is-closing", "is-filled", "is-walking-out", "is-walking-in");
     dive.style.removeProperty("--fh");
     root.classList.remove("dive-lock");
     if (!lb.hidden) hideLbUi(false);
@@ -822,7 +1071,8 @@ document.querySelectorAll(".service-card").forEach((card) => {
     const b = track.querySelector(`[data-shot="${lbIndex}"]`);
     if (b) {
       b.focus({ preventScroll: true });
-      b.scrollIntoView({ block: "nearest", inline: "center", behavior: smooth });
+      const fig = b.closest(".dive-shot");
+      glideTo(fig.offsetLeft - (track.clientWidth - fig.offsetWidth) / 2);
     }
   }
   function hideLb(refocus) {
@@ -831,17 +1081,17 @@ document.querySelectorAll(".service-card").forEach((card) => {
   }
 
   track.addEventListener("click", (e) => {
-    const more = e.target.closest(".dive-built-more");
-    if (more) {
-      const card = more.closest(".dive-card");
-      const show = !card.classList.contains("is-open");
-      card.classList.toggle("is-open", show);
-      more.setAttribute("aria-expanded", String(show));
-      more.textContent = show ? "Ver menos" : "Ver todo lo que incluye";
-      return;
-    }
+    if (e.target.closest("[data-door]")) { goSector(1); return; }
     const b = e.target.closest("[data-shot]");
     if (b) openLb(+b.dataset.shot);
+  });
+  // keyboard focus moving through the hall brings the piece into the middle
+  track.addEventListener("focusin", (e) => {
+    const piece = e.target.closest(".dive-shot, .dive-exit, .dive-card");
+    if (!piece || e.target === track) return;
+    const r = piece.getBoundingClientRect();
+    const tr = track.getBoundingClientRect();
+    if (r.left < tr.left || r.right > tr.right) glideTo(piece.offsetLeft - (track.clientWidth - piece.offsetWidth) / 2);
   });
   lb.addEventListener("click", (e) => {
     if (e.target.closest("[data-lb-close]")) { hideLb(true); return; }
@@ -896,9 +1146,10 @@ document.querySelectorAll(".service-card").forEach((card) => {
   }
   chips.addEventListener("click", (e) => {
     const b = e.target.closest("[data-sector]");
-    if (!b || !data || (current && b.dataset.sector === current.slug)) return;
-    render(b.dataset.sector);
-    centerChip();
+    if (!b || !data || !current || b.dataset.sector === current.slug) return;
+    const from = data.sectors.findIndex((x) => x.slug === current.slug);
+    const to = data.sectors.findIndex((x) => x.slug === b.dataset.sector);
+    goSector(to > from ? 1 : -1, b.dataset.sector);
   });
   infoBtn.addEventListener("click", () => setInfo(infoBtn.getAttribute("aria-expanded") !== "true"));
   dive.addEventListener("click", (e) => {

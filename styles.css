@@ -2427,13 +2427,22 @@ body .process-section .process-penguin-img { display: none; }
    ========================================================= */
 /* The gutter kept for the hidden scrollbar is painted with the page background,
    so give it the colour of the deep water (no white strip on Windows). */
-html.dive-lock { overflow: hidden; scrollbar-gutter: stable; background: #040a1f; }
-/* --fh = height of the device frames. It comes from the height that is really
-   free (header, sector chips, captions and bar take ~470px, ~380px on short screens); script.js trims it
-   further if a sector still overflows. */
+html.dive-lock { overflow: hidden; overscroll-behavior: none; scrollbar-gutter: stable; background: #040a1f; }
+html.dive-lock body { overscroll-behavior: none; }
+/* The gallery is a museum under the ice: one room (sala) per sector. The
+   captures hang on the wall as big artworks lit from the ceiling, each one
+   with its small label (cartela); the floor reflects the lights and a lit
+   doorway at the end leads to the next room.
+   --fh = height of the frames: script.js sets it to everything the hall has
+   between ceiling and floor (trimmed if a label still overflows). */
 .dive {
-  --fh: clamp(200px, calc(100dvh - 470px), 470px);
-  --fw: min(70vw, 560px);
+  --gut: clamp(16px, 4vw, 56px);
+  --fh: clamp(200px, calc(100dvh - 230px), 900px);
+  --fw: calc(100vw - 2 * var(--gut) - 260px);
+  --ceil: clamp(22px, 4.2vh, 50px);
+  --floor: clamp(30px, 6.5vh, 84px);
+  --plaque: clamp(180px, 15vw, 220px);
+  --pull: 0;
   position: fixed;
   inset: 0;
   width: 100%;
@@ -2444,15 +2453,16 @@ html.dive-lock { overflow: hidden; scrollbar-gutter: stable; background: #040a1f
   padding: 0;
   border: 0;
   overflow: hidden;
-  overscroll-behavior: contain;
+  overscroll-behavior: none;
   color: #fff;
   background:
-    radial-gradient(ellipse 70% 45% at 50% -5%, rgba(64, 132, 255, .55) 0%, transparent 70%),
-    linear-gradient(180deg, #0d2465 0%, #081538 48%, #040a1f 100%);
+    radial-gradient(ellipse 70% 40% at 50% -8%, rgba(64, 132, 255, .5) 0%, transparent 70%),
+    linear-gradient(180deg, #0c2160 0%, #071434 50%, #030918 100%);
 }
 .dive[open] {
   display: grid;
-  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr) auto;
   animation: diveIn .8s cubic-bezier(.66, 0, .2, 1) both;
 }
 .dive.is-closing { animation: diveOut .5s cubic-bezier(.6, 0, .4, 1) both; }
@@ -2465,11 +2475,8 @@ html.dive-lock { overflow: hidden; scrollbar-gutter: stable; background: #040a1f
   from { clip-path: circle(150vmax at var(--ox, 50%) var(--oy, 50%)); }
   to   { clip-path: circle(0 at var(--ox, 50%) var(--oy, 50%)); }
 }
-@media (max-width: 600px) {
-  .dive { --fw: 86vw; }
-}
 
-/* ambient: light rays from the surface and bubbles */
+/* ambient: light from the surface and bubbles rising behind the hall */
 .dive-deep { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
 .dive-ray {
   position: absolute;
@@ -2477,7 +2484,7 @@ html.dive-lock { overflow: hidden; scrollbar-gutter: stable; background: #040a1f
   left: var(--rx);
   width: 16vw;
   height: 85%;
-  background: linear-gradient(180deg, rgba(150, 200, 255, .2), transparent 80%);
+  background: linear-gradient(180deg, rgba(150, 200, 255, .16), transparent 80%);
   transform: skewX(-16deg);
   filter: blur(8px);
   animation: diveRay 8s ease-in-out infinite;
@@ -2513,39 +2520,66 @@ html.dive-lock { overflow: hidden; scrollbar-gutter: stable; background: #040a1f
 }
 
 .dive-top,
-.dive-sectors,
 .dive-track,
 .dive-bar { position: relative; z-index: 1; }
 .dive-top { z-index: 3; }
+
+/* ---- head: room number, sector, close ---- */
 .dive-top {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   gap: 20px;
-  padding: 26px clamp(16px, 4vw, 48px) 8px;
+  padding: 14px var(--gut) 10px;
 }
-.dive-kicker { margin-bottom: 6px; color: #8fc4ff; font-size: .8rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
-.dive-heading h2 { color: #fff; font-size: clamp(1.6rem, 4vw, 3rem); font-weight: 800; letter-spacing: -.035em; line-height: 1.02; }
-.dive-blurb { max-width: 72ch; margin-top: 8px; color: rgba(214, 228, 255, .74); font-size: .95rem; }
-/* on short or narrow screens the blurb folds behind this button and opens as a panel */
+.dive-heading { position: relative; min-width: 0; }
+.dive-kicker { margin-bottom: 4px; color: #8fc4ff; font-size: .74rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+.dive-kicker #diveRoom { color: #fff; }
+.dive-titlerow { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; }
+.dive-heading h2 {
+  color: #fff;
+  font-size: clamp(1.35rem, 2.5vw, 2.4rem);
+  font-weight: 800;
+  letter-spacing: -.035em;
+  line-height: 1.04;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, .25), 0 10px 30px rgba(64, 132, 255, .45);
+}
+.dive-heading h2:focus { outline: none; }
+/* what the studio does in this sector: folded behind a button, opens as a panel */
 .dive-info {
-  display: none;
+  display: inline-flex;
   align-items: center;
   gap: 6px;
-  margin-top: 8px;
-  padding: 5px 12px 5px 9px;
+  padding: 5px 12px 5px 10px;
   border-radius: 999px;
   border: 1px solid rgba(255, 255, 255, .24);
   background: rgba(255, 255, 255, .08);
   color: #d6e8ff;
   font: inherit;
-  font-size: .78rem;
+  font-size: .76rem;
   font-weight: 700;
   cursor: pointer;
 }
 .dive-info svg { transition: transform .25s ease; }
 .dive-info[aria-expanded="true"] { background: #fff; border-color: #fff; color: var(--ink-dark); }
 .dive-info[aria-expanded="true"] svg { transform: rotate(180deg); }
+.dive-blurb { display: none; }
+.dive-blurb.is-open {
+  display: block;
+  position: absolute;
+  z-index: 4;
+  top: calc(100% + 8px);
+  left: 0;
+  width: min(62ch, calc(100vw - 2 * var(--gut)));
+  margin: 0;
+  padding: 14px 16px;
+  border-radius: 16px;
+  border: 1px solid rgba(143, 196, 255, .32);
+  background: rgba(9, 24, 66, .97);
+  box-shadow: 0 24px 44px -20px rgba(0, 0, 0, .85);
+  color: #e4eeff;
+  font-size: .9rem;
+}
 .dive-close,
 .dive-arrow,
 .dive-lb-btn,
@@ -2564,131 +2598,203 @@ html.dive-lock { overflow: hidden; scrollbar-gutter: stable; background: #040a1f
   font: inherit;
   -webkit-backdrop-filter: blur(8px);
           backdrop-filter: blur(8px);
-  transition: background-color .2s ease, transform .2s ease, opacity .2s ease;
+  transition: background-color .2s ease, transform .2s ease, opacity .2s ease, box-shadow .3s ease;
 }
 .dive-close { display: inline-flex; gap: 8px; width: auto; padding: 0 16px 0 14px; border-radius: 999px; font-weight: 700; }
 .dive-esc { padding: 1px 6px; border: 1px solid rgba(255, 255, 255, .35); border-radius: 6px; font-size: .72rem; }
 .dive-close:hover, .dive-arrow:hover:not(:disabled), .dive-lb-btn:hover, .dive-lb-close:hover { background: rgba(255, 255, 255, .2); }
 .dive-arrow:disabled { opacity: .3; cursor: default; }
+/* at the ends of the room the arrows lead to the next / previous room */
+.dive-arrow.is-door { border-color: rgba(191, 224, 255, .7); background: rgba(150, 205, 255, .2); box-shadow: 0 0 22px rgba(111, 182, 255, .5); }
 .dive :focus-visible { outline: 3px solid #6fb6ff; outline-offset: 3px; }
 
-.dive-sectors {
-  display: flex;
-  gap: 8px;
-  padding: 8px clamp(16px, 4vw, 48px) 10px;
-  overflow-x: auto;
-  scrollbar-width: none;
-}
-.dive-sectors::-webkit-scrollbar { display: none; }
-.dive-sectors button {
-  flex: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 7px 8px 7px 13px;
-  border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, .16);
-  background: rgba(255, 255, 255, .06);
-  color: rgba(255, 255, 255, .84);
-  font: inherit;
-  font-size: .85rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color .2s ease, color .2s ease;
-}
-.dive-sectors button b { min-width: 1.9em; padding: 2px 7px; border-radius: 999px; background: rgba(255, 255, 255, .14); font-size: .74rem; text-align: center; }
-.dive-sectors button:hover { background: rgba(255, 255, 255, .14); }
-.dive-sectors button[aria-current="true"] { background: #fff; border-color: #fff; color: var(--ink-dark); }
-.dive-sectors button[aria-current="true"] b { background: var(--blue); color: #fff; }
-
-/* horizontal gallery with depth */
+/* ---- the hall: wall, ceiling rail and a polished ice floor ---- */
 .dive-track {
   display: flex;
   align-items: stretch;
-  gap: clamp(20px, 3vw, 44px);
   min-height: 0;
-  padding: 14px clamp(16px, 4vw, 48px) 22px;
+  padding: var(--ceil) var(--gut) var(--floor);
   overflow-x: auto;
   overflow-y: hidden;
-  overscroll-behavior-x: contain;
-  scroll-snap-type: x proximity;
-  scroll-padding-inline: clamp(16px, 4vw, 48px);
+  overscroll-behavior: none;
+  touch-action: pan-x pinch-zoom;
   scrollbar-width: none;
-
+  background:
+    /* ceiling rail with the lamps */
+    linear-gradient(180deg, #030a1d 0, #071230 calc(var(--ceil) * .35), rgba(7, 18, 48, 0) var(--ceil)),
+    /* light line where the wall meets the floor */
+    linear-gradient(0deg, transparent var(--floor), rgba(170, 212, 255, .38) var(--floor), rgba(170, 212, 255, .38) calc(var(--floor) + 1px), transparent calc(var(--floor) + 1px)),
+    /* floor: polished ice that fades into the dark */
+    linear-gradient(0deg, #01050f 0, #0a1a4a calc(var(--floor) * .6), #15306e var(--floor), transparent var(--floor)),
+    /* floor joints and wall panels travel with the hall */
+    repeating-linear-gradient(90deg, rgba(150, 200, 255, .08) 0 1px, transparent 1px 180px) left bottom / 100% var(--floor) no-repeat local,
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, .035) 0 1px, transparent 1px 420px) local,
+    /* wall */
+    radial-gradient(ellipse 90% 70% at 50% 40%, rgba(24, 52, 128, .38), transparent 75%),
+    linear-gradient(180deg, rgba(5, 13, 38, .94), rgba(8, 22, 62, .94) 70%, rgba(6, 16, 46, .96));
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 var(--gut), #000 calc(100% - var(--gut)), transparent);
+          mask-image: linear-gradient(90deg, transparent 0, #000 var(--gut), #000 calc(100% - var(--gut)), transparent);
 }
 .dive-track::-webkit-scrollbar { display: none; }
-.dive-track:focus-visible { outline: 2px dashed rgba(111, 182, 255, .55); outline-offset: -6px; border-radius: 22px; }
-.dive-heading h2:focus { outline: none; }
-/* projects take the full height of the track, so a long card scrolls inside
-   instead of being cut, and nothing taller than the track is centred off-screen */
-.dive-project { display: flex; flex: none; align-items: center; align-items: safe center; gap: clamp(18px, 2.6vw, 38px); }
-.dive-project + .dive-project { padding-left: clamp(10px, 2vw, 30px); border-left: 1px dashed rgba(143, 196, 255, .22); }
+.dive-track:focus-visible { outline: 2px dashed rgba(111, 182, 255, .55); outline-offset: -6px; }
+@media (pointer: coarse) {
+  .dive-track { scroll-snap-type: x proximity; scroll-padding-inline: var(--gut); }
+  .dive-track.is-gliding { scroll-snap-type: none; }
+  .dive-shot, .dive-exit { scroll-snap-align: center; }
+  .dive-card { scroll-snap-align: start; }
+}
 
+/* each project: its wall text, then its artworks */
+.dive-project { display: flex; flex: none; align-items: center; align-items: safe center; gap: clamp(36px, 5vw, 90px); }
+.dive-project + .dive-project { margin-left: clamp(60px, 8vw, 150px); }
+
+/* wall text: painted straight on the wall, no box */
 .dive-card {
+  position: relative;
   flex: none;
-  width: min(78vw, 320px);
+  width: min(78vw, 330px);
   max-height: 100%;
   overflow: auto;
   overscroll-behavior: contain;
-  scroll-snap-align: start;
-  padding: 22px 22px 20px;
-  border-radius: 24px;
-  border: 1px solid rgba(255, 255, 255, .2);
-  background: linear-gradient(160deg, rgba(255, 255, 255, .17), rgba(255, 255, 255, .04));
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .3), 0 30px 60px -30px rgba(0, 0, 0, .7);
-  -webkit-backdrop-filter: blur(10px);
-          backdrop-filter: blur(10px);
+  padding: 6px 4px 6px 22px;
+  border-left: 2px solid transparent;
+  border-image: linear-gradient(180deg, transparent, #9fd0ff 30%, #9fd0ff 70%, transparent) 1;
   scrollbar-width: thin;
   scrollbar-color: rgba(191, 224, 255, .35) transparent;
 }
-.dive-idx { font-family: var(--font-serif); font-style: italic; color: #8fc4ff; font-size: .95rem; }
-.dive-card h3 { margin: 6px 0 14px; color: #fff; font-size: 1.22rem; line-height: 1.18; letter-spacing: -.02em; }
-.dive-built { display: grid; gap: 8px; }
-.dive-built li { position: relative; padding-left: 18px; color: rgba(222, 234, 255, .82); font-size: .86rem; line-height: 1.45; }
+.dive-idx { font-family: var(--font-serif); font-style: italic; color: #8fc4ff; font-size: 1rem; }
+.dive-card h3 {
+  margin: 6px 0 16px;
+  color: #fff;
+  font-size: clamp(1.35rem, 2vw, 1.9rem);
+  line-height: 1.1;
+  letter-spacing: -.03em;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, .2), 0 8px 26px rgba(80, 150, 255, .45);
+}
+.dive-built { display: grid; gap: 9px; }
+.dive-built li { position: relative; padding-left: 18px; color: rgba(222, 234, 255, .86); font-size: .9rem; line-height: 1.4; }
 .dive-built li::before {
   content: "";
   position: absolute;
   left: 0;
-  top: .42em;
+  top: .4em;
   width: 9px;
   height: 9px;
   background: #bfe0ff;
   clip-path: polygon(50% 0, 100% 62%, 66% 100%, 0 78%);
 }
-.dive-built-more {
-  display: none;
-  margin-top: 10px;
-  padding: 0;
-  border: 0;
-  background: none;
-  color: #8fc4ff;
-  font: inherit;
-  font-size: .8rem;
-  font-weight: 700;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  cursor: pointer;
-}
-.dive-more { display: flex; align-items: center; gap: 8px; margin-top: 16px; color: #8fc4ff; font-size: .8rem; font-weight: 700; }
+.dive-more { display: flex; align-items: center; gap: 8px; margin-top: 18px; color: #8fc4ff; font-size: .78rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
 .dive-more::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, rgba(143, 196, 255, .5), transparent); }
 
+/* an artwork: the frame under its lamp, the label at its side */
 .dive-shot {
+  position: relative;
   flex: none;
-  width: min-content;
-  margin: 0;
-  scroll-snap-align: center;
   display: flex;
-  flex-direction: column;
-  gap: 12px;
-  translate: 0 var(--lift, 0px);
-  transform: perspective(1300px) rotateY(calc(var(--d, 0) * -12deg)) scale(calc(1 - var(--ad, 0) * .07));
+  align-items: center;
+  gap: clamp(16px, 1.8vw, 28px);
+  margin: 0;
 }
-.dive-shot:nth-of-type(odd) { --lift: -12px; }
-.dive-shot:nth-of-type(even) { --lift: 16px; }
-.dive-shot figcaption { min-width: min(250px, 68vw); color: rgba(222, 234, 255, .84); font-size: .84rem; line-height: 1.42; }
-.dive-shot > .frame { align-self: center; }
+.dive-art {
+  position: relative;
+  isolation: isolate;
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* lamp on the ceiling rail, its cone of light and the glow on the wall */
+.dive-lamp {
+  position: absolute;
+  z-index: 2;
+  top: calc(-1 * var(--ceil) + 4px);
+  left: 50%;
+  width: 54px;
+  height: 12px;
+  border-radius: 3px 3px 10px 10px;
+  background: linear-gradient(180deg, #1b2c58, #0b1531);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, .15) inset, 0 6px 14px rgba(200, 228, 255, calc(.6 - var(--ad, 0) * .4));
+  transform: translateX(-50%);
+}
+.dive-lamp::after {
+  content: "";
+  position: absolute;
+  left: 12%;
+  right: 12%;
+  bottom: -2px;
+  height: 3px;
+  border-radius: 999px;
+  background: #eaf5ff;
+  box-shadow: 0 0 12px 3px rgba(210, 235, 255, .9);
+  opacity: calc(1 - var(--ad, 0) * .55);
+}
+.dive-art::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: calc(-1 * var(--ceil) + 14px);
+  bottom: calc(-1 * var(--floor) * .6);
+  left: -28%;
+  right: -28%;
+  background: linear-gradient(180deg, rgba(214, 236, 255, .42), rgba(170, 212, 255, .16) 60%, rgba(170, 212, 255, .03));
+  clip-path: polygon(46% 0, 54% 0, 100% 100%, 0 100%);
+  opacity: calc(1 - var(--ad, 0) * .6);
+  pointer-events: none;
+  animation: diveLamp 7s ease-in-out infinite;
+  animation-delay: calc(var(--k, 0) * -.9s);
+}
+.dive-art::after {
+  content: "";
+  position: absolute;
+  z-index: -2;
+  top: calc(-1 * var(--ceil));
+  bottom: 8%;
+  left: -24%;
+  right: -24%;
+  background:
+    radial-gradient(ellipse 46% 34% at 50% 0%, rgba(225, 240, 255, .5), transparent 72%),
+    radial-gradient(ellipse 50% 55% at 50% 38%, rgba(110, 170, 255, .28), transparent 72%);
+  opacity: calc(1 - var(--ad, 0) * .5);
+  pointer-events: none;
+}
+@keyframes diveLamp { 0%, 100% { filter: brightness(1); } 50% { filter: brightness(1.35); } }
+/* pool of light on the floor under each artwork */
+.dive-pool {
+  position: absolute;
+  z-index: -1;
+  left: -20%;
+  right: -20%;
+  bottom: calc(-1 * var(--floor) + 2px);
+  height: calc(var(--floor) * .9);
+  background: radial-gradient(ellipse 50% 60% at 50% 30%, rgba(170, 212, 255, .34), transparent 72%);
+  opacity: calc(1 - var(--ad, 0) * .6);
+  pointer-events: none;
+}
+/* the frame and its label hang together; the label sits at the frame's lower right */
+.dive-shot { padding-right: calc(var(--plaque) + clamp(16px, 1.8vw, 28px)); }
+.dive-hang { position: relative; }
 
-/* device frames: browser without a real address bar, and a phone */
+/* label (cartela): a small frosted plaque beside the artwork */
+.dive-plaque {
+  position: absolute;
+  left: calc(100% + clamp(16px, 1.8vw, 28px));
+  bottom: 6px;
+  width: var(--plaque);
+  display: grid;
+  gap: 6px;
+  padding: 12px 14px 13px;
+  border-radius: 4px;
+  background: linear-gradient(160deg, #f3f8ff, #cfdef3);
+  color: #0d1c40;
+  box-shadow: inset 0 1px 0 #fff, 0 0 0 1px rgba(255, 255, 255, .25), 0 14px 26px -12px rgba(0, 0, 0, .85);
+  font-size: .76rem;
+  line-height: 1.42;
+}
+.dive-plaque-no { font-family: var(--font-serif); font-style: italic; font-size: .82rem; color: #2f5fb0; }
+.dive-plaque-text { display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; }
+.dive-plaque .shot-type { justify-self: start; margin: 0; background: rgba(13, 28, 64, .08); color: #0d1c40; }
+
+/* device frames: hung like canvases (dark mount + thin ice moulding) */
 .frame {
   position: relative;
   display: block;
@@ -2701,12 +2807,21 @@ html.dive-lock { overflow: hidden; scrollbar-gutter: stable; background: #040a1f
   cursor: zoom-in;
 }
 .frame--desktop {
-  width: min(var(--fw), calc(var(--fh) * var(--ar, 1.6)));
-  border-radius: 12px;
+  width: min(var(--fw), calc((var(--fh) - 26px) * var(--ar, 1.6)));
+  border-radius: 8px;
   overflow: hidden;
   background: #eef2f9;
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, .16), 0 40px 70px -28px rgba(0, 0, 0, .8);
 }
+.dive-art .frame--desktop,
+.dive-art .frame--mobile {
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, .3),
+    0 0 0 8px #081331,
+    0 0 0 9px rgba(170, 212, 255, .45),
+    0 46px 70px -26px rgba(0, 0, 0, .9);
+  transition: box-shadow .35s ease, translate .35s ease;
+}
+.dive-art .frame:hover { translate: 0 -4px; }
 .frame-bar { display: flex; align-items: center; gap: 6px; height: 26px; padding: 0 12px; background: linear-gradient(#f8fafd, #e8edf6); border-bottom: 1px solid #d9e1ee; }
 .frame-bar i { width: 9px; height: 9px; border-radius: 50%; background: #ff5f57; }
 .frame-bar i:nth-child(2) { background: #febc2e; }
@@ -2720,16 +2835,14 @@ html.dive-lock { overflow: hidden; scrollbar-gutter: stable; background: #040a1f
   object-fit: cover;
   object-position: top;
   opacity: 0;
-  transform: scale(1.06) translateX(calc(var(--d, 0) * -2.6%));
   transition: opacity .5s ease;
 }
 .frame-screen img.is-loaded { opacity: 1; }
 .frame--mobile {
-  width: calc(var(--fh) * var(--ar, .462) + 14px);
+  width: calc((var(--fh) - 14px) * var(--ar, .462) + 14px);
   padding: 7px;
   border-radius: 30px;
   background: #0a1022;
-  box-shadow: 0 0 0 1.5px rgba(255, 255, 255, .2), 0 40px 70px -28px rgba(0, 0, 0, .85);
 }
 .frame--mobile .frame-screen { border-radius: 23px; }
 .frame--mobile .frame-bar { display: none; }
@@ -2745,17 +2858,21 @@ html.dive-lock { overflow: hidden; scrollbar-gutter: stable; background: #040a1f
   background: #0a1022;
   transform: translateX(-50%);
 }
+.dive-art .frame--mobile { border-radius: 30px; }
 .frame:hover .frame-screen img.is-loaded { filter: brightness(1.06); }
 /* capture you arrived at from the reel */
-.dive-shot.is-target .frame { box-shadow: 0 0 0 3px #9cd0ff, 0 0 46px rgba(111, 182, 255, .6), 0 40px 70px -28px rgba(0, 0, 0, .8); transition: box-shadow 1.2s ease; }
+.dive-shot.is-target .frame { box-shadow: 0 0 0 3px #9cd0ff, 0 0 0 9px #081331, 0 0 60px rgba(111, 182, 255, .7), 0 46px 70px -26px rgba(0, 0, 0, .9); transition: box-shadow 1.2s ease; }
 
-/* private tools: one compact card for all of them, no fake browser frame */
+/* private tools: one compact card for all of them, no fake frame */
 .dive-card--private {
   width: min(82vw, 380px);
-  border-style: dashed;
+  padding: 22px;
+  border: 1px dashed rgba(143, 196, 255, .4);
+  border-image: none;
+  border-radius: 20px;
   background:
     repeating-linear-gradient(135deg, rgba(255, 255, 255, .045) 0 12px, transparent 12px 24px),
-    linear-gradient(160deg, rgba(255, 255, 255, .13), rgba(255, 255, 255, .03));
+    linear-gradient(160deg, rgba(255, 255, 255, .12), rgba(255, 255, 255, .03));
 }
 .dive-private-icon {
   display: grid;
@@ -2770,9 +2887,120 @@ html.dive-lock { overflow: hidden; scrollbar-gutter: stable; background: #040a1f
 }
 .dive-private-note { color: rgba(222, 234, 255, .74); font-size: .84rem; line-height: 1.45; }
 .dive-private-list { margin-top: 12px; }
-.dive-private-list li { display: grid; gap: 2px; padding: 10px 0; border-top: 1px dashed rgba(143, 196, 255, .24); }
+.dive-private-list li { display: grid; gap: 2px; padding: 9px 0; border-top: 1px dashed rgba(143, 196, 255, .24); }
 .dive-private-list strong { color: #fff; font-size: .9rem; line-height: 1.3; }
 .dive-private-list span { color: rgba(222, 234, 255, .66); font-size: .78rem; line-height: 1.4; }
+
+/* ---- the way out: a lit doorway to the next room ---- */
+.dive-exit {
+  flex: none;
+  display: flex;
+  align-items: flex-end;
+  margin-left: clamp(70px, 9vw, 160px);
+  padding-right: clamp(10px, 3vw, 40px);
+}
+.dive-door {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #fff;
+  font: inherit;
+  text-align: center;
+  cursor: pointer;
+}
+.dive-door-arch {
+  position: relative;
+  align-self: end;
+  width: clamp(120px, 14vw, 210px);
+  height: min(64%, 500px);
+  min-height: 130px;
+  border-radius: 999px 999px 0 0;
+  border: 2px solid rgba(191, 224, 255, .55);
+  border-bottom: 0;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 100%, rgba(255, 255, 255, calc(.55 + var(--pull) * .45)), transparent 70%),
+    linear-gradient(180deg, rgba(70, 140, 255, .25), rgba(170, 215, 255, calc(.45 + var(--pull) * .5)));
+  box-shadow: 0 0 calc(30px + var(--pull) * 60px) rgba(111, 182, 255, calc(.35 + var(--pull) * .5)), inset 0 0 40px rgba(255, 255, 255, .25);
+  transition: box-shadow .3s ease;
+}
+/* frost drifting through the doorway, in a loop */
+.dive-door-arch i {
+  position: absolute;
+  inset: -40% -20% 0;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(255, 255, 255, .7) 0 1.5px, transparent 2.5px),
+    radial-gradient(circle at 70% 60%, rgba(255, 255, 255, .6) 0 1px, transparent 2px),
+    radial-gradient(circle at 40% 80%, rgba(255, 255, 255, .5) 0 1.5px, transparent 2.5px);
+  background-size: 60px 70px, 45px 55px, 80px 90px;
+  animation: diveFrost 9s linear infinite;
+}
+@keyframes diveFrost { to { transform: translateY(40%); } }
+.dive-door-text { display: grid; gap: 2px; }
+.dive-door-text small { color: #8fc4ff; font-size: .72rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+.dive-door-text strong { font-size: clamp(1.15rem, 1.6vw, 1.5rem); letter-spacing: -.02em; }
+.dive-door-text strong { display: inline-flex; align-items: center; justify-content: center; gap: 10px; }
+.dive-door-go {
+  display: inline-grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #fff;
+  color: var(--ink-dark);
+  box-shadow: 0 0 18px rgba(111, 182, 255, .6);
+  translate: calc(var(--pull) * 14px) 0;
+  animation: diveNudge 2.4s ease-in-out infinite;
+}
+.dive-door-go svg { width: 18px; height: 18px; }
+@keyframes diveNudge { 0%, 100% { margin-left: 0; } 50% { margin-left: 7px; } }
+.dive-door:hover .dive-door-arch { box-shadow: 0 0 80px rgba(111, 182, 255, .8), inset 0 0 40px rgba(255, 255, 255, .3); }
+/* (the door is laid out with the arch on the floor and the text under it, on the floor line) */
+.dive-door { grid-template-rows: minmax(0, 1fr) auto; align-items: end; }
+.dive-door-text { padding: 6px 0 4px; }
+
+/* while pulling past the end: the doorway lights up and a hint says where you're going */
+.dive-edge {
+  position: absolute;
+  z-index: 4;
+  left: 50%;
+  bottom: calc(var(--bar-h, 78px) + 10px);
+  display: grid;
+  gap: 6px;
+  min-width: 220px;
+  padding: 10px 16px 11px;
+  border-radius: 14px;
+  border: 1px solid rgba(191, 224, 255, .4);
+  background: rgba(6, 18, 52, .9);
+  -webkit-backdrop-filter: blur(8px);
+          backdrop-filter: blur(8px);
+  color: #fff;
+  font-size: .84rem;
+  font-weight: 700;
+  text-align: center;
+  opacity: 0;
+  translate: -50% 10px;
+  pointer-events: none;
+  transition: opacity .2s ease, translate .2s ease;
+}
+.dive-edge i { display: block; height: 3px; border-radius: 999px; background: linear-gradient(90deg, #6fb6ff, #fff) 0 0 / calc(var(--pull) * 100%) 100% no-repeat, rgba(255, 255, 255, .15); }
+.dive.is-pulling .dive-edge { opacity: 1; translate: -50% 0; }
+
+/* walking to another room */
+.dive.is-walking-out .dive-track > * { animation: diveWalkOut .36s cubic-bezier(.5, 0, .9, .5) both; }
+.dive.is-walking-in .dive-track > * { animation: diveWalkIn .56s cubic-bezier(.15, .7, .25, 1) both; }
+.dive[data-walk="prev"] { --walk: -1; }
+.dive[data-walk="next"] { --walk: 1; }
+@keyframes diveWalkOut { to { opacity: 0; translate: calc(var(--walk, 1) * -9vw) 0; filter: blur(6px); } }
+@keyframes diveWalkIn { from { opacity: 0; translate: calc(var(--walk, 1) * 12vw) 0; filter: blur(6px); } }
+.dive.is-walking-out .dive-top h2,
+.dive.is-walking-out .dive-kicker { transition: opacity .3s ease; opacity: 0; }
+.dive-top h2, .dive-kicker { transition: opacity .4s ease; }
 
 /* type label of each capture */
 .shot-type {
@@ -2784,7 +3012,7 @@ html.dive-lock { overflow: hidden; scrollbar-gutter: stable; background: #040a1f
   border-radius: 999px;
   background: rgba(255, 255, 255, .12);
   color: #fff;
-  font-size: .68rem;
+  font-size: .66rem;
   font-weight: 800;
   letter-spacing: .07em;
   text-transform: uppercase;
@@ -2798,20 +3026,53 @@ html.dive-lock { overflow: hidden; scrollbar-gutter: stable; background: #040a1f
 .shot-type--cliente  { --tc: #ff9fc8; }
 .shot-type--app      { --tc: #ffae5c; }
 .shot-type--movil    { --tc: #e8f1ff; }
+.dive-plaque .shot-type--admin { --tc: #e0a800; }
+.dive-plaque .shot-type--movil { --tc: #5a7bb8; }
 
-/* entrance of the gallery items */
-.dive.is-filled .dive-card,
-.dive.is-filled .dive-shot > * { animation: diveItem .8s cubic-bezier(.2, .8, .2, 1) both; animation-delay: calc(var(--k, 0) * 70ms + 180ms); }
-@keyframes diveItem { from { opacity: 0; scale: .9; } to { opacity: 1; scale: 1; } }
+/* entrance of the pieces when the gallery opens */
+.dive.is-filled .dive-track > * > *,
+.dive.is-filled .dive-exit { animation: diveItem .8s cubic-bezier(.2, .8, .2, 1) both; animation-delay: calc(var(--k, 0) * 70ms + 180ms); }
+@keyframes diveItem { from { opacity: 0; scale: .94; } to { opacity: 1; scale: 1; } }
 
+/* ---- bar: progress through the room + map of the rooms ---- */
 .dive-bar {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 6px clamp(16px, 4vw, 48px) calc(18px + env(safe-area-inset-bottom, 0px));
+  gap: 12px;
+  padding: 12px var(--gut) calc(14px + env(safe-area-inset-bottom, 0px));
 }
-.dive-progress { flex: 1; height: 4px; overflow: hidden; border-radius: 999px; background: rgba(255, 255, 255, .14); }
+.dive-progress { position: absolute; top: 0; left: var(--gut); right: var(--gut); height: 3px; overflow: hidden; border-radius: 999px; background: rgba(255, 255, 255, .12); }
 .dive-progress span { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #6fb6ff, #fff); transform-origin: 0 50%; transform: scaleX(var(--p, 0)); }
+.dive-sectors {
+  flex: 1;
+  display: flex;
+  justify-content: safe center;
+  gap: 6px;
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.dive-sectors::-webkit-scrollbar { display: none; }
+.dive-sectors button {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 13px 7px 9px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, .14);
+  background: rgba(255, 255, 255, .05);
+  color: rgba(255, 255, 255, .8);
+  font: inherit;
+  font-size: .82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color .2s ease, color .2s ease;
+}
+.dive-sectors button i { font-family: var(--font-serif); font-style: italic; font-size: .78rem; color: #8fc4ff; }
+.dive-sectors button:hover { background: rgba(255, 255, 255, .14); }
+.dive-sectors button[aria-current="true"] { background: #fff; border-color: #fff; color: var(--ink-dark); }
+.dive-sectors button[aria-current="true"] i { color: var(--blue); }
 .dive-empty { margin: auto; color: rgba(222, 234, 255, .8); text-align: center; }
 
 /* lightbox */
@@ -2856,58 +3117,44 @@ html.dive-lock { overflow: hidden; scrollbar-gutter: stable; background: #040a1f
 }
 .dive-lb-frame.is-zoomed .frame-screen img { width: 200%; height: auto; max-width: none; cursor: zoom-out; }
 
-/* ---- Short screens (laptops ~720px tall) and phones: give the captures room ---- */
-@media (max-height: 820px), (max-width: 600px) {
-  .dive-top { padding-top: 16px; }
-  .dive-heading h2 { font-size: clamp(1.5rem, 3.2vw, 2.3rem); }
-  .dive-blurb { display: none; }
-  .dive-info { display: inline-flex; }
-  .dive-blurb.is-open {
-    display: block;
-    position: absolute;
-    z-index: 4;
-    top: calc(100% + 2px);
-    left: clamp(16px, 4vw, 48px);
-    right: clamp(16px, 4vw, 48px);
-    max-width: 62ch;
-    margin: 0;
-    padding: 14px 16px;
-    border-radius: 16px;
-    border: 1px solid rgba(143, 196, 255, .32);
-    background: rgba(9, 24, 66, .97);
-    box-shadow: 0 24px 44px -20px rgba(0, 0, 0, .85);
-    color: #e4eeff;
-  }
-  .dive { --fh: clamp(170px, calc(100dvh - 380px), 470px); }
-  .dive-shot:nth-of-type(odd),
-  .dive-shot:nth-of-type(even) { --lift: 0px; }
-  /* captions keep to two lines here; the full text is in the enlarged view */
-  .dive-shot figcaption { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-  .dive-private-list span { display: none; }
-  .dive-private-list li { padding: 7px 0; }
-  .dive-card { padding: 18px 18px 16px; }
-  .dive-card h3 { margin-bottom: 10px; font-size: 1.1rem; }
-  /* long feature lists fold to two lines */
-  .dive-card:not(.is-open) .dive-built li:nth-child(n+3) { display: none; }
-  .dive-card:not(.is-open) .dive-built li { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-  .dive-built-more { display: inline-block; }
-  .dive-more { margin-top: 12px; }
+/* ---- Tablets and narrow windows: the label goes under the artwork ---- */
+@media (max-width: 900px) {
+  .dive { --fw: calc(100vw - 2 * var(--gut) - 24px); }
+  .dive-shot { padding-right: 0; }
+  .dive-hang { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+  .dive-plaque { position: static; width: 0; min-width: 100%; max-width: 420px; }
+  .dive-plaque-text { -webkit-line-clamp: 3; }
 }
 
+/* ---- Phones: one artwork per screen, as wide as it can be ---- */
 @media (max-width: 600px) {
-  .dive-top { padding-top: 18px; }
+  .dive { --gut: 16px; --ceil: 20px; --floor: clamp(26px, 5vh, 44px); }
+  .dive-top { padding-top: 14px; gap: 12px; }
+  .dive-kicker { font-size: .66rem; letter-spacing: .1em; }
+  .dive-heading h2 { font-size: 1.14rem; }
+  .dive-titlerow { flex-wrap: nowrap; align-items: flex-start; gap: 8px; }
+  .dive-info { flex: none; width: 28px; height: 28px; padding: 0; justify-content: center; }
+  .dive-info-label { display: none; }
   .dive-esc { display: none; }
-  .dive-close { width: 48px; padding: 0; justify-content: center; }
-  .dive { --fh: clamp(200px, calc(100dvh - 360px), 470px); }
-  /* on the phone the capture comes first and the card after it */
-  .dive-project > .dive-card { order: 1; }
-  .dive-project > .dive-shot { order: 2; }
-  .dive-project > .dive-shot:first-of-type { order: 0; }
-  .dive-project > .dive-card--private { order: 0; }
-  /* desktop captures: taller frame showing the top-left of the page at a readable size */
-  .dive-shot .frame--desktop { width: min(var(--fw), calc(var(--fh) * .8)); }
-  .dive-shot .frame--desktop .frame-screen { aspect-ratio: 4 / 5; }
+  .dive-close { width: 44px; height: 44px; padding: 0; justify-content: center; }
+  .dive-arrow { width: 42px; height: 42px; }
+  .dive-bar { gap: 8px; padding-top: 10px; }
+  .dive-sectors { justify-content: flex-start; }
+  .dive-sectors button { padding: 6px 11px 6px 8px; font-size: .78rem; }
+  .dive-project { gap: 26px; }
+  .dive-project + .dive-project { margin-left: 44px; }
+  .dive-card { width: min(76vw, 300px); }
+  .dive-card h3 { font-size: 1.3rem; }
+  .dive-lamp { width: 44px; }
+  /* desktop captures: a tall crop of the top-left of the page, at a size you can read */
+  .dive-shot .frame--desktop { width: var(--fw); }
+  .dive-shot .frame--desktop .frame-screen { aspect-ratio: auto; height: min(calc(var(--fh) - 26px), calc(var(--fw) * 1.3)); }
   .dive-shot .frame--desktop .frame-screen img { object-position: left top; }
+  .dive-plaque { grid-template-columns: auto 1fr; align-items: center; gap: 4px 10px; padding: 9px 12px 10px; }
+  .dive-plaque-text { grid-column: 1 / -1; }
+  .dive-plaque-text { -webkit-line-clamp: 2; }
+  .dive-exit { margin-left: 44px; }
+  .dive-door-arch { width: 120px; }
   .dive-lb { padding: 64px 12px calc(84px + env(safe-area-inset-bottom, 0px)); }
   .dive-lb-btn { top: auto; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); translate: none; }
   .dive-lb-frame.frame--desktop { width: min(100%, calc((100dvh - 300px) * var(--ar, 1.6))); }
@@ -2919,6 +3166,8 @@ html.dive-lock { overflow: hidden; scrollbar-gutter: stable; background: #040a1f
   .glaciar-num::after, .sea-wave, .berg-float, .berg-flag > span, .berg-penguin, .berg-deep, .dive-ray { animation: none; }
   .glaciar.is-in .berg { animation: none; }
   .dive[open], .dive.is-closing { animation: none; }
-  .dive.is-filled .dive-card, .dive.is-filled .dive-shot > * { animation: none; }
-  .dive-shot, .frame-screen img { transform: none; }
+  .dive.is-filled .dive-track > * > *, .dive.is-filled .dive-exit,
+  .dive.is-walking-out .dive-track > *, .dive.is-walking-in .dive-track > * { animation: none; }
+  .dive-art::before, .dive-door-arch i, .dive-door-go { animation: none; }
+  .dive-art .frame:hover { translate: none; }
 }

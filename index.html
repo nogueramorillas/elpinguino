@@ -23,7 +23,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Serif:ital,wght@1,400;1,600&display=swap" />
-<link rel="stylesheet" href="styles.css?v=31" />
+<link rel="stylesheet" href="styles.css?v=32" />
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -614,23 +614,27 @@
   </div>
   <div class="dive-top">
     <div class="dive-heading">
-      <p class="dive-kicker"><span id="diveCount">0</span> proyectos · <span id="diveShots">0</span> capturas</p>
-      <h2 id="diveTitle" tabindex="-1">Proyectos</h2>
+      <p class="dive-kicker"><span id="diveRoom">Sala</span> · <span id="diveCount">0</span> proyectos · <span id="diveShots">0</span> capturas</p>
+      <div class="dive-titlerow">
+        <h2 id="diveTitle" tabindex="-1">Proyectos</h2>
+        <button type="button" class="dive-info" id="diveInfo" aria-expanded="false" aria-controls="diveBlurb" aria-label="Qué hacemos en este sector"><span class="dive-info-label">Qué hacemos aquí</span> <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      </div>
       <p class="dive-blurb" id="diveBlurb"></p>
-      <button type="button" class="dive-info" id="diveInfo" aria-expanded="false" aria-controls="diveBlurb">Qué hacemos en este sector <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
     </div>
     <button type="button" class="dive-close" data-dive-close aria-label="Cerrar galería">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
       <span class="dive-esc" aria-hidden="true">Esc</span>
     </button>
   </div>
-  <nav class="dive-sectors" id="diveSectors" aria-label="Cambiar de sector"></nav>
-  <div class="dive-track" id="diveTrack" tabindex="0" role="region" aria-label="Proyectos y capturas del sector"></div>
+  <div class="dive-track" id="diveTrack" tabindex="0" role="region" aria-label="Sala del museo: proyectos y capturas del sector. Usa las flechas o la rueda para recorrerla"></div>
+  <div class="dive-edge" id="diveEdge" aria-hidden="true"><span id="diveEdgeText"></span><i></i></div>
+  <p class="sr-only" id="diveLive" aria-live="polite"></p>
   <div class="dive-bar">
+    <span class="dive-progress" aria-hidden="true"><span id="diveProgress"></span></span>
     <button type="button" class="dive-arrow" data-dive-step="-1" aria-label="Ver anteriores">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </button>
-    <span class="dive-progress" aria-hidden="true"><span id="diveProgress"></span></span>
+    <nav class="dive-sectors" id="diveSectors" aria-label="Salas del museo"></nav>
     <button type="button" class="dive-arrow" data-dive-step="1" aria-label="Ver siguientes">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </button>
@@ -768,6 +772,6 @@
   <span class="wa-float-label">¿Hablamos?</span>
 </a>
 
-<script src="script.js?v=17p"></script>
+<script src="script.js?v=18"></script>
 </body>
 </html>
