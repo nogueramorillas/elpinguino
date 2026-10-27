@@ -370,7 +370,7 @@ document.querySelectorAll(".service-card").forEach((card) => {
   if (!section || !sea || !dive || typeof dive.showModal !== "function") return;
 
   const reduce = prefersReducedMotion;
-  const DATA_URL = "data/proyectos.json?v=16";
+  const DATA_URL = "data/proyectos.json?v=17";
   const root = document.documentElement;
   const $ = (id) => document.getElementById(id);
   const track = $("diveTrack");
