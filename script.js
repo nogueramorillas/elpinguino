@@ -24,7 +24,6 @@ const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)
     [".services-perks", 0],
     [".services-cta", 0],
     [".process-steps li", 90],
-    [".project-card", 90],
     [".faq-list details", 60],
     [".cta-x-box", 0],
   ];
@@ -323,7 +322,7 @@ document.querySelectorAll(".service-card").forEach((card) => {
   // 3) Section titles rise in word by word. Checked on scroll/load (not only
   // IntersectionObserver) so a title can never stay hidden.
   {
-    const titles = [...document.querySelectorAll(".section-heading h2, .projects-heading h2, .faq-right h2, .why-x h2, .asesor-copy h2, .cta-x h2, .page-hero h1")];
+    const titles = [...document.querySelectorAll(".section-heading h2, .faq-right h2, .why-x h2, .asesor-copy h2, .cta-x h2, .page-hero h1")];
     titles.forEach((t) => {
       splitWords(t).forEach((w, i) => w.style.setProperty("--d", `${i * 55}ms`));
       t.classList.add("words");
@@ -342,7 +341,7 @@ document.querySelectorAll(".service-card").forEach((card) => {
 
   // 4) Subtle 3D tilt on cards (desktop only)
   if (fine) {
-    document.querySelectorAll(".project-card, .service-card, .stack-card").forEach((card) => {
+    document.querySelectorAll(".service-card, .stack-card").forEach((card) => {
       card.classList.add("tilt");
       card.addEventListener("pointermove", (e) => {
         const r = card.getBoundingClientRect();
@@ -357,4 +356,553 @@ document.querySelectorAll(".service-card").forEach((card) => {
       });
     });
   }
+}());
+
+// ===== Proyectos: archipiélago de témpanos + galería por sector =====
+// The icebergs (one per sector) are static buttons in index.html. The captures
+// come from data/proyectos.json, which is anonymous: no client names, logos,
+// links or contact data. Thumbnails load first; full-size images only open
+// in the lightbox.
+(function () {
+  const section = document.getElementById("proyectos");
+  const sea = document.getElementById("sea");
+  const dive = document.getElementById("dive");
+  if (!section || !sea || !dive || typeof dive.showModal !== "function") return;
+
+  const reduce = prefersReducedMotion;
+  const DATA_URL = "data/proyectos.json?v=16";
+  const root = document.documentElement;
+  const $ = (id) => document.getElementById(id);
+  const track = $("diveTrack");
+  const chips = $("diveSectors");
+  const progress = $("diveProgress");
+  const lb = $("diveLb");
+  const lbFrame = $("lbFrame");
+  const lbImg = $("lbImg");
+  const stepBtns = [...dive.querySelectorAll("[data-dive-step]")];
+  const underLb = [dive.querySelector(".dive-top"), chips, track, dive.querySelector(".dive-bar")];
+
+  const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;" }[c]));
+  const thumbOf = (file) => file.replace("images/proyectos/", "images/proyectos-mini/");
+  const pad = (n) => String(n).padStart(2, "0");
+  const smooth = reduce ? "auto" : "smooth";
+
+  let data = null;
+  let dataPromise = null;
+  const loadData = () => dataPromise || (dataPromise = fetch(DATA_URL)
+    .then((r) => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
+    .then((d) => (data = d))
+    .catch((err) => { dataPromise = null; throw err; }));
+
+  // ---- 1. Entrance (icebergs rise from the water) + prefetch of the data ----
+  const bergs = [...sea.querySelectorAll(".berg")];
+  if ("IntersectionObserver" in window) {
+    if (!reduce) {
+      const order = { far: 0, mid: 1, front: 2 };
+      bergs.forEach((b) => {
+        const layer = b.closest(".sea-layer");
+        const row = order[(layer.className.match(/sea-layer--(\w+)/) || [])[1]] || 0;
+        const i = [...layer.querySelectorAll(".berg")].indexOf(b);
+        b.style.setProperty("--rise", `${row * 220 + i * 110}ms`);
+      });
+      section.classList.add("is-armed");
+    }
+    const once = (target, options, fn) => {
+      const io = new IntersectionObserver((entries) => {
+        if (entries.some((e) => e.isIntersecting)) { fn(); io.disconnect(); }
+      }, options);
+      io.observe(target);
+    };
+    once(section.querySelector(".glaciar-head"), { threshold: 0.2 }, () => section.classList.add("head-in"));
+    once(sea, { threshold: 0.18 }, () => section.classList.add("is-in"));
+    once(section, { rootMargin: "900px 0px" }, () => loadData().catch(() => {}));
+  }
+
+  // ---- 2. Parallax: the three water layers move at different speeds ----
+  if (!reduce) {
+    const layers = [...sea.querySelectorAll(".sea-layer")];
+    let mx = 0;
+    let raf = 0;
+    const paint = () => {
+      raf = 0;
+      const r = sea.getBoundingClientRect();
+      if (r.bottom < -120 || r.top > innerHeight + 120) return;
+      const p = (r.top + r.height / 2 - innerHeight / 2) / innerHeight;
+      layers.forEach((l) => {
+        const d = parseFloat(l.dataset.depth) || 0;
+        l.style.translate = `${(mx * d * -18).toFixed(1)}px ${(p * d * 44).toFixed(1)}px`;
+      });
+    };
+    const queue = () => { if (!raf) raf = requestAnimationFrame(paint); };
+    addEventListener("scroll", queue, { passive: true });
+    addEventListener("resize", queue);
+    if (matchMedia("(hover: hover) and (pointer: fine)").matches) {
+      sea.addEventListener("pointermove", (e) => {
+        const r = sea.getBoundingClientRect();
+        mx = ((e.clientX - r.left) / r.width) * 2 - 1;
+        queue();
+      });
+      sea.addEventListener("pointerleave", () => { mx = 0; queue(); });
+    }
+    queue();
+  }
+
+  // ---- 3. Gallery of a sector ----
+  let current = null; // { slug, shots: [] }
+  let opener = null;
+  let pushed = false;   // history entry of the open gallery
+  let lbPushed = false; // history entry of the enlarged capture
+  let closing = false;
+  let lbIndex = -1;
+  let shotEls = [];
+  const blurb = $("diveBlurb");
+  const infoBtn = $("diveInfo");
+
+  const loadImg = (img) => {
+    if (!img.dataset.src) return;
+    if (img.dataset.srcset) {
+      img.sizes = img.dataset.sizes || "";
+      img.srcset = img.dataset.srcset;
+      img.removeAttribute("data-srcset");
+      img.removeAttribute("data-sizes");
+    }
+    img.src = img.dataset.src;
+    img.removeAttribute("data-src");
+  };
+  const lazy = "IntersectionObserver" in window
+    ? new IntersectionObserver((entries) => {
+        entries.forEach((e) => { if (e.isIntersecting) { loadImg(e.target); lazy.unobserve(e.target); } });
+      }, { root: track, rootMargin: "0px 1200px" })
+    : null;
+  const markLoaded = (e) => { if (e.target.tagName === "IMG") e.target.classList.add("is-loaded"); };
+  track.addEventListener("load", markLoaded, true);
+  track.addEventListener("error", markLoaded, true);
+
+  const sectorOf = (slug) => data.sectors.find((s) => s.slug === slug);
+  const altFor = (type, sector) => `Captura de ${(data.types[type] || "pantalla").toLowerCase()} de ${sector.noun}`;
+  const splitBuilt = (built) => built.split(/\s\+\s/).map((t) => t.trim()).filter(Boolean)
+    .map((t) => t.charAt(0).toUpperCase() + t.slice(1));
+  const shorten = (t, max) => (t.length <= max ? t : `${t.slice(0, t.lastIndexOf(" ", max)).replace(/[,;:]$/, "")}…`);
+  // Thumbnails first; on retina screens (or the taller phone frame) the browser picks the full capture.
+  const SIZES_DESKTOP = "(max-width: 600px) 172vw, 560px";
+  const SIZES_MOBILE = "(max-width: 600px) 60vw, 240px";
+  const ICON_LOCK = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10" rx="2.5" stroke="currentColor" stroke-width="2"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="15.5" r="1.4" fill="currentColor"/></svg>';
+
+  const renderChips = () => {
+    chips.innerHTML = data.sectors.map((s) =>
+      `<button type="button" data-sector="${esc(s.slug)}" aria-label="${esc(s.name)}: ${s.count} proyectos">${esc(s.short)} <b aria-hidden="true">${s.count}</b></button>`
+    ).join("");
+  };
+
+  const setInfo = (show) => {
+    infoBtn.setAttribute("aria-expanded", String(show));
+    blurb.classList.toggle("is-open", show);
+  };
+
+  const render = (slug) => {
+    const sector = sectorOf(slug);
+    if (!sector) return false;
+    const all = data.projects.filter((p) => p.sector === slug);
+    const open = all.filter((p) => p.shots.length);
+    const hidden = all.filter((p) => !p.shots.length);
+    const shots = [];
+    let k = 0;
+    const nextK = () => Math.min(k++, 8);
+
+    let html = open.map((p, i) => {
+      const parts = splitBuilt(p.built);
+      const card = `<div class="dive-card" style="--k:${nextK()}">
+          <span class="dive-idx">${pad(i + 1)} / ${pad(all.length)}</span>
+          <h3 id="dive-${esc(p.id)}">${esc(p.label)}</h3>
+          <ul class="dive-built">${parts.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>
+          ${parts.length > 2 || p.built.length > 140 ? `<button type="button" class="dive-built-more" aria-expanded="false">Ver todo lo que incluye</button>` : ""}
+          <p class="dive-more">${p.shots.length} ${p.shots.length === 1 ? "captura" : "capturas"}</p>
+        </div>`;
+      const figures = p.shots.map((s) => {
+        const n = shots.push({ ...s, label: p.label }) - 1;
+        const mobile = s.device === "mobile";
+        const tw = mobile ? 360 : 640;
+        const thumb = thumbOf(s.file);
+        const typeName = data.types[s.type] || "Captura";
+        return `<figure class="dive-shot" style="--k:${nextK()}">
+          <button type="button" class="frame frame--${mobile ? "mobile" : "desktop"}" style="--ar:${(s.w / s.h).toFixed(4)}" data-shot="${n}" aria-label="Ampliar captura: ${esc(s.caption)}">
+            ${mobile ? "" : "<span class=\"frame-bar\" aria-hidden=\"true\"><i></i><i></i><i></i><b></b></span>"}
+            <span class="frame-screen"><img data-src="${esc(thumb)}" data-srcset="${esc(thumb)} ${tw}w, ${esc(s.file)} ${s.w}w" data-sizes="${mobile ? SIZES_MOBILE : SIZES_DESKTOP}" alt="${esc(altFor(s.type, sector))}" width="${tw}" height="${Math.round((tw * s.h) / s.w)}" decoding="async"></span>
+          </button>
+          <figcaption><span class="shot-type shot-type--${esc(s.type)}">${esc(typeName)}</span>${esc(s.caption)}</figcaption>
+        </figure>`;
+      }).join("");
+      return `<article class="dive-project" aria-labelledby="dive-${esc(p.id)}">${card}${figures}</article>`;
+    }).join("");
+
+    // Private tools: counted, never shown. One compact card for all of them.
+    if (hidden.length) {
+      const from = open.length + 1;
+      const idx = hidden.length === 1 ? pad(from) : `${pad(from)}–${pad(all.length)}`;
+      html += `<article class="dive-project" aria-labelledby="dive-private">
+        <div class="dive-card dive-card--private" style="--k:${nextK()}">
+          <span class="dive-private-icon">${ICON_LOCK}</span>
+          <span class="dive-idx">${idx} / ${pad(all.length)}</span>
+          <h3 id="dive-private">${hidden.length} ${hidden.length === 1 ? "herramienta interna" : "herramientas internas"}</h3>
+          <p class="dive-private-note">Productos privados o de uso interno: los contamos, pero no publicamos capturas.</p>
+          <ul class="dive-private-list">${hidden.map((p) => `<li><strong>${esc(p.label)}</strong><span>${esc(shorten(splitBuilt(p.built)[0] || "", 96))}</span></li>`).join("")}</ul>
+        </div>
+      </article>`;
+    }
+
+    current = { slug, shots };
+    $("diveTitle").textContent = sector.name;
+    $("diveCount").textContent = all.length;
+    $("diveShots").textContent = shots.length;
+    blurb.textContent = sector.blurb;
+    setInfo(false);
+    chips.querySelectorAll("button").forEach((b) => b.setAttribute("aria-current", String(b.dataset.sector === slug)));
+
+    dive.classList.remove("is-filled");
+    if (lazy) lazy.disconnect();
+    track.innerHTML = html;
+    track.scrollLeft = 0;
+    void track.offsetWidth;
+    dive.classList.add("is-filled");
+    shotEls = [...track.querySelectorAll(".dive-shot")];
+    track.querySelectorAll("img[data-src]").forEach((img, i) => {
+      if (!lazy || i < 3) loadImg(img); else lazy.observe(img);
+    });
+    fitFrames();
+    updateTrack();
+    return true;
+  };
+
+  // The CSS sizes the frames from the free height; long captions or very short
+  // windows can still overflow, so trim --fh until every capture fits whole.
+  function fitFrames() {
+    if (!dive.open || !shotEls.length) return;
+    dive.style.removeProperty("--fh");
+    for (let pass = 0; pass < 3; pass++) {
+      const cs = getComputedStyle(track);
+      const avail = track.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
+      let need = 0;
+      shotEls.forEach((el) => {
+        const lift = Math.abs(parseFloat(getComputedStyle(el).getPropertyValue("--lift")) || 0);
+        need = Math.max(need, el.offsetHeight + 2 * lift);
+      });
+      const over = Math.ceil(need - avail);
+      if (over <= 0) break;
+      const probe = document.createElement("i");
+      probe.style.cssText = "position:absolute;visibility:hidden;height:var(--fh)";
+      dive.appendChild(probe);
+      const fh = probe.offsetHeight;
+      probe.remove();
+      dive.style.setProperty("--fh", `${Math.max(140, fh - over)}px`);
+    }
+  }
+
+  // keep the active sector chip in view inside its scrollable row
+  const centerChip = () => {
+    const b = chips.querySelector("[aria-current=\"true\"]");
+    if (!b) return;
+    const left = b.offsetLeft - (chips.clientWidth - b.offsetWidth) / 2;
+    chips.scrollTo({ left: Math.max(0, left), behavior: dive.open ? smooth : "auto" });
+  };
+
+  const renderError = () => {
+    current = { slug: "", shots: [] };
+    $("diveTitle").textContent = "No hemos podido cargar las capturas";
+    $("diveCount").textContent = "0";
+    $("diveShots").textContent = "0";
+    blurb.textContent = "Revisa tu conexión y vuelve a pulsar el témpano.";
+    track.innerHTML = "";
+    shotEls = [];
+  };
+
+  // progress bar, arrows and the depth effect while the gallery scrolls
+  let trackRaf = 0;
+  function updateTrack() {
+    trackRaf = 0;
+    const max = track.scrollWidth - track.clientWidth;
+    const x = track.scrollLeft;
+    progress.style.setProperty("--p", max > 0 ? (x / max).toFixed(4) : "1");
+    stepBtns[0].disabled = x <= 2;
+    stepBtns[1].disabled = x >= max - 2;
+    if (reduce || !dive.open) return;
+    const tr = track.getBoundingClientRect();
+    const cx = tr.left + tr.width / 2;
+    shotEls.forEach((el) => {
+      const r = el.getBoundingClientRect();
+      if (r.right < tr.left - 300 || r.left > tr.right + 300) return;
+      const d = Math.max(-1, Math.min(1, (r.left + r.width / 2 - cx) / tr.width));
+      el.style.setProperty("--d", d.toFixed(3));
+      el.style.setProperty("--ad", Math.abs(d).toFixed(3));
+    });
+  }
+  track.addEventListener("scroll", () => { if (!trackRaf) trackRaf = requestAnimationFrame(updateTrack); }, { passive: true });
+  addEventListener("resize", () => { if (dive.open) { fitFrames(); updateTrack(); } });
+
+  const scrollStep = (dir, amount) => track.scrollBy({ left: dir * amount, behavior: smooth });
+  stepBtns.forEach((b) => b.addEventListener("click", () => scrollStep(+b.dataset.diveStep, track.clientWidth * 0.75)));
+  // vertical mouse wheel moves the gallery sideways, except over a card that
+  // still has text to scroll (its own scroll goes first)
+  track.addEventListener("wheel", (e) => {
+    if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
+    const card = e.target.closest(".dive-card");
+    if (card && card.scrollHeight > card.clientHeight + 1) {
+      const canUp = card.scrollTop > 0;
+      const canDown = card.scrollTop + card.clientHeight < card.scrollHeight - 1;
+      if ((e.deltaY < 0 && canUp) || (e.deltaY > 0 && canDown)) return;
+    }
+    e.preventDefault();
+    track.scrollLeft += e.deltaY * (e.deltaMode === 1 ? 32 : 1);
+  }, { passive: false });
+  // arrows move the gallery from anywhere in the dialog (except the sector chips)
+  dive.addEventListener("keydown", (e) => {
+    if (!lb.hidden || e.altKey || e.ctrlKey || e.metaKey || chips.contains(e.target)) return;
+    if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
+      e.preventDefault();
+      scrollStep(e.key === "ArrowRight" ? 1 : -1, Math.min(460, track.clientWidth * 0.6));
+    } else if (e.key === "Home" || e.key === "End") {
+      e.preventDefault();
+      track.scrollTo({ left: e.key === "Home" ? 0 : track.scrollWidth, behavior: smooth });
+    }
+  });
+
+  const setOrigin = (el) => {
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    if (!r.width) return;
+    dive.style.setProperty("--ox", `${Math.round(r.left + r.width / 2)}px`);
+    dive.style.setProperty("--oy", `${Math.round(r.top + r.height * 0.25)}px`);
+  };
+
+  // centre one capture in the track (coming from a block of the reel)
+  const goToShot = (file) => {
+    const n = current ? current.shots.findIndex((s) => s.file === file) : -1;
+    const btn = n >= 0 && track.querySelector(`[data-shot="${n}"]`);
+    if (!btn) return;
+    const fig = btn.closest(".dive-shot");
+    const img = fig.querySelector("img[data-src]");
+    if (img) loadImg(img);
+    track.scrollLeft = Math.max(0, fig.offsetLeft - (track.clientWidth - fig.offsetWidth) / 2);
+    fig.classList.add("is-target");
+    setTimeout(() => fig.classList.remove("is-target"), 2600);
+  };
+
+  const openDive = async (slug, origin, file) => {
+    opener = origin || document.activeElement;
+    setOrigin(origin);
+    try {
+      await loadData();
+      if (!chips.children.length) renderChips();
+      render(slug);
+    } catch (err) {
+      renderError();
+    }
+    if (!dive.open) {
+      dive.showModal();
+      root.classList.add("dive-lock");
+      try { history.pushState({ dive: slug }, ""); pushed = true; } catch (err) { pushed = false; }
+    }
+    fitFrames();
+    $("diveTitle").focus({ preventScroll: true });
+    centerChip();
+    if (file) goToShot(file);
+    updateTrack();
+  };
+
+  const finishClose = () => {
+    closing = false;
+    dive.classList.remove("is-closing");
+    if (dive.open) dive.close();
+  };
+  const closeDive = () => {
+    if (!dive.open || closing) return;
+    if (!lb.hidden) hideLbUi(false);
+    // close back into what opened it: the reel block (same sector) or the sector's iceberg
+    const fromReel = opener && opener.isConnected && opener.classList.contains("reel-card")
+      && current && opener.dataset.sector === current.slug;
+    const berg = !fromReel && current && current.slug && sea.querySelector(`.berg[data-sector="${current.slug}"]`);
+    if (berg) opener = berg;
+    setOrigin(opener);
+    if (reduce) { finishClose(); return; }
+    closing = true;
+    dive.classList.add("is-closing");
+    setTimeout(finishClose, 500);
+  };
+
+  dive.addEventListener("close", () => {
+    closing = false;
+    dive.classList.remove("is-closing", "is-filled");
+    dive.style.removeProperty("--fh");
+    root.classList.remove("dive-lock");
+    if (!lb.hidden) hideLbUi(false);
+    // drop our own history entries (capture + gallery) in one step
+    const steps = (lbPushed ? 1 : 0) + (pushed ? 1 : 0);
+    lbPushed = false;
+    pushed = false;
+    if (steps) history.go(-steps);
+    if (opener && opener.isConnected) opener.focus({ preventScroll: true });
+  });
+  // The phone's back button: first closes the enlarged capture, then the gallery.
+  addEventListener("popstate", (e) => {
+    const st = e.state || {};
+    if (st.lb) return;
+    if (!lb.hidden) {
+      lbPushed = false;
+      hideLbUi(true);
+      if (st.dive) return;
+    }
+    if (!st.dive && dive.open) {
+      pushed = false;
+      lbPushed = false;
+      closeDive();
+    }
+  });
+
+  // Esc: closes the enlarged capture first, then the gallery
+  let escAt = -1;
+  const onEscape = () => { if (!lb.hidden) hideLb(true); else closeDive(); };
+  dive.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      e.preventDefault();
+      escAt = performance.now();
+      onEscape();
+    } else if (!lb.hidden && (e.key === "ArrowLeft" || e.key === "ArrowRight")) {
+      e.preventDefault();
+      stepLb(e.key === "ArrowRight" ? 1 : -1);
+    }
+  });
+  dive.addEventListener("cancel", (e) => {
+    e.preventDefault();
+    if (performance.now() - escAt < 150) return; // already handled by keydown
+    onEscape();
+  });
+
+  // ---- 4. Lightbox: full-size capture, thumbnail shown while it loads ----
+  function showLb(i) {
+    const s = current && current.shots[i];
+    if (!s) return;
+    lbIndex = i;
+    const mobile = s.device === "mobile";
+    const typeName = data.types[s.type] || "Captura";
+    lbFrame.className = `frame dive-lb-frame frame--${mobile ? "mobile" : "desktop"}`;
+    lbFrame.style.setProperty("--ar", (s.w / s.h).toFixed(4));
+    lbFrame.querySelector(".frame-bar").hidden = mobile;
+    lbImg.alt = altFor(s.type, sectorOf(current.slug));
+    lbImg.width = s.w;
+    lbImg.height = s.h;
+    lbImg.src = thumbOf(s.file);
+    const full = new Image();
+    full.onload = () => { if (lbIndex === i) lbImg.src = s.file; };
+    full.src = s.file;
+    const type = $("lbType");
+    type.className = `shot-type shot-type--${s.type}`;
+    type.textContent = typeName;
+    $("lbProject").textContent = s.label;
+    $("lbCaption").textContent = s.caption;
+    $("lbPos").textContent = `${i + 1} / ${current.shots.length}`;
+  }
+  function stepLb(dir) {
+    const n = current.shots.length;
+    if (n) showLb((lbIndex + dir + n) % n);
+  }
+  function openLb(i) {
+    showLb(i);
+    lb.hidden = false;
+    underLb.forEach((el) => { el.inert = true; });
+    lb.querySelector("[data-lb-close]").focus();
+    // its own history entry, so "back" on the phone only closes the capture
+    if (pushed && !lbPushed) {
+      try { history.pushState({ dive: current.slug, lb: 1 }, ""); lbPushed = true; } catch (err) { lbPushed = false; }
+    }
+  }
+  function hideLbUi(refocus) {
+    lb.hidden = true;
+    lbFrame.classList.remove("is-zoomed");
+    underLb.forEach((el) => { el.inert = false; });
+    if (!refocus) return;
+    const b = track.querySelector(`[data-shot="${lbIndex}"]`);
+    if (b) {
+      b.focus({ preventScroll: true });
+      b.scrollIntoView({ block: "nearest", inline: "center", behavior: smooth });
+    }
+  }
+  function hideLb(refocus) {
+    hideLbUi(refocus);
+    if (lbPushed) { lbPushed = false; history.back(); }
+  }
+
+  track.addEventListener("click", (e) => {
+    const more = e.target.closest(".dive-built-more");
+    if (more) {
+      const card = more.closest(".dive-card");
+      const show = !card.classList.contains("is-open");
+      card.classList.toggle("is-open", show);
+      more.setAttribute("aria-expanded", String(show));
+      more.textContent = show ? "Ver menos" : "Ver todo lo que incluye";
+      return;
+    }
+    const b = e.target.closest("[data-shot]");
+    if (b) openLb(+b.dataset.shot);
+  });
+  lb.addEventListener("click", (e) => {
+    if (e.target.closest("[data-lb-close]")) { hideLb(true); return; }
+    const s = e.target.closest("[data-lb-step]");
+    if (s) { stepLb(+s.dataset.lbStep); return; }
+    if (e.target === lb || e.target.classList.contains("dive-lb-stage")) hideLb(true);
+  });
+  // tap / click on the capture: double size, centred where you touched; again to go back
+  lbFrame.addEventListener("click", (e) => {
+    const screen = e.target.closest(".frame-screen");
+    if (!screen) return;
+    const r = screen.getBoundingClientRect();
+    const fx = (e.clientX - r.left) / r.width;
+    const fy = (e.clientY - r.top) / r.height;
+    const zoom = !lbFrame.classList.contains("is-zoomed");
+    lbFrame.classList.toggle("is-zoomed", zoom);
+    if (zoom) {
+      screen.scrollLeft = fx * screen.scrollWidth - r.width / 2;
+      screen.scrollTop = fy * screen.scrollHeight - r.height / 2;
+    }
+  });
+  let swipeX = null;
+  lb.addEventListener("pointerdown", (e) => { if (e.pointerType !== "mouse") swipeX = e.clientX; });
+  lb.addEventListener("pointerup", (e) => {
+    if (swipeX === null) return;
+    const dx = e.clientX - swipeX;
+    swipeX = null;
+    if (lbFrame.classList.contains("is-zoomed")) return; // panning the enlarged capture
+    if (Math.abs(dx) > 50) stepLb(dx < 0 ? 1 : -1);
+  });
+  lb.addEventListener("pointercancel", () => { swipeX = null; });
+
+  // ---- 5. Wiring ----
+  sea.addEventListener("click", (e) => {
+    const b = e.target.closest(".berg");
+    if (b) openDive(b.dataset.sector, b);
+  });
+  // the labels under the water light up with their iceberg
+  const deeps = [...sea.querySelectorAll(".berg-deep")];
+  const lightDeep = (slug) => deeps.forEach((d) => d.classList.toggle("is-lit", d.dataset.sector === slug));
+  sea.addEventListener("pointerover", (e) => { const b = e.target.closest(".berg"); lightDeep(b ? b.dataset.sector : null); });
+  sea.addEventListener("pointerleave", () => lightDeep(null));
+  sea.addEventListener("focusin", (e) => { const b = e.target.closest(".berg"); lightDeep(b ? b.dataset.sector : null); });
+  sea.addEventListener("focusout", () => lightDeep(null));
+  // blocks of the reel open their sector right on that capture
+  const reelWindow = document.querySelector(".reel-window");
+  if (reelWindow) {
+    reelWindow.addEventListener("click", (e) => {
+      const card = e.target.closest(".reel-card[data-sector]");
+      if (card) openDive(card.dataset.sector, card, card.dataset.file);
+    });
+  }
+  chips.addEventListener("click", (e) => {
+    const b = e.target.closest("[data-sector]");
+    if (!b || !data || (current && b.dataset.sector === current.slug)) return;
+    render(b.dataset.sector);
+    centerChip();
+  });
+  infoBtn.addEventListener("click", () => setInfo(infoBtn.getAttribute("aria-expanded") !== "true"));
+  dive.addEventListener("click", (e) => {
+    if (blurb.classList.contains("is-open") && !e.target.closest("#diveInfo, #diveBlurb")) setInfo(false);
+  });
+  dive.querySelector("[data-dive-close]").addEventListener("click", closeDive);
 }());
