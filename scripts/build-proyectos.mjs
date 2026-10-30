@@ -182,7 +182,7 @@ const bergHtml = (s, i) => {
   const nShots = shots.filter((x) => x.project.sector === s.slug).length;
   const under = deepOf(s).map((d) => `${d.n} ${d.n === 1 ? d.one : d.many}`).join(", ");
   const penguin = s.slug === "motor"
-    ? `\n          <img class="berg-penguin" src="images/pinguino-explorador.webp?v=2" alt="" width="160" height="160" loading="lazy" decoding="async">`
+    ? `\n          <img class="berg-penguin" src="images/pinguino-explorador.webp?v=3" alt="" width="160" height="160" loading="lazy" decoding="async">`
     : "";
   return `      <button type="button" class="berg berg--${look.shape}" data-sector="${s.slug}" style="--x:${look.x}%;--xm:${look.xm}%;--s:${fmt(size)};--delay:${fmt(delay)}s;--pole:${look.pole || 0}px"${look.flip ? " data-flip" : ""}${look.flipM ? " data-flip-m" : ""} aria-haspopup="dialog" aria-controls="dive" aria-label="${esc(s.name)}: ${s.count} proyectos, ${nShots} capturas${under ? ` (${esc(under)})` : ""}. Ver capturas">
         <span class="berg-float">
